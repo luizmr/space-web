@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
 
 function Navbar() {
     return (
@@ -31,7 +32,15 @@ function Navbar() {
                     <Link to="/meus-aplicativos">Meus aplicativos</Link>
                     <Link to="/vitrine">Vitrine</Link>
                     <Link to="/Ajuda">Ajuda</Link>
-                    <Link to="/minha-conta">Minha conta</Link>
+                    <NavDropdown title="Nome da pessoa" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="/minha-conta">
+                            Minha conta
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/Admin">
+                            Admin. parceiro
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/login">Sair</NavDropdown.Item>
+                    </NavDropdown>
                 </div>
             </nav>
         </header>

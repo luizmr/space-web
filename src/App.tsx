@@ -1,14 +1,12 @@
-import React from 'react'
-import { Navbar, Form, FormControl, Button, Nav } from 'react-bootstrap'
-import { Routes } from './routes'
-import earth from './assets/images/earth.png'
+import React from 'react';
+import { Routes } from './routes';
 
 function App() {
     return (
         <>
             <Routes />
         </>
-    )
+    );
 }
 
-export default App
+export default App;
