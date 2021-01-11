@@ -1,0 +1,32 @@
+#root {
+    .navbar {
+        background-color: rgb(223, 223, 223);
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+
+        // ul {
+        //     margin: 0;
+        //     padding: 0;
+        //     list-style: none;
+        //     width: 100%;
+        //     display: flex;
+        //     justify-content: space-around;
+        // }
+    }
+    .navbar-links {
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        a {
+            // margin-left: 50px;
+            font-size: 0.8rem;
+            color: black;
+            text-decoration: none;
+            &:hover {
+                color: blue;
+                transition: all 0.5s;
+            }
+        }
+    }
+}
