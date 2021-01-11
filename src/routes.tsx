@@ -2,6 +2,7 @@ import React from 'react'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import Home from './app/components/home'
 import Exemplo from './app/components/exemplo'
+import Login from './app/pages/Login'
 
 interface RouteInterface {
     key: string;
@@ -21,6 +22,11 @@ const CustomRoute = ({key, Component, path} : RouteInterface)  => {
 }
 
 const routes = [
+    {
+        key: 'login',
+        Component: Login,
+        path: '/login'
+    },
     {
         key: 'home',
         Component: Home,
