@@ -1,7 +1,7 @@
-import React from 'react'
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
-import Home from './app/components/home'
-import Exemplo from './app/components/exemplo'
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import Billing from './app/pages/billing/billing';
+import CadastroApps from './app/pages/cadastro-apps/cadastro-apps';
 
 interface RouteInterface {
     key: string;
@@ -9,38 +9,31 @@ interface RouteInterface {
     Component: any;
 }
 
-const CustomRoute = ({key, Component, path} : RouteInterface)  => {
-    return (
-        <Route 
-            exact={true}
-            key={key}
-            path={path}
-            component={Component}
-        />
-    )
-}
+const CustomRoute = ({ key, Component, path }: RouteInterface) => {
+    return <Route exact={true} key={key} path={path} component={Component} />;
+};
 
 const routes = [
     {
-        key: 'home',
-        Component: Home,
-        path: '/home'
+        key: 'billing',
+        Component: Billing,
+        path: '/billing',
     },
     {
-        key: 'exemplo',
-        Component: Exemplo,
-        path: '/'
-    }
-]
+        key: 'cadastro-apps',
+        Component: CadastroApps,
+        path: '/billing/cadastro-apps',
+    },
+];
 
 export const Routes = () => {
     return (
         <Router>
             <Switch>
                 {routes.map((route, i) => {
-                    return CustomRoute({...route})
+                    return CustomRoute({ ...route });
                 })}
             </Switch>
         </Router>
-    )
-}
+    );
+};
