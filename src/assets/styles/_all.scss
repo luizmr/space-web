@@ -1,0 +1,14 @@
+//variáveis globais
+@import "variables";
+
+//importar tema
+@import "themes/all";
+
+//importação da estrutura de css
+@import "components/all";
+
+@import "mobile";
+
+//fonte
+// @import url("https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&display=swap");
+// @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
