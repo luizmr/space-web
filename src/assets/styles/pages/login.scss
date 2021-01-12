@@ -9,6 +9,7 @@
         flex-direction: column;
         align-self: center;
         margin-left: 15%;
+        position: relative;
         input {
             margin-bottom: 16px;
             border-radius: 2px;
@@ -20,6 +21,22 @@
             // background-color: rgb(61, 61, 61);
             // color: white;
             padding: 6px 20px;
+        }
+        span {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 6px;
+        }
+        div {
+            button {
+                position: absolute;
+                top: 62px;
+                right: 8px;
+                background: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
         }
     }
     .image-container {

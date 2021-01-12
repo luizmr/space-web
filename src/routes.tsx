@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Home from './app/pages/Home';
+import Home from './app/pages/Home/Home';
 import Exemplo from './app/components/exemplo';
-import Login from './app/pages/Login';
+import Login from './app/pages/Login/Login';
 
 interface RouteInterface {
     key: string;

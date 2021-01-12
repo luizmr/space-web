@@ -1,46 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NavDropdown } from 'react-bootstrap';
+import { NavDropdown, NavbarBrand } from 'react-bootstrap';
+import { FaUserCircle, FaAngleDown } from 'react-icons/fa';
 
 function Navbar() {
+    const nome = 'Vitor Araújo'; // Nome exemplo
+
+    const options = [
+        { title: 'Meus aplicativos', path: '/meus-aplicativos' },
+        { title: 'Vitrine', path: '/vitrine' },
+        { title: 'Billing', path: '/billing' },
+        { title: 'Ajuda', path: '/ajuda' },
+    ];
+
     return (
         <header>
             <nav className="navbar">
                 <div>
-                    <img
-                        src="https://i.pinimg.com/originals/88/fa/91/88fa91d09a2a25809a73cada846821ee.png"
-                        style={{ width: '5%' }}
-                        alt="foguete"
-                    />
-                    <span>Space</span>
+                    <NavbarBrand href="/home">
+                        <img
+                            src="https://i.pinimg.com/originals/88/fa/91/88fa91d09a2a25809a73cada846821ee.png"
+                            style={{ width: '5%' }}
+                            alt="foguete"
+                        />
+                        Space
+                    </NavbarBrand>
                 </div>
                 <div className="navbar-links">
-                    {/* <ul>
-                        <li>
-                            <Link to="/meus-aplicativos">Meus aplicativos</Link>
-                        </li>
-                        <li>
-                            <Link to="/vitrine">Vitrine</Link>
-                        </li>
-                        <li>
-                            <Link to="/Ajuda">Ajuda</Link>
-                        </li>
-                        <li>
-                            <Link to="/minha-conta">Minha conta</Link>
-                        </li>
-                    </ul> */}
-                    <Link to="/meus-aplicativos">Meus aplicativos</Link>
-                    <Link to="/vitrine">Vitrine</Link>
-                    <Link to="/Ajuda">Ajuda</Link>
-                    <NavDropdown title="Nome da pessoa" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="/minha-conta">
-                            Minha conta
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/Admin">
-                            Admin. parceiro
-                        </NavDropdown.Item>
-                        <NavDropdown.Item href="/login">Sair</NavDropdown.Item>
-                    </NavDropdown>
+                    <ul>
+                        {options.map(({ title, path }) => (
+                            <li key={path}>
+                                <Link to={path}>{title}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                    {/* {options.map(({ title, path }) => (
+                        <Link to={path}>{title}</Link>
+                    ))} */}
+                    <div className="navbar-dropdown">
+                        <FaUserCircle />
+                        <NavDropdown title={nome} id="basic-nav-dropdown">
+                            <NavDropdown.Item href="/minha-conta">
+                                Minha conta
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/Admin">
+                                Admin. parceiro
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/login">
+                                Sair
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </div>
                 </div>
             </nav>
         </header>
