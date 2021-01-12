@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Billing from './app/pages/billing/billing';
 import CadastroApps from './app/pages/cadastro-apps/cadastro-apps';
+import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
 
 interface RouteInterface {
     key: string;
@@ -23,6 +24,11 @@ const routes = [
         key: 'cadastro-apps',
         Component: CadastroApps,
         path: '/billing/cadastro-apps',
+    },
+    {
+        key: 'novo-app',
+        Component: FormNovoApp,
+        path: '/billing/cadastro-apps/novo-app',
     },
 ];
 
