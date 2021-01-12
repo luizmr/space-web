@@ -3,11 +3,11 @@ import { useHistory } from 'react-router';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState(false);
-    const [validate, setValidate] = useState(true);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    const [validate, setValidate] = useState<boolean>(true);
     const history = useHistory();
 
     const checkLogin = () => {
@@ -21,7 +21,7 @@ function Login() {
     useEffect(() => {
         setError(false);
         const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
-        if (emailValidate.test(email) && password.length > 6) {
+        if (emailValidate.test(email) && password.length >= 6) {
             setValidate(false);
         } else {
             setValidate(true);
@@ -33,6 +33,7 @@ function Login() {
             <div className="image-container">
                 <img
                     src="https://www.hostinger.com.br/tutoriais/wp-content/uploads/sites/12/2018/11/Como-Criar-um-Site.png"
+                    draggable="false"
                     style={{
                         width: '80%',
                         height: '80%',
