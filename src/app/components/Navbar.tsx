@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import { NavDropdown, NavbarBrand } from 'react-bootstrap';
 import { FaUserCircle, FaAngleDown } from 'react-icons/fa';
 
-function Navbar() {
-    const nome = 'Vitor Araújo'; // Nome exemplo
+interface ObjOptions {
+    title: string;
+    path: string;
+}
 
-    const options = [
+function Navbar() {
+    const nome: string = 'Vitor Araújo'; // Nome exemplo
+
+    const options: Array<ObjOptions> = [
         { title: 'Meus aplicativos', path: '/meus-aplicativos' },
         { title: 'Vitrine', path: '/vitrine' },
         { title: 'Billing', path: '/billing' },
@@ -34,9 +39,6 @@ function Navbar() {
                             </li>
                         ))}
                     </ul>
-                    {/* {options.map(({ title, path }) => (
-                        <Link to={path}>{title}</Link>
-                    ))} */}
                     <div className="navbar-dropdown">
                         <FaUserCircle />
                         <NavDropdown title={nome} id="basic-nav-dropdown">

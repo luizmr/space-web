@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
+import { User } from '../../models/Login';
 
 function Login() {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [user, setUser] = useState<User>({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
     const [validate, setValidate] = useState<boolean>(true);
     const history = useHistory();
 
     const checkLogin = () => {
-        if (email === 'teste@teste.com' && password === '123456') {
+        if (user.email === 'teste@teste.com' && user.password === '123456') {
             history.push('/home');
         } else {
             setError(true);
@@ -21,12 +21,12 @@ function Login() {
     useEffect(() => {
         setError(false);
         const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
-        if (emailValidate.test(email) && password.length >= 6) {
+        if (emailValidate.test(user.email) && user.password.length >= 6) {
             setValidate(false);
         } else {
             setValidate(true);
         }
-    }, [email, password]);
+    }, [user.email, user.password]);
 
     return (
         <div className="login-container">
@@ -45,9 +45,9 @@ function Login() {
                 <input
                     className="form-control"
                     type="email"
-                    value={email}
+                    value={user.email}
                     onChange={({ target }) => {
-                        setEmail(target.value);
+                        setUser({ ...user, email: target.value });
                     }}
                     placeholder="Email"
                 />
@@ -55,9 +55,9 @@ function Login() {
                     <input
                         className="form-control"
                         type={showPassword ? 'text' : 'password'}
-                        value={password}
+                        value={user.password}
                         onChange={({ target }) => {
-                            setPassword(target.value);
+                            setUser({ ...user, password: target.value });
                         }}
                         placeholder="Senha"
                     />
