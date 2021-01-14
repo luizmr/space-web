@@ -8,8 +8,8 @@ interface ObjOptions {
     path: string;
 }
 
-function Navbar() {
-    const nome: string = 'Vitor Araújo'; // Nome exemplo
+const Navbar: React.FC = () => {
+    const nome = 'Vitor Araújo'; // Nome exemplo
 
     const options: Array<ObjOptions> = [
         { title: 'Meus aplicativos', path: '/meus-aplicativos' },
@@ -57,6 +57,6 @@ function Navbar() {
             </nav>
         </header>
     );
-}
+};
 
 export default Navbar;
