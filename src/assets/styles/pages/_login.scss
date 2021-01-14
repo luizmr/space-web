@@ -1,0 +1,46 @@
+#root {
+    .login-container {
+        height: 100vh;
+        display: flex;
+    }
+    .inputs-container {
+        display: flex;
+        flex-direction: column;
+        align-self: center;
+        margin: auto;
+        width: 20%;
+        position: relative;
+        input {
+            margin-bottom: 16px;
+            border-radius: 2px;
+        }
+        button {
+            align-self: flex-end;
+            padding: 6px 20px;
+        }
+        span {
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 6px;
+        }
+        div {
+            button {
+                position: absolute;
+                top: 62px;
+                right: 8px;
+                background: none;
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+    .image-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60%;
+        height: 100%;
+        background-color: rgb(185, 185, 185);
+    }
+}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Billing from './app/pages/billing/billing';
 import CadastroApps from './app/pages/cadastro-apps/cadastro-apps';
 import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
+import Login from './app/pages/Login/Login';
 
 interface RouteInterface {
     key: string;
@@ -29,6 +30,11 @@ const routes = [
         key: 'novo-app',
         Component: FormNovoApp,
         path: '/billing/cadastro-apps/novo-app',
+    },
+    {
+        key: 'login',
+        Component: Login,
+        path: '/login',
     },
 ];
 

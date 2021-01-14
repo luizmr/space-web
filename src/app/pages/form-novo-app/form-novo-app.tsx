@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar, Button, Form, FormControl, Nav } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FiCornerDownLeft } from 'react-icons/fi';
 import { FaChevronRight } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import DadosBasicosForm from './dados-basicos-form/dados-basicos-form';
 import CobrancaForm from './cobranca/cobranca-form';
 import ProximosPassosForm from './proximos-passos/proximos-passos-form';
 import { AppOutput } from '../../models/cadastro-apps';
+import Navbar from '../../components/Navbar/Navbar';
 
 interface IApp {
     app: AppOutput;
@@ -23,28 +24,6 @@ export default function FormNovoApp() {
         Cobranca: [],
     });
 
-    console.log('app before', app);
-
-    const dadosBasicos = document.getElementById('dados-basicos');
-    const cobranca = document.getElementById('cobranca');
-    const proximosPassos = document.getElementById('proximos-passos');
-
-    useEffect(() => {
-        if (step === 1) {
-            dadosBasicos?.classList.add('selected');
-            cobranca?.classList.remove('selected');
-            proximosPassos?.classList.remove('selected');
-        } else if (step === 2) {
-            dadosBasicos?.classList.remove('selected');
-            cobranca?.classList.add('selected');
-            proximosPassos?.classList.remove('selected');
-        } else {
-            dadosBasicos?.classList.remove('selected');
-            cobranca?.classList.remove('selected');
-            proximosPassos?.classList.add('selected');
-        }
-    }, [step]);
-
     const nextStep = (): void => {
         setStep(step + 1);
     };
@@ -54,22 +33,7 @@ export default function FormNovoApp() {
     };
     return (
         <>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                </Nav>
-                <Form inline>
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        className="mr-sm-2"
-                    />
-                    <Button variant="outline-info">Search</Button>
-                </Form>
-            </Navbar>
+            <Navbar />
             <div className="novo-app">
                 <div className="novo-app__header">
                     <h2>Novo Aplicativo</h2>
@@ -83,13 +47,23 @@ export default function FormNovoApp() {
                     </Link>
                 </div>
                 <div className="novo-app__steps">
-                    <p id="dados-basicos" className="selected">
+                    <p
+                        id="dados-basicos"
+                        className={step === 1 ? 'selected' : ''}
+                    >
                         1 - Dados Básicos
                     </p>
                     <FaChevronRight />
-                    <p id="cobranca">2 - Cobrança</p>
+                    <p id="cobranca" className={step === 2 ? 'selected' : ''}>
+                        2 - Cobrança
+                    </p>
                     <FaChevronRight />
-                    <p id="proximos-passos">3 - Próximos Passos</p>
+                    <p
+                        id="proximos-passos"
+                        className={step === 3 ? 'selected' : ''}
+                    >
+                        3 - Próximos Passos
+                    </p>
                 </div>
                 <div className="novo-app__steps-form">
                     {step === 1 && (

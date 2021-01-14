@@ -1,7 +1,8 @@
 import React from 'react';
-import { Navbar, Nav, Button, FormControl, Form } from 'react-bootstrap';
+// import { Nav, Button, FormControl, Form } from 'react-bootstrap';
 import { FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Navbar from '../../components/Navbar/Navbar';
 
 export default function Billing() {
     const cadastros = [
@@ -21,22 +22,7 @@ export default function Billing() {
     ];
     return (
         <>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                </Nav>
-                <Form inline>
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        className="mr-sm-2"
-                    />
-                    <Button variant="outline-info">Search</Button>
-                </Form>
-            </Navbar>
+            <Navbar />
             <div className="billing">
                 <h2>Área de Billing</h2>
                 <h4>Cadastros:</h4>
