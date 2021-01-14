@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { NavDropdown, NavbarBrand } from 'react-bootstrap';
-import { FaUserCircle, FaAngleDown } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 
 interface ObjOptions {
     title: string;
@@ -11,7 +11,7 @@ interface ObjOptions {
 const Navbar: React.FC = () => {
     const nome = 'Vitor Araújo'; // Nome exemplo
 
-    const options: Array<ObjOptions> = [
+    const options: ObjOptions[] = [
         { title: 'Meus aplicativos', path: '/meus-aplicativos' },
         { title: 'Vitrine', path: '/vitrine' },
         { title: 'Billing', path: '/billing' },
@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
                 </div>
                 <div className="navbar-links">
                     <ul>
-                        {options.map(({ title, path }) => (
+                        {options?.map(({ title, path }) => (
                             <li key={path}>
                                 <Link to={path}>{title}</Link>
                             </li>
