@@ -30,6 +30,11 @@ const routes = [
         Component: FormNovoApp,
         path: '/billing/cadastro-apps/novo-app',
     },
+    {
+        key: 'editar-app',
+        Component: FormNovoApp,
+        path: '/billing/cadastro-apps/editar-app/:id',
+    },
 ];
 
 export const Routes = () => {

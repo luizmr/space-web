@@ -167,6 +167,7 @@ export default function CadastroApps() {
                             Descricao={app.Descricao}
                             Id={app.Id}
                             Link={app.Link}
+                            Status={app.Status}
                             key={app.Id}
                         />
                     ))}

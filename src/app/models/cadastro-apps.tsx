@@ -6,10 +6,12 @@ export interface AppOutput {
     Imagens?: Array<string>;
     Link?: string;
     Cobranca?: Array<CobrancaOutput>;
+    Status?: string;
 }
 
 export interface CobrancaOutput {
-    CobrancaTipo?: string;
+    CobrancaTipo?: number;
     CobrancaDescricao?: string;
-    CobrancaValor?: number;
+    CobrancaValor?: string;
+    CobrancaId?: number;
 }
