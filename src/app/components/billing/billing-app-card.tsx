@@ -8,13 +8,15 @@ import {
     DropdownButton,
     NavLink,
 } from 'react-bootstrap';
-import { FaExternalLinkAlt, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaEdit, FaTrashAlt, FaStore } from 'react-icons/fa';
 
 const BillingAppCard: React.FC<AppOutput> = ({
     Nome,
     Logo,
     Descricao,
     Link,
+    Status,
+    Id,
 }) => {
     return (
         <>
@@ -23,7 +25,12 @@ const BillingAppCard: React.FC<AppOutput> = ({
                 <Card.Body className="billing-app-card__body">
                     <div>
                         <Card.Title>{Nome}</Card.Title>
-                        <Card.Text>{Descricao}</Card.Text>
+                        <Card.Text>
+                            <p>{Descricao}</p>
+                            <p>
+                                <b>Status:</b> {Status}
+                            </p>
+                        </Card.Text>
                     </div>
                     <div className="billing-app-card__buttons">
                         <DropdownButton
@@ -39,11 +46,17 @@ const BillingAppCard: React.FC<AppOutput> = ({
                                 <FaExternalLinkAlt /> <p>Abrir</p>
                             </Dropdown.Item>
 
-                            <Dropdown.Item eventKey="2">
+                            <Dropdown.Item>
+                                <FaStore />
+                                <p>Ver na Vitrine</p>
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                                href={`/billing/cadastro-apps/editar-app/${Id}`}
+                            >
                                 <FaEdit />
                                 <p>Editar</p>
                             </Dropdown.Item>
-                            <Dropdown.Item eventKey="3">
+                            <Dropdown.Item>
                                 <FaTrashAlt />
                                 <p>Deletar</p>
                             </Dropdown.Item>

@@ -121,6 +121,11 @@
                         justify-content: flex-start;
                         align-items: center;
 
+                        &:hover {
+                            background-color: #23272b !important;
+                            color: #fff !important;
+                        }
+
                         p {
                             margin: 0 0 0 10px;
                         }
@@ -145,10 +150,36 @@
     }
 }
 
+.modal-success {
+    .modal-content {
+        background-color: #d4edda;
+        border: 1px solid #d4edda;
+
+        .modal-body {
+            border-radius: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // gap: 20px;
+            height: 60px;
+            p {
+                margin: 0;
+                color: #419154;
+            }
+            svg {
+                box-sizing: content-box;
+                color: #419154;
+                transform: scale(1.2);
+            }
+        }
+    }
+}
+
 .novo-app {
     width: 800px;
     margin: 0 auto;
     margin-top: 50px;
+    min-height: 600px;
     // padding-bottom: 150px;
 
     .novo-app__header {
@@ -189,26 +220,115 @@
         p {
             margin: 0;
             font-size: 1.2rem;
-            color: #d4d4d4;
+            color: $primary-color-2;
             font-weight: 700;
         }
 
         svg {
             transform: scale(4);
-            fill: #d4d4d4;
+            fill: $primary-color-2;
             margin: 0 20px;
         }
     }
 
     .novo-app__steps-form {
-        height: 500px;
+        min-height: 400px;
+
+        .buttons-form {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+            svg:nth-child(1) {
+                margin-top: 2px;
+                transform: scale(1.2);
+            }
+        }
+
+        .proximos-passos {
+            p:nth-child(1) {
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+            p:nth-child(2) {
+                line-height: 1.2;
+                font-weight: 400;
+                color: #23272b90;
+                margin-bottom: 50px;
+            }
+            input {
+                border-right: none;
+
+                &:active,
+                &:focus {
+                    box-shadow: 0 0 0 0.2rem #23272b30;
+                    border-color: #23272b50;
+                    border-right: 1px solid #23272b50;
+                    -moz-outline-style: none;
+                }
+            }
+            .copy-button {
+                background-color: #fff;
+                border-top: 1px solid $primary-color-2;
+                border-right: 1px solid $primary-color-2;
+                border-bottom: 1px solid $primary-color-2;
+                border-left: none;
+                border-radius: 0 0.25rem 0.25rem 0;
+                padding: 0;
+                svg {
+                    color: $primary-color-1;
+                    transform: scale(1.5);
+                    margin-bottom: 4px;
+                    margin-right: 10px;
+                    margin-left: 10px;
+                    transition: all 0.3s ease-in-out;
+                }
+                &:hover {
+                    svg {
+                        transform: scale(1.8);
+                    }
+                }
+                &:active,
+                &:focus {
+                    outline: 0 !important;
+                    box-shadow: none !important;
+                    -moz-outline-style: none;
+                }
+            }
+
+            .button-status {
+                background-color: #e6e6e6;
+                border: 1px solid $primary-color-1;
+                color: $primary-color-1;
+                margin-top: 20px;
+                padding: 15px;
+                width: 100%;
+                letter-spacing: 0.1rem;
+
+                &:active,
+                &:focus {
+                    outline: 0 !important;
+                    box-shadow: none !important;
+                    -moz-outline-style: none;
+                }
+
+                // &:hover {
+                //     background-color: $primary-color-1;
+                //     color: #fff;
+                // }
+            }
+        }
     }
 }
 
 .novo-app__steps-buttons {
     width: 100%;
     height: 100px;
-    // padding-bottom: 150px;
     background-color: #d4d4d450;
 
     div {
@@ -223,13 +343,50 @@
 }
 
 .file-upload-wrapper {
-    $defaultColor: #4daf7c;
-    $height: 40px;
     position: relative;
     width: 100%;
-    height: $height;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
+
+    &.height-1 {
+        $height: 40px;
+        min-height: $height;
+
+        input {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 99;
+            height: $height;
+            margin: 0;
+            padding: 0;
+            display: none;
+            width: 100%;
+        }
+    }
+
+    &.height-2 {
+        $height: 80px;
+        min-height: $height;
+
+        input {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 99;
+            height: $height;
+            margin: 0;
+            padding: 0;
+            display: none;
+            width: 100%;
+        }
+    }
 
     &:after {
         content: attr(data-text);
@@ -244,37 +401,100 @@
         line-height: 1.5;
         color: #495057;
         font-weight: 400;
+        width: calc(100% - 100px);
     }
 
     &:hover {
     }
-    input {
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 99;
-        height: $height;
-        margin: 0;
-        padding: 0;
-        display: none;
-        width: 100%;
-    }
 
-    svg {
+    .arrow-svg-1 {
         position: absolute;
         right: 20px;
-        top: 50%;
+        top: 17.5px;
         transform: translateY(-50%) scale(1.5);
-        color: #343a40;
+        color: $primary-color-1;
         transition: all 0.3s ease-in-out;
         z-index: 100;
 
         &:hover {
             cursor: pointer;
-            top: 40%;
+            top: 12.5px;
+        }
+    }
+
+    .arrow-svg-2 svg {
+        position: absolute;
+        right: 42.5px;
+        top: 12.5px;
+        transform: scale(1.5) translateX(50%);
+        color: $primary-color-1;
+        transition: all 0.3s ease-in-out;
+        z-index: 100;
+
+        &:hover {
+            cursor: pointer;
+            top: 7.5px;
+        }
+    }
+
+    .dropdown-imagens {
+        position: absolute;
+        bottom: 0;
+        right: -1px;
+        margin: 0;
+        color: $primary-color-1;
+        transition: all 0.3s ease-in-out;
+        z-index: 100;
+        button {
+            border-radius: 0.25rem 0 0.25rem 0 !important;
+        }
+
+        .dropdown-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            p {
+                margin: 0;
+            }
+            svg {
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.cobranca-table {
+    margin-top: 50px;
+
+    th {
+        text-align: center;
+    }
+    .acoes {
+        width: 80px;
+    }
+    .tipos {
+        width: 200px;
+    }
+    .valores {
+        width: 120px;
+    }
+
+    .acoes-icones {
+        text-align: center;
+        svg:nth-child(1) {
+            margin-right: 8px;
+        }
+        svg:nth-child(2) {
+            margin-left: 8px;
+        }
+        svg {
+            transition: all 0.3s ease-in-out;
+            transform: scale(1.1);
+        }
+        svg:hover {
+            cursor: pointer;
+            transform: scale(1.2);
         }
     }
 }

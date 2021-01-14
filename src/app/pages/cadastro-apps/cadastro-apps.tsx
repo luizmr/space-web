@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Navbar,
-    Nav,
-    Button,
-    FormControl,
-    Form,
-    OverlayTrigger,
-    Tooltip,
-} from 'react-bootstrap';
+import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { FiCornerDownLeft, FiSearch, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { mockApps, mockCobranca } from './mock';
 import { AppOutput, CobrancaOutput } from '../../models/cadastro-apps';
 import BillingAppCard from '../../components/billing/billing-app-card';
+import Navbar from '../../components/Navbar/Navbar';
 
 export default function CadastroApps() {
     const quantityOfResults = 2;
@@ -94,22 +87,7 @@ export default function CadastroApps() {
 
     return (
         <>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                </Nav>
-                <Form inline>
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        className="mr-sm-2"
-                    />
-                    <Button variant="outline-info">Search</Button>
-                </Form>
-            </Navbar>
+            <Navbar />
             <div className="cadastro-apps">
                 <div className="cadastro-apps__header">
                     <h2>Cadastro de Aplicativos</h2>
@@ -167,6 +145,7 @@ export default function CadastroApps() {
                             Descricao={app.Descricao}
                             Id={app.Id}
                             Link={app.Link}
+                            Status={app.Status}
                             key={app.Id}
                         />
                     ))}

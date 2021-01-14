@@ -7,14 +7,16 @@ import NutrorImage5 from '../../../mock-assets/nutror-image5.png';
 
 export const mockCobranca = [
     {
-        CobrancaTipo: 'Cartão de Crédito',
+        CobrancaTipo: 1,
         CobrancaDescricao: 'Até 10x sem juros',
-        CobrancaValor: 1000,
+        CobrancaValor: '1000',
+        CobrancaId: 1,
     },
     {
-        CobrancaTipo: 'Boleto',
+        CobrancaTipo: 2,
         CobrancaDescricao: 'A vista com 10% de desconto',
-        CobrancaValor: 1000,
+        CobrancaValor: '1000',
+        CobrancaId: 2,
     },
 ];
 
@@ -34,6 +36,7 @@ export const mockApps = [
         ],
         Link: 'https://www.nutror.com/',
         Cobranca: mockCobranca,
+        Status: 'Aprovado',
     },
     {
         Id: 2,
@@ -50,6 +53,7 @@ export const mockApps = [
         ],
         Link: 'https://www.nutror.com/',
         Cobranca: mockCobranca,
+        Status: 'Reprovado',
     },
     {
         Id: 3,
@@ -66,6 +70,7 @@ export const mockApps = [
         ],
         Link: 'https://www.nutror.com/',
         Cobranca: mockCobranca,
+        Status: 'Inativo',
     },
     {
         Id: 3,
@@ -82,5 +87,6 @@ export const mockApps = [
         ],
         Link: 'https://www.nutror.com/',
         Cobranca: mockCobranca,
+        Status: 'Aguardando Validação',
     },
 ];
