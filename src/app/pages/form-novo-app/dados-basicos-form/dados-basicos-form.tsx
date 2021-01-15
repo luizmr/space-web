@@ -47,16 +47,13 @@ const DadosBasicosForm = ({
         let file = e.target.files[0];
         console.log('nome', file.name);
         if (file && !file.name) {
-            window.alert('Please select a file');
-            return false;
+            return window.alert('Please select a file');
         }
         if (file.name.length > 24) {
-            handleShowModalLength();
-            return false;
+            return handleShowModalLength();
         }
         if (file.size > 4 * 10e6) {
-            handleShowSizeModal();
-            return false;
+            return handleShowSizeModal();
         }
         setLogoDefault(e.currentTarget.value.replace(/.*(\/|\\)/, ''));
         setApp({
@@ -68,20 +65,16 @@ const DadosBasicosForm = ({
     const uploadImages = (e: any) => {
         let file = e.target.files[0];
         if (file && !file.name) {
-            window.alert('Please select a file');
-            return false;
+            return window.alert('Please select a file');
         }
         if (file.name.length > 24) {
-            handleShowModalLength();
-            return false;
+            return handleShowModalLength();
         }
         if (file.size > 4 * 10e6) {
-            handleShowSizeModal();
-            return false;
+            return handleShowSizeModal();
         }
         if (imagensArray.length > 5) {
-            handleShowModalArray();
-            return false;
+            return handleShowModalArray();
         }
         setImagensDefault(false);
         setImagensArray([...imagensArray, e.currentTarget.value]);

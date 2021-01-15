@@ -178,21 +178,14 @@ export default function FormNovoApp({
             {showModal && (
                 <Modal show={showModal} centered className="modal-success">
                     <Modal.Body>
-                        {match?.params.id === undefined ? (
-                            <p>
-                                Cadastro de novo Aplicativo{' '}
-                                {sending
-                                    ? 'sendo enviado!'
-                                    : 'enviado com sucesso!'}
-                            </p>
-                        ) : (
-                            <p>
-                                Nova Edição do Aplicativo{' '}
-                                {sending
-                                    ? 'sendo enviada!'
-                                    : 'enviada com sucesso!'}
-                            </p>
-                        )}
+                        <p>
+                            {match?.params.id === undefined
+                                ? 'Cadastro de novo Aplicativo '
+                                : 'Nova Edição do Aplicativo '}
+                            {sending
+                                ? 'sendo enviado!'
+                                : 'enviado com sucesso!'}
+                        </p>
                         {sending ? (
                             <Spinner animation="border" variant="success" />
                         ) : (
