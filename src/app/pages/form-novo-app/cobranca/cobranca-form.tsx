@@ -92,6 +92,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
         );
 
         setCobrancaArray(newCobrancaArray);
+        setApp({ ...app, Cobranca: newCobrancaArray });
     };
 
     return (

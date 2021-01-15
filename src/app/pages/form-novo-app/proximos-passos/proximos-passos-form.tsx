@@ -18,7 +18,10 @@ type Props = {
 
 const ProximosPassosForm = ({ app, setApp }: Props) => {
     const [url, setUrl] = useState<string>();
+    const [urlCopied, setUrlCopied] = useState<boolean>();
     const [token, setToken] = useState<string>();
+    const [tokenCopied, setTokenCopied] = useState<boolean>();
+
     useEffect(() => {
         let eduzz = 'https://www.eduzz.com/';
         let appName = app?.Nome?.replace(/ /g, '');
@@ -49,22 +52,6 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
         document.execCommand('copy');
     };
 
-    const popoverUrl = (props: any) => (
-        <Popover id="popover-basic" {...props}>
-            <Popover.Content style={{ backgroundColor: 'red !important' }}>
-                URL: <b>{`${url}`}</b> copiada!
-            </Popover.Content>
-        </Popover>
-    );
-
-    const popoverToken = (props: any) => (
-        <Popover id="popover-basic" {...props}>
-            <Popover.Content>
-                Token: <b>{`${token}`}</b> copiado!
-            </Popover.Content>
-        </Popover>
-    );
-
     return (
         <>
             <Form className="proximos-passos">
@@ -85,22 +72,28 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
                             placeholder="URL"
                             value={url}
                             id="url-copy"
+                            aria-describedby="url-copied"
                         />
-                        <InputGroup.Prepend>
-                            <OverlayTrigger
-                                // trigger="click"
-                                placement="bottom"
-                                overlay={popoverUrl}
-                                delay={{ show: 200, hide: 400 }}
-                            >
-                                <Button className="copy-button">
-                                    <FaClone
-                                        onMouseMove={() => copy('url-copy')}
-                                    />
-                                </Button>
-                            </OverlayTrigger>
-                        </InputGroup.Prepend>
+
+                        <Button className="copy-button">
+                            <FaClone
+                                onClick={() => {
+                                    copy('url-copy');
+
+                                    setUrlCopied(true);
+                                    setTokenCopied(false);
+                                    setTimeout(() => {
+                                        setUrlCopied(false);
+                                    }, 10000);
+                                }}
+                            />
+                        </Button>
                     </InputGroup>
+                    {urlCopied && (
+                        <Form.Text id="url-copied" muted>
+                            URL copiada: <b>{`${url}`}</b>
+                        </Form.Text>
+                    )}
                 </Form.Group>
                 <Form.Group>
                     <InputGroup>
@@ -109,22 +102,27 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
                             placeholder="Token"
                             value={token}
                             id="token-copy"
+                            aria-describedby="token-copied"
                         />
-                        <InputGroup.Prepend>
-                            <OverlayTrigger
-                                // trigger="click"
-                                placement="bottom"
-                                overlay={popoverToken}
-                                delay={{ show: 250, hide: 400 }}
-                            >
-                                <Button className="copy-button">
-                                    <FaClone
-                                        onMouseMove={() => copy('token-copy')}
-                                    />
-                                </Button>
-                            </OverlayTrigger>
-                        </InputGroup.Prepend>
+
+                        <Button className="copy-button">
+                            <FaClone
+                                onClick={() => {
+                                    copy('token-copy');
+                                    setTokenCopied(true);
+                                    setUrlCopied(false);
+                                    setTimeout(() => {
+                                        setTokenCopied(false);
+                                    }, 10000);
+                                }}
+                            />
+                        </Button>
                     </InputGroup>
+                    {tokenCopied && (
+                        <Form.Text id="token-copied" muted>
+                            Token copiado: <b>{`${token}`}</b>
+                        </Form.Text>
+                    )}
                 </Form.Group>
 
                 <Button className="button-status">

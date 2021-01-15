@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Spinner } from 'react-bootstrap';
 import { Link, match } from 'react-router-dom';
 import { FiCornerDownLeft } from 'react-icons/fi';
@@ -39,6 +39,18 @@ export default function FormNovoApp({
     const [showModal, setShowModal] = useState<boolean>(false);
     const [sending, setSending] = useState<boolean>(false);
 
+    useEffect(() => {
+        if (match.params.id !== undefined) {
+            let appFound = apps.find(
+                (obj) => obj.Id === Number(match.params.id)
+            );
+
+            setApp({ ...appFound });
+            console.log('app found 2', app);
+            setDescricaoAceita(true);
+        }
+    }, []);
+
     const nextStep = (): void => {
         setStep(step + 1);
     };
@@ -67,7 +79,11 @@ export default function FormNovoApp({
             <Navbar />
             <div className="novo-app">
                 <div className="novo-app__header">
-                    <h2>Novo Aplicativo</h2>
+                    <h2>
+                        {match.params.id === undefined
+                            ? 'Novo Aplicativo'
+                            : 'Editar Aplicativo'}
+                    </h2>
                     <Link to="/billing/cadastro-apps">
                         <Button
                             variant="dark"

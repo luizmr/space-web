@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppOutput } from '../../models/cadastro-apps';
 import { Link } from 'react-router-dom';
 import {
@@ -7,8 +7,16 @@ import {
     Dropdown,
     DropdownButton,
     NavLink,
+    Modal,
+    Spinner,
 } from 'react-bootstrap';
-import { FaExternalLinkAlt, FaEdit, FaTrashAlt, FaStore } from 'react-icons/fa';
+import {
+    FaExternalLinkAlt,
+    FaEdit,
+    FaTrashAlt,
+    FaStore,
+    FaCheck,
+} from 'react-icons/fa';
 
 const BillingAppCard: React.FC<AppOutput> = ({
     Nome,
@@ -18,6 +26,26 @@ const BillingAppCard: React.FC<AppOutput> = ({
     Status,
     Id,
 }) => {
+    const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [sending, setSending] = useState<boolean>(false);
+
+    const handleCloseModalDelete = () => setShowModalDelete(false);
+    const handleShowModalDelete = () => setShowModalDelete(true);
+
+    const finalizar = (): void => {
+        handleCloseModalDelete();
+        setShowModal(true);
+        setSending(true);
+        // vai fazer o envio do app para o back-end
+        // redirecionar para a tela /billing/cadastro-apps
+        setTimeout(() => {
+            setSending(false);
+        }, 3000);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 5000);
+    };
     return (
         <>
             <Card className="billing-app-card">
@@ -46,7 +74,7 @@ const BillingAppCard: React.FC<AppOutput> = ({
                                 <FaExternalLinkAlt /> <p>Abrir</p>
                             </Dropdown.Item>
 
-                            <Dropdown.Item>
+                            <Dropdown.Item href={`/vitrine-app/${Id}`}>
                                 <FaStore />
                                 <p>Ver na Vitrine</p>
                             </Dropdown.Item>
@@ -56,7 +84,9 @@ const BillingAppCard: React.FC<AppOutput> = ({
                                 <FaEdit />
                                 <p>Editar</p>
                             </Dropdown.Item>
-                            <Dropdown.Item>
+                            <Dropdown.Item
+                                onClick={() => setShowModalDelete(true)}
+                            >
                                 <FaTrashAlt />
                                 <p>Deletar</p>
                             </Dropdown.Item>
@@ -64,6 +94,48 @@ const BillingAppCard: React.FC<AppOutput> = ({
                     </div>
                 </Card.Body>
             </Card>
+            <Modal
+                show={showModalDelete}
+                onHide={handleCloseModalDelete}
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Deletar Aplicativo para Sempre</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="my-3 h6">
+                    Você tem certeza que deseja{' '}
+                    <b className="text-danger">confirmar</b> esta operação?
+                </Modal.Body>
+                <Modal.Footer className="justify-content-between">
+                    <Button
+                        variant="outline-secondary"
+                        onClick={handleCloseModalDelete}
+                    >
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={finalizar}>
+                        Deletar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            {showModal && (
+                <Modal show={showModal} centered className="modal-delete-app">
+                    <Modal.Body>
+                        <p>
+                            Aplicativo{' '}
+                            {sending
+                                ? 'sendo deletado do banco de Dados!'
+                                : 'deletado com sucesso do banco de Dados!'}
+                        </p>
+
+                        {sending ? (
+                            <Spinner animation="border" variant="danger" />
+                        ) : (
+                            <FaCheck />
+                        )}
+                    </Modal.Body>
+                </Modal>
+            )}
         </>
     );
 };
