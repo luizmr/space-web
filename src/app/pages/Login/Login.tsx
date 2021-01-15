@@ -10,7 +10,7 @@ function Login() {
     const [validate, setValidate] = useState<boolean>(true);
     const history = useHistory();
 
-    const checkLogin = () => {
+    const checkLogin = (): void => {
         if (user.email === 'teste@teste.com' && user.password === '123456') {
             history.push('/home');
         } else {
