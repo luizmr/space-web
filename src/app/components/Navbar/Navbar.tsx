@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NavDropdown, NavbarBrand } from 'react-bootstrap';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaChevronDown, FaUserAlt, FaUserCircle } from 'react-icons/fa';
 
 interface ObjOptions {
     title: string;
@@ -10,9 +10,10 @@ interface ObjOptions {
 
 const Navbar: React.FC = () => {
     const nome = 'Vitor Araújo'; // Nome exemplo
+    const [userDrop, setUserDrop] = useState<boolean>(false);
 
     const options: ObjOptions[] = [
-        { title: 'Meus aplicativos', path: '/meus-aplicativos' },
+        { title: 'Meus Aplicativos', path: '/meus-aplicativos' },
         { title: 'Vitrine', path: '/vitrine' },
         { title: 'Billing', path: '/billing' },
         { title: 'Ajuda', path: '/ajuda' },
@@ -34,14 +35,36 @@ const Navbar: React.FC = () => {
                 <div className="navbar-links">
                     <ul>
                         {options?.map(({ title, path }) => (
-                            <li key={path}>
+                            <li
+                                key={path}
+                                className={
+                                    title === 'Meus Aplicativos'
+                                        ? 'meu-app'
+                                        : ''
+                                }
+                            >
                                 <Link to={path}>{title}</Link>
                             </li>
                         ))}
                     </ul>
                     <div className="navbar-dropdown">
-                        <FaUserCircle />
-                        <NavDropdown title={nome} id="basic-nav-dropdown">
+                        <FaUserAlt />
+                        <NavDropdown
+                            title={nome}
+                            id={
+                                userDrop
+                                    ? `dropdown-button-drop-up`
+                                    : `dropdown-button-drop-down`
+                            }
+                            drop={userDrop ? 'up' : 'down'}
+                            onClick={() => {
+                                if (userDrop) {
+                                    setUserDrop(false);
+                                } else {
+                                    setUserDrop(true);
+                                }
+                            }}
+                        >
                             <NavDropdown.Item href="/minha-conta">
                                 Minha conta
                             </NavDropdown.Item>
