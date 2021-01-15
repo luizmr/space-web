@@ -259,6 +259,18 @@
     .novo-app__steps-form {
         min-height: 400px;
 
+        input,
+        textarea,
+        select {
+            &:active,
+            &:focus {
+                box-shadow: 0 0 0 0.2rem #23272b30;
+                border-color: #23272b50;
+
+                -moz-outline-style: none;
+            }
+        }
+
         .buttons-form {
             display: flex;
             justify-content: space-between;
@@ -291,10 +303,8 @@
 
                 &:active,
                 &:focus {
-                    box-shadow: 0 0 0 0.2rem #23272b30;
                     border-color: #23272b50;
                     border-right: 1px solid #23272b50;
-                    -moz-outline-style: none;
                 }
             }
             .copy-button {

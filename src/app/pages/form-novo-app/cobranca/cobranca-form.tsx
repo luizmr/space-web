@@ -61,6 +61,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
 
     const editarCobranca = (el: CobrancaOutput) => {
         setIsEditing(true);
+        setDescricaoAceita(true);
         let cobrancaObjeto = cobrancaArray.find(
             (obj) => obj.CobrancaId === el.CobrancaId
         );
@@ -100,7 +101,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                 CobrancaId: 0,
             });
         } else {
-            let oldArray = cobrancaArray;
+            let oldArray = [...cobrancaArray];
             let cobrancaLength = cobrancaArray.length;
 
             oldArray.push({
@@ -115,6 +116,18 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                 CobrancaId: 0,
             });
         }
+    };
+
+    const cancelarEdicao = (): void => {
+        setDescricaoAceita(false);
+        setIsEditing(false);
+
+        setCobranca({
+            CobrancaDescricao: '',
+            CobrancaTipo: 0,
+            CobrancaValor: '',
+            CobrancaId: 0,
+        });
     };
 
     return (
@@ -202,24 +215,36 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         Mostrar Tabela{' '}
                         {showTable ? <FaRegEye /> : <FaRegEyeSlash />}
                     </Button>
-                    <Button
-                        variant="dark"
-                        disabled={
-                            cobranca.CobrancaTipo === 0 ||
-                            cobranca.CobrancaValor === '' ||
-                            !descricaoAceita
-                                ? true
-                                : false
-                        }
-                        onClick={() => {
-                            cobrancaEditing(isEditing);
-                            setIsEditing(false);
-                            setApp({ ...app, Cobranca: cobrancaArray });
-                        }}
-                    >
-                        {isEditing ? 'Editar' : 'Adicionar'}
-                        {isEditing ? <FaEdit /> : <FaPlus />}
-                    </Button>
+                    <div className="d-flex justify-content-around">
+                        {isEditing && (
+                            <Button
+                                className="mr-3"
+                                variant="outline-dark"
+                                onClick={cancelarEdicao}
+                            >
+                                Cancelar
+                            </Button>
+                        )}
+                        <Button
+                            variant="dark"
+                            disabled={
+                                cobranca.CobrancaTipo === 0 ||
+                                cobranca.CobrancaValor === '' ||
+                                !descricaoAceita
+                                    ? true
+                                    : false
+                            }
+                            onClick={() => {
+                                cobrancaEditing(isEditing);
+                                setIsEditing(false);
+                                setDescricaoAceita(false);
+                                setApp({ ...app, Cobranca: cobrancaArray });
+                            }}
+                        >
+                            {isEditing ? 'Editar' : 'Adicionar'}
+                            {isEditing ? <FaEdit /> : <FaPlus />}
+                        </Button>
+                    </div>
                 </div>
             </Form>
 
