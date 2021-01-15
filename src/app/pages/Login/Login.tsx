@@ -1,17 +1,34 @@
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { FaEyeSlash, FaEye } from 'react-icons/fa';
 import { User } from '../../models/Login';
+// import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 function Login() {
-    const [user, setUser] = useState<User>({ email: '', password: '' });
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [values, setValues] = React.useState<User>({
+        password: '',
+        email: '',
+        showPassword: false,
+    });
     const [error, setError] = useState<boolean>(false);
     const [validate, setValidate] = useState<boolean>(true);
     const history = useHistory();
 
     const checkLogin = (): void => {
-        if (user.email === 'teste@teste.com' && user.password === '123456') {
+        if (
+            values.email === 'teste@teste.com' &&
+            values.password === '123456'
+        ) {
             history.push('/home');
         } else {
             setError(true);
@@ -21,12 +38,47 @@ function Login() {
     useEffect(() => {
         setError(false);
         const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
-        if (emailValidate.test(user.email) && user.password.length >= 6) {
+        if (emailValidate.test(values.email) && values.password.length >= 6) {
             setValidate(false);
         } else {
             setValidate(true);
         }
-    }, [user.email, user.password]);
+    }, [values.email, values.password]);
+
+    const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root: {
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'wrap',
+            },
+            margin: {
+                margin: theme.spacing(1),
+            },
+            withoutLabel: {
+                marginTop: theme.spacing(3),
+            },
+            textField: {
+                width: '25ch',
+            },
+        })
+    );
+
+    const classes = useStyles();
+
+    const handleChange = (prop: keyof User) => (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+    const handleMouseDownPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        event.preventDefault();
+    };
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
 
     return (
         <div className="login-container">
@@ -41,56 +93,66 @@ function Login() {
                     alt="imagem"
                 />
             </div>
-            <div className="inputs-container">
-                <input
-                    className="form-control"
-                    type="email"
-                    value={user.email}
-                    onChange={({ target }) => {
-                        setUser({ ...user, email: target.value });
-                    }}
-                    placeholder="Email"
-                />
-                <div>
-                    <input
-                        className="form-control"
-                        type={showPassword ? 'text' : 'password'}
-                        value={user.password}
-                        onChange={({ target }) => {
-                            setUser({ ...user, password: target.value });
-                        }}
-                        placeholder="Senha"
-                    />
-                    {showPassword ? (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowPassword(false);
-                            }}
-                        >
-                            <FaEye />
-                        </button>
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowPassword(true);
-                            }}
-                        >
-                            <FaEyeSlash />
-                        </button>
-                    )}
-                </div>
 
-                <button
-                    className="btn btn-secondary"
-                    type="button"
+            <div className="inputs-container">
+                <FormControl
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                >
+                    <InputLabel htmlFor="outlined-adornment-email">
+                        Email
+                    </InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-email"
+                        value={values.email}
+                        onChange={handleChange('email')}
+                        labelWidth={40}
+                    />
+                </FormControl>
+                <FormControl
+                    className={clsx(classes.margin, classes.textField)}
+                    variant="outlined"
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                        Password
+                    </InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        onChange={handleChange('password')}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {values.showPassword ? (
+                                        <Visibility />
+                                    ) : (
+                                        <VisibilityOff />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        labelWidth={70}
+                    />
+                </FormControl>
+                <Button
                     onClick={checkLogin}
                     disabled={validate}
+                    className="btn-login"
+                    variant="contained"
                 >
                     Login
-                </button>
-                {error && <span>E-mail ou senha inválidos</span>}
+                </Button>
+                {error && (
+                    <span className="span-error">
+                        E-mail ou senha inválidos
+                    </span>
+                )}
             </div>
         </div>
     );

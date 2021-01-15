@@ -8,31 +8,16 @@
         flex-direction: column;
         align-self: center;
         margin: auto;
-        width: 20%;
         position: relative;
-        input {
-            margin-bottom: 16px;
-            border-radius: 2px;
-        }
-        button {
+        .btn-login {
             align-self: flex-end;
-            padding: 6px 20px;
+            margin-right: 4%;
         }
-        span {
+        .span-error {
             color: red;
             font-size: 0.8rem;
             margin-top: 6px;
-        }
-        div {
-            button {
-                position: absolute;
-                top: 62px;
-                right: 8px;
-                background: none;
-                border: none;
-                padding: 0;
-                margin: 0;
-            }
+            margin-left: 5%;
         }
     }
     .image-container {
@@ -42,5 +27,40 @@
         width: 60%;
         height: 100%;
         background-color: rgb(185, 185, 185);
+    }
+
+    @media (max-width: 600px) {
+        .login-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .inputs-container {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+            margin: auto;
+            position: relative;
+            .btn-login {
+                align-self: flex-end;
+                margin-right: 4%;
+                margin-bottom: 10px;
+            }
+            .span-error {
+                color: red;
+                font-size: 0.8rem;
+                margin-top: 6px;
+                margin-left: 5%;
+            }
+        }
+        .image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(185, 185, 185);
+        }
     }
 }
