@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Form,
-    Col,
-    Button,
-    InputGroup,
-    Popover,
-    OverlayTrigger,
-    Tooltip,
-} from 'react-bootstrap';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import { FaClone } from 'react-icons/fa';
 import { AppOutput } from '../../../models/cadastro-apps';
 
@@ -52,6 +44,24 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
         document.execCommand('copy');
     };
 
+    const copyUrl = (): void => {
+        copy('url-copy');
+        setUrlCopied(true);
+        setTokenCopied(false);
+        setTimeout(() => {
+            setUrlCopied(false);
+        }, 10000);
+    };
+
+    const copyToken = (): void => {
+        copy('token-copy');
+        setTokenCopied(true);
+        setUrlCopied(false);
+        setTimeout(() => {
+            setTokenCopied(false);
+        }, 10000);
+    };
+
     return (
         <>
             <Form className="proximos-passos">
@@ -76,17 +86,7 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
                         />
 
                         <Button className="copy-button">
-                            <FaClone
-                                onClick={() => {
-                                    copy('url-copy');
-
-                                    setUrlCopied(true);
-                                    setTokenCopied(false);
-                                    setTimeout(() => {
-                                        setUrlCopied(false);
-                                    }, 10000);
-                                }}
-                            />
+                            <FaClone onClick={copyUrl} />
                         </Button>
                     </InputGroup>
                     {urlCopied && (
@@ -106,16 +106,7 @@ const ProximosPassosForm = ({ app, setApp }: Props) => {
                         />
 
                         <Button className="copy-button">
-                            <FaClone
-                                onClick={() => {
-                                    copy('token-copy');
-                                    setTokenCopied(true);
-                                    setUrlCopied(false);
-                                    setTimeout(() => {
-                                        setTokenCopied(false);
-                                    }, 10000);
-                                }}
-                            />
+                            <FaClone onClick={copyToken} />
                         </Button>
                     </InputGroup>
                     {tokenCopied && (

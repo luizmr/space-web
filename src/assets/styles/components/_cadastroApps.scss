@@ -348,6 +348,30 @@
                 // }
             }
         }
+
+        .vitrine__header {
+            margin-bottom: 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .vitrine__header-button {
+                padding: 6px 12px 6px 12px !important;
+                svg {
+                    transition: all 0.3s ease-in-out;
+                    transform: scale(1.5);
+                    margin-bottom: 1px;
+                    box-sizing: content-box;
+                }
+
+                &:hover {
+                    svg {
+                        transform: translateX(-3px) scale(1.5);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -521,6 +545,15 @@
             cursor: pointer;
             transform: scale(1.2);
         }
+    }
+    .tipo-item,
+    .valor-item {
+        text-align: center;
+    }
+
+    .descricao-item {
+        word-wrap: break-word;
+        word-break: break-word;
     }
 }
 

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { AppOutput } from '../../models/cadastro-apps';
-import { Link } from 'react-router-dom';
 import {
     Card,
     Button,
     Dropdown,
     DropdownButton,
-    NavLink,
     Modal,
     Spinner,
 } from 'react-bootstrap';
@@ -31,7 +29,6 @@ const BillingAppCard: React.FC<AppOutput> = ({
     const [sending, setSending] = useState<boolean>(false);
 
     const handleCloseModalDelete = () => setShowModalDelete(false);
-    const handleShowModalDelete = () => setShowModalDelete(true);
 
     const finalizar = (): void => {
         handleCloseModalDelete();
@@ -46,6 +43,7 @@ const BillingAppCard: React.FC<AppOutput> = ({
             setShowModal(false);
         }, 5000);
     };
+
     return (
         <>
             <Card className="billing-app-card">
@@ -76,7 +74,7 @@ const BillingAppCard: React.FC<AppOutput> = ({
 
                             <Dropdown.Item href={`/vitrine-app/${Id}`}>
                                 <FaStore />
-                                <p>Ver na Vitrine</p>
+                                <p>Ver na Loja</p>
                             </Dropdown.Item>
                             <Dropdown.Item
                                 href={`/billing/cadastro-apps/editar-app/${Id}`}

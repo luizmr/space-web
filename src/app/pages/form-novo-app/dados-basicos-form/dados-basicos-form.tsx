@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Dispatch, SetStateAction } from 'react';
-import {
-    Form,
-    Col,
-    Button,
-    Dropdown,
-    DropdownButton,
-    Modal,
-} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { AppOutput } from '../../../models/cadastro-apps';
 import { FaArrowCircleUp, FaTrashAlt } from 'react-icons/fa';
+import ModalComponent from '../../../components/modal/modal';
 
 type Props = {
     app?: AppOutput;
@@ -24,15 +17,12 @@ const DadosBasicosForm = ({
     descricaoAceita,
     setDescricaoAceita,
 }: Props) => {
-    console.log('app passed', app);
-
     const [logoDefault, setLogoDefault] = useState<string>('Logo');
     const [imagensDefault, setImagensDefault] = useState<boolean>(true);
     const [imagensArray, setImagensArray] = useState<Array<any>>([]);
     const [show, setShow] = useState<boolean>(false);
     const [showModalLength, setShowModalLength] = useState<boolean>(false);
     const [showModalArray, setShowModalArray] = useState<boolean>(false);
-    // const [descricaoAceita, setDescricaoAceita] = useState<boolean>(false);
 
     const handleCloseSizeModal = () => setShow(false);
     const handleShowSizeModal = () => setShow(true);
@@ -45,18 +35,14 @@ const DadosBasicosForm = ({
 
     const uploadImage = (e: any) => {
         let file = e.target.files[0];
-        console.log('nome', file.name);
         if (file && !file.name) {
-            window.alert('Please select a file');
-            return false;
+            return window.alert('Please select a file');
         }
         if (file.name.length > 24) {
-            handleShowModalLength();
-            return false;
+            return handleShowModalLength();
         }
         if (file.size > 4 * 10e6) {
-            handleShowSizeModal();
-            return false;
+            return handleShowSizeModal();
         }
         setLogoDefault(e.currentTarget.value.replace(/.*(\/|\\)/, ''));
         setApp({
@@ -68,20 +54,16 @@ const DadosBasicosForm = ({
     const uploadImages = (e: any) => {
         let file = e.target.files[0];
         if (file && !file.name) {
-            window.alert('Please select a file');
-            return false;
+            return window.alert('Please select a file');
         }
         if (file.name.length > 24) {
-            handleShowModalLength();
-            return false;
+            return handleShowModalLength();
         }
         if (file.size > 4 * 10e6) {
-            handleShowSizeModal();
-            return false;
+            return handleShowSizeModal();
         }
         if (imagensArray.length > 5) {
-            handleShowModalArray();
-            return false;
+            return handleShowModalArray();
         }
         setImagensDefault(false);
         setImagensArray([...imagensArray, e.currentTarget.value]);
@@ -112,7 +94,6 @@ const DadosBasicosForm = ({
                             value=""
                             onChange={(e) => {
                                 uploadImage(e);
-                                console.log('logo', app);
                             }}
                         />
                         <label htmlFor="file-input" className="arrow-svg-1">
@@ -128,7 +109,6 @@ const DadosBasicosForm = ({
                         value={app?.Nome}
                         onChange={(e) => {
                             setApp({ ...app, Nome: e.currentTarget.value });
-                            console.log('nome', app);
                         }}
                     />
                 </Form.Group>
@@ -153,7 +133,6 @@ const DadosBasicosForm = ({
                             value=""
                             onChange={(e) => {
                                 uploadImages(e);
-                                console.log('imagens', app);
                             }}
                         />
                         <label htmlFor="file-input-2" className="arrow-svg-2">
@@ -232,58 +211,27 @@ const DadosBasicosForm = ({
                         value={app?.Link}
                         onChange={(e) => {
                             setApp({ ...app, Link: e.currentTarget.value });
-                            console.log('Link', app);
                         }}
                     />
                 </Form.Group>
             </Form>
-            <Modal show={show} onHide={handleCloseSizeModal} centered>
-                <Modal.Header closeButton>
-                    <Modal.Title>Erro no tamanho da Imagem</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Por favor, selecione uma imagem menor que 4 MB!
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleCloseSizeModal}>
-                        Fechar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Modal
+            <ModalComponent
+                show={show}
+                onHide={handleCloseSizeModal}
+                header={'Erro no tamanho da Imagem'}
+                body={'Por favor, selecione uma imagem menor que 4 MB!'}
+            />
+            <ModalComponent
                 show={showModalLength}
                 onHide={handleCloseModalLength}
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Erro no tamanho do nome da Imagem</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Por favor, defina um nome menor que 20 caracteres!
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleCloseModalLength}>
-                        Fechar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Modal
+                header={'Erro no tamanho do nome da Imagem'}
+                body={'Por favor, defina um nome menor que 20 caracteres!'}
+            />
+            <ModalComponent
                 show={showModalArray}
                 onHide={handleCloseModalArray}
-                centered
-            >
-                {/* <Modal.Header closeButton>
-                    <Modal.Title>Erro quantidade máxima atingida</Modal.Title>
-                </Modal.Header> */}
-                <Modal.Body>
-                    Quantidade máxima de imagens atingida (6 imagens)!
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleCloseModalArray}>
-                        Fechar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                body={'Quantidade máxima de imagens atingida (6 imagens)!'}
+            />
         </>
     );
 };

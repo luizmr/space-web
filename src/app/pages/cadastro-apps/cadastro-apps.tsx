@@ -3,8 +3,8 @@ import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { FiCornerDownLeft, FiSearch, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { mockApps, mockCobranca } from './mock';
-import { AppOutput, CobrancaOutput } from '../../models/cadastro-apps';
+import { mockApps } from './mock';
+import { AppOutput } from '../../models/cadastro-apps';
 import BillingAppCard from '../../components/billing/billing-app-card';
 import Navbar from '../../components/Navbar/Navbar';
 
@@ -54,12 +54,9 @@ export default function CadastroApps() {
             setSearching(true);
             setTextSearch(e);
 
-            if (
-                arrayFilter.length < quantityOfResults ||
-                slicedArray(filteredApps).length === arrayFilter.length
-            ) {
-                setShowResultSlicer(false);
-            }
+            arrayFilter.length < quantityOfResults ||
+                (slicedArray(filteredApps).length === arrayFilter.length &&
+                    setShowResultSlicer(false));
         }
     };
 

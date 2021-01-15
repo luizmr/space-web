@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Form,
-    Col,
-    Button,
-    Table,
-    OverlayTrigger,
-    Tooltip,
-} from 'react-bootstrap';
+import { Form, Button, Table, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import {
     FaEdit,
     FaTrashAlt,
@@ -22,7 +15,6 @@ type Props = {
 };
 
 const CobrancaForm = ({ app, setApp }: Props) => {
-    const [currencyValue, setCurrencyValue] = useState<number>(0);
     const [cobrancaArray, setCobrancaArray] = useState<Array<CobrancaOutput>>(
         app?.Cobranca || []
     );
@@ -67,17 +59,11 @@ const CobrancaForm = ({ app, setApp }: Props) => {
         },
     ];
 
-    // useEffect(() => {
-    //     console.log(cobrancaArray, 'cobrancaarray');
-    // }, [cobrancaArray]);
-
     const editarCobranca = (el: CobrancaOutput) => {
         setIsEditing(true);
         let cobrancaObjeto = cobrancaArray.find(
-            (obj, index) => obj.CobrancaId === el.CobrancaId
+            (obj) => obj.CobrancaId === el.CobrancaId
         );
-        console.log(cobrancaObjeto);
-        // setCobranca(cobrancaObjeto);
         setCobranca({
             CobrancaDescricao: cobrancaObjeto?.CobrancaDescricao,
             CobrancaTipo: cobrancaObjeto?.CobrancaTipo,
@@ -88,11 +74,47 @@ const CobrancaForm = ({ app, setApp }: Props) => {
 
     const removerCobranca = (el: CobrancaOutput) => {
         let newCobrancaArray = cobrancaArray.filter(
-            (obj, index) => obj.CobrancaId != el.CobrancaId
+            (obj) => obj.CobrancaId != el.CobrancaId
         );
 
         setCobrancaArray(newCobrancaArray);
         setApp({ ...app, Cobranca: newCobrancaArray });
+    };
+
+    const cobrancaEditing = (value: boolean) => {
+        if (value) {
+            let editArray: Array<CobrancaOutput> = [];
+
+            cobrancaArray.map((obj) => {
+                obj.CobrancaId !== cobranca.CobrancaId
+                    ? editArray.push(obj)
+                    : editArray.push(cobranca);
+            });
+
+            setCobrancaArray(editArray);
+
+            setCobranca({
+                CobrancaDescricao: '',
+                CobrancaTipo: 0,
+                CobrancaValor: '',
+                CobrancaId: 0,
+            });
+        } else {
+            let oldArray = cobrancaArray;
+            let cobrancaLength = cobrancaArray.length;
+
+            oldArray.push({
+                ...cobranca,
+                CobrancaId: cobrancaLength > 0 ? lastId + 1 : 1,
+            });
+            setCobrancaArray(oldArray);
+            setCobranca({
+                CobrancaDescricao: '',
+                CobrancaTipo: 0,
+                CobrancaValor: '',
+                CobrancaId: 0,
+            });
+        }
     };
 
     return (
@@ -104,7 +126,6 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         defaultValue="Escolha o Tipo de Cobrança"
                         value={cobranca.CobrancaTipo}
                         onChange={(e) => {
-                            console.log(e.currentTarget.value);
                             setCobranca({
                                 ...cobranca,
                                 CobrancaTipo: parseInt(e.currentTarget.value),
@@ -138,7 +159,6 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                                     e.currentTarget.value
                                 ).toFixed(2),
                             });
-                            console.log('cobranca valor', app);
                         }}
                     />
                 </Form.Group>
@@ -155,13 +175,9 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                                 ...cobranca,
                                 CobrancaDescricao: e.currentTarget.value,
                             });
-                            if (e.currentTarget.value.length >= 100) {
-                                setDescricaoAceita(true);
-                            } else {
-                                setDescricaoAceita(false);
-                            }
-                            console.log('cobranca descricao', cobranca);
-                            console.log(descricaoAceita);
+                            e.currentTarget.value.length >= 100
+                                ? setDescricaoAceita(true)
+                                : setDescricaoAceita(false);
                         }}
                         aria-describedby="descriptionLength"
                     />
@@ -187,7 +203,6 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         {showTable ? <FaRegEye /> : <FaRegEyeSlash />}
                     </Button>
                     <Button
-                        // className="my-1"
                         variant="dark"
                         disabled={
                             cobranca.CobrancaTipo === 0 ||
@@ -196,53 +211,10 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                                 ? true
                                 : false
                         }
-                        onClick={(e) => {
-                            if (isEditing) {
-                                let editArray: Array<CobrancaOutput> = [];
-
-                                cobrancaArray.map((obj) => {
-                                    if (
-                                        obj.CobrancaId !== cobranca.CobrancaId
-                                    ) {
-                                        editArray.push(obj);
-                                    } else {
-                                        editArray.push(cobranca);
-                                    }
-                                });
-
-                                setCobrancaArray(editArray);
-                                console.log(
-                                    'cobranca array editada',
-                                    cobrancaArray
-                                );
-                                setCobranca({
-                                    CobrancaDescricao: '',
-                                    CobrancaTipo: 0,
-                                    CobrancaValor: '',
-                                    CobrancaId: 0,
-                                });
-                            } else {
-                                let oldArray = cobrancaArray;
-                                let cobrancaLength = cobrancaArray.length;
-
-                                oldArray.push({
-                                    ...cobranca,
-                                    CobrancaId:
-                                        cobrancaLength > 0 ? lastId + 1 : 1,
-                                });
-                                setCobrancaArray(oldArray);
-                                setCobranca({
-                                    CobrancaDescricao: '',
-                                    CobrancaTipo: 0,
-                                    CobrancaValor: '',
-                                    CobrancaId: 0,
-                                });
-                            }
+                        onClick={() => {
+                            cobrancaEditing(isEditing);
                             setIsEditing(false);
-
                             setApp({ ...app, Cobranca: cobrancaArray });
-
-                            console.log('cobranca array', app);
                         }}
                     >
                         {isEditing ? 'Editar' : 'Adicionar'}
@@ -304,18 +276,13 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                                             />
                                         </OverlayTrigger>
                                     </td>
-                                    <td style={{ textAlign: 'center' }}>
+                                    <td className="tipo-item">
                                         {tipoObj?.Nome}
                                     </td>
-                                    <td style={{ textAlign: 'center' }}>
+                                    <td className="valor-item">
                                         R$ {el.CobrancaValor?.replace('.', ',')}
                                     </td>
-                                    <td
-                                        style={{
-                                            wordWrap: 'break-word',
-                                            wordBreak: 'break-word',
-                                        }}
-                                    >
+                                    <td className="descricao-item">
                                         {el.CobrancaDescricao}
                                     </td>
                                 </tr>

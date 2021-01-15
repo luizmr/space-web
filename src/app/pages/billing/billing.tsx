@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Nav, Button, FormControl, Form } from 'react-bootstrap';
 import { FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
