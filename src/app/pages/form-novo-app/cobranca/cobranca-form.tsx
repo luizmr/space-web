@@ -138,7 +138,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         as="select"
                         defaultValue="Escolha o Tipo de Cobrança"
                         value={cobranca.CobrancaTipo}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setCobranca({
                                 ...cobranca,
                                 CobrancaTipo: parseInt(e.currentTarget.value),
@@ -165,7 +165,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                                 ? ''
                                 : Number(cobranca.CobrancaValor)
                         }
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setCobranca({
                                 ...cobranca,
                                 CobrancaValor: parseFloat(
@@ -183,7 +183,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         rows={3}
                         placeholder="Descrição"
                         value={cobranca.CobrancaDescricao}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setCobranca({
                                 ...cobranca,
                                 CobrancaDescricao: e.currentTarget.value,

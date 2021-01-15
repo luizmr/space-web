@@ -107,7 +107,7 @@ const DadosBasicosForm = ({
                         type="text"
                         placeholder="Nome"
                         value={app?.Nome}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setApp({ ...app, Nome: e.currentTarget.value });
                         }}
                     />
@@ -179,7 +179,7 @@ const DadosBasicosForm = ({
                         rows={3}
                         value={app?.Descricao}
                         placeholder="Descrição"
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setApp({
                                 ...app,
                                 Descricao: e.currentTarget.value,
@@ -209,7 +209,7 @@ const DadosBasicosForm = ({
                         type="text"
                         placeholder="Link do Aplicativo"
                         value={app?.Link}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                             setApp({ ...app, Link: e.currentTarget.value });
                         }}
                     />
