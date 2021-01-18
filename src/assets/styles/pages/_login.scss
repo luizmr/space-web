@@ -2,24 +2,31 @@
     .login-container {
         height: 100vh;
         display: flex;
+        position: relative;
     }
     .inputs-container {
+        .alert-error {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
         display: flex;
         flex-direction: column;
-        align-self: center;
         margin: auto;
-        position: relative;
+        width: 25%;
         .btn-login {
+            text-transform: none;
             align-self: flex-end;
             margin-right: 4%;
         }
-        .span-error {
-            color: red;
-            font-size: 0.8rem;
-            margin-top: 6px;
-            margin-left: 5%;
-        }
+        // .span-error {
+        //     color: red;
+        //     font-size: 0.8rem;
+        //     margin-top: 6px;
+        //     margin-left: 5%;
+        // }
         p {
+            font-family: 'Open Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
             color: #78909c;
             margin-left: 3%;
         }
@@ -29,47 +36,23 @@
         align-items: center;
         justify-content: center;
         width: 60%;
-        height: 100%;
         background-color: rgb(185, 185, 185);
     }
 
     @media (max-width: 960px) {
-        .login-container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         .inputs-container {
-            display: flex;
-            flex-direction: column;
-            align-self: center;
-            margin: auto;
-            position: relative;
-            width: 30%;
-            .inputs-container__input-email,
-            .inputs-container__input-password {
-                width: 100%;
+            width: 55%;
+            input {
+                padding: 15px;
             }
             .btn-login {
                 width: 95%;
-                // align-self: flex-end;
                 margin-right: 3%;
-            }
-            .span-error {
-                color: red;
-                font-size: 0.8rem;
-                margin-top: 6px;
-                margin-left: 5%;
+                margin-top: 10px;
             }
         }
         .image-container {
             display: none;
-            // align-items: center;
-            // justify-content: center;
-            // width: 100%;
-            // height: 100%;
-            // background-color: rgb(185, 185, 185);
         }
     }
 }

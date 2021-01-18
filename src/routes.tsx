@@ -21,7 +21,7 @@ const routes = [
     {
         key: 'home',
         Component: Home,
-        path: '/',
+        path: '/home',
     },
     {
         key: 'billing',

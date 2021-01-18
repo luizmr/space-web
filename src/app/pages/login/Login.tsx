@@ -13,11 +13,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
-
-{
-    /* <Alert severity="error">This is an error alert — check it out!</Alert> */
-}
 
 function Login() {
     const [values, setValues] = React.useState<User>({
@@ -27,26 +24,37 @@ function Login() {
     });
     const [error, setError] = useState<boolean>(false);
     const [validate, setValidate] = useState<boolean>(true);
+    const [isValidate, setIsValidate] = useState<boolean>(false);
     const history = useHistory();
 
     const checkLogin = (): void => {
-        if (
-            values.email === 'teste@teste.com' &&
-            values.password === '123456'
-        ) {
-            history.push('/home');
-        } else {
-            setError(true);
-        }
+        setIsValidate(true);
+        setError(false);
+        setTimeout(() => {
+            if (
+                values.email === 'teste@teste.com' &&
+                values.password === '123456'
+            ) {
+                history.push('/home');
+            } else {
+                setError(true);
+                setIsValidate(false);
+                setTimeout(() => {
+                    setError(false);
+                }, 4000);
+            }
+        }, 3000);
     };
 
     useEffect(() => {
-        setError(false);
+        // setError(false);
         const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
         if (emailValidate.test(values.email) && values.password.length >= 6) {
             setValidate(false);
+            setError(false);
         } else {
             setValidate(true);
+            // setError(true);
         }
     }, [values.email, values.password]);
 
@@ -100,6 +108,14 @@ function Login() {
             </div>
 
             <div className="inputs-container">
+                {error ? (
+                    <Alert className="alert-error" severity="error">
+                        <AlertTitle>Erro</AlertTitle>
+                        E-mail ou senha inválidos!
+                    </Alert>
+                ) : (
+                    ''
+                )}
                 <p>Entre com sua conta.</p>
                 <FormControl
                     className={`${clsx(
@@ -109,10 +125,11 @@ function Login() {
                     variant="outlined"
                 >
                     <InputLabel htmlFor="outlined-adornment-email">
-                        Email
+                        E-mail
                     </InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-email"
+                        fullWidth={true}
                         value={values.email}
                         onChange={handleChange('email')}
                         labelWidth={40}
@@ -126,7 +143,7 @@ function Login() {
                     variant="outlined"
                 >
                     <InputLabel htmlFor="outlined-adornment-password">
-                        Password
+                        Senha
                     </InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
@@ -154,17 +171,19 @@ function Login() {
                 </FormControl>
                 <Button
                     onClick={checkLogin}
-                    disabled={validate}
+                    disabled={validate || isValidate}
+                    color={'primary'}
                     className="btn-login"
                     variant="contained"
+                    disableRipple
                 >
-                    Login
+                    {!isValidate ? 'Entrar' : 'Aguarde...'}
                 </Button>
-                {error && (
+                {/* {error && (
                     <span className="span-error">
                         E-mail ou senha inválidos
                     </span>
-                )}
+                )} */}
                 <br />
                 <p>
                     <Link to="/login">Esqueci minha senha</Link>
