@@ -2,10 +2,9 @@
     .navbar {
         background-color: #f5f5f5;
 
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        padding: 15px 20px;
+        .btn-toogle {
+            background-color: #b8b8b8;
+        }
 
         a.navbar-brand {
             display: inline;
@@ -13,37 +12,15 @@
             margin-left: 30px;
         }
 
-        ul {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            gap: 30px;
-            // li {
-            //     margin: 10px;
-            // }
-        }
-
         .navbar-links {
-            // width: 50%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 50px;
+            gap: 30px;
             .meu-app {
                 min-width: 130px;
             }
             a {
-                // margin-left: 50px;
-                // min-width: 40px;
-                // align-self: center;
                 font-size: 1rem;
                 color: black;
                 text-decoration: none;
-                // margin-left: -10px;
                 transition: all 0.3s ease-in-out;
                 padding: 5px;
                 border-radius: 0.5rem;
@@ -54,9 +31,6 @@
         }
         .navbar-dropdown {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-
             svg {
                 background-color: #dbdbdb;
                 box-sizing: content-box;
@@ -65,6 +39,11 @@
                 margin-right: 5px;
                 margin-top: 2px;
             }
+        }
+    }
+    @media (max-width: 766px) {
+        .meu-app {
+            margin-top: 10px;
         }
     }
 }

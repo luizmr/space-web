@@ -13,6 +13,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Link } from 'react-router-dom';
+
+{
+    /* <Alert severity="error">This is an error alert — check it out!</Alert> */
+}
 
 function Login() {
     const [values, setValues] = React.useState<User>({
@@ -95,8 +100,12 @@ function Login() {
             </div>
 
             <div className="inputs-container">
+                <p>Entre com sua conta.</p>
                 <FormControl
-                    className={clsx(classes.margin, classes.textField)}
+                    className={`${clsx(
+                        classes.margin,
+                        classes.textField
+                    )}, "inputs-container__input-email"`}
                     variant="outlined"
                 >
                     <InputLabel htmlFor="outlined-adornment-email">
@@ -110,7 +119,10 @@ function Login() {
                     />
                 </FormControl>
                 <FormControl
-                    className={clsx(classes.margin, classes.textField)}
+                    className={`${clsx(
+                        classes.margin,
+                        classes.textField
+                    )}, "inputs-container__input-password"`}
                     variant="outlined"
                 >
                     <InputLabel htmlFor="outlined-adornment-password">
@@ -153,6 +165,16 @@ function Login() {
                         E-mail ou senha inválidos
                     </span>
                 )}
+                <br />
+                <p>
+                    <Link to="/login">Esqueci minha senha</Link>
+                </p>
+                <br />
+                <p>
+                    Ainda não tem uma conta?
+                    <br />
+                    <Link to="/login">Criar uma conta</Link>
+                </p>
             </div>
         </div>
     );

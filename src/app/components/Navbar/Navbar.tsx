@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NavDropdown, NavbarBrand } from 'react-bootstrap';
+import { NavDropdown, NavbarBrand, Navbar as Navs, Nav } from 'react-bootstrap';
 import { FaChevronDown, FaUserAlt, FaUserCircle } from 'react-icons/fa';
 
 interface ObjOptions {
@@ -21,63 +21,72 @@ const Navbar: React.FC = () => {
 
     return (
         <header>
-            <nav className="navbar">
-                <div>
-                    <NavbarBrand href="/home">
-                        <img
-                            src="https://i.pinimg.com/originals/88/fa/91/88fa91d09a2a25809a73cada846821ee.png"
-                            style={{ width: '5%' }}
-                            alt="foguete"
-                        />
-                        Space
-                    </NavbarBrand>
-                </div>
-                <div className="navbar-links">
-                    <ul>
+            <Navs
+                collapseOnSelect
+                expand="md"
+                variant="light"
+                className="navbar"
+            >
+                <NavbarBrand href="/home">
+                    <img
+                        src="https://i.pinimg.com/originals/88/fa/91/88fa91d09a2a25809a73cada846821ee.png"
+                        style={{ width: '50px' }}
+                        alt="foguete"
+                    />
+                    Space
+                </NavbarBrand>
+                <Navs.Toggle
+                    aria-controls="responsive-navbar-nav"
+                    className="btn-toogle"
+                />
+                <Navs.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto"></Nav>
+                    <Nav className="navbar-links">
                         {options?.map(({ title, path }) => (
-                            <li
+                            <Nav.Link
                                 key={path}
+                                href={path}
                                 className={
                                     title === 'Meus Aplicativos'
                                         ? 'meu-app'
                                         : ''
                                 }
                             >
-                                <Link to={path}>{title}</Link>
-                            </li>
+                                {title}
+                            </Nav.Link>
                         ))}
-                    </ul>
-                    <div className="navbar-dropdown">
-                        <FaUserAlt />
-                        <NavDropdown
-                            title={nome}
-                            id={
-                                userDrop
-                                    ? `dropdown-button-drop-up`
-                                    : `dropdown-button-drop-down`
-                            }
-                            drop={userDrop ? 'up' : 'down'}
-                            onClick={() => {
-                                if (userDrop) {
-                                    setUserDrop(false);
-                                } else {
-                                    setUserDrop(true);
+                        <div className="navbar-dropdown">
+                            <FaUserAlt />
+                            <NavDropdown
+                                title={nome}
+                                id={
+                                    userDrop
+                                        ? `dropdown-button-drop-up`
+                                        : `dropdown-button-drop-down`
                                 }
-                            }}
-                        >
-                            <NavDropdown.Item href="/minha-conta">
-                                Minha conta
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/Admin">
-                                Admin. parceiro
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="/login">
-                                Sair
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </div>
-                </div>
-            </nav>
+                                drop={userDrop ? 'down' : 'up'}
+                                onClick={() => {
+                                    if (userDrop) {
+                                        setUserDrop(false);
+                                    } else {
+                                        setUserDrop(true);
+                                    }
+                                }}
+                            >
+                                <NavDropdown.Item href="/minha-conta">
+                                    Minha conta
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/Admin">
+                                    Admin. parceiro
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/login">
+                                    Sair
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </div>
+                    </Nav>
+                </Navs.Collapse>
+            </Navs>
         </header>
     );
 };
