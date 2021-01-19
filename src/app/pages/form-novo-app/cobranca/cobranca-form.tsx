@@ -34,6 +34,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
             let cobrancaLength = cobrancaArray.length;
             setLastId(cobrancaArray[cobrancaLength - 1].CobrancaId);
         }
+        console.log(app?.Cobranca);
     }, []);
 
     const tiposDeCobranca = [
@@ -101,7 +102,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                 CobrancaId: 0,
             });
         } else {
-            let oldArray = [...cobrancaArray];
+            let oldArray = cobrancaArray;
             let cobrancaLength = cobrancaArray.length;
 
             oldArray.push({
@@ -215,7 +216,7 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                         Mostrar Tabela{' '}
                         {showTable ? <FaRegEye /> : <FaRegEyeSlash />}
                     </Button>
-                    <div className="d-flex justify-content-around">
+                    <div className="d-flex justify-content-around edit-buttons">
                         {isEditing && (
                             <Button
                                 className="mr-3"
@@ -248,74 +249,84 @@ const CobrancaForm = ({ app, setApp }: Props) => {
                 </div>
             </Form>
 
-            <Table
-                striped
-                bordered
-                hover
-                variant="dark"
-                className="cobranca-table"
-            >
-                <thead>
-                    <tr>
-                        <th className="acoes">Ações</th>
-                        <th className="tipos">Tipo de Cobrança</th>
-                        <th className="valores">Valor</th>
-                        <th className="descricoes">Descrição</th>
-                    </tr>
-                </thead>
-                {showTable && (
-                    <tbody>
-                        {cobrancaArray.map((el, i) => {
-                            let tipoObj = tiposDeCobranca.find(
-                                (obj) => obj.Id === el.CobrancaTipo
-                            );
-                            return (
-                                <tr key={i}>
-                                    <td className="acoes-icones">
-                                        <OverlayTrigger
-                                            placement="bottom"
-                                            overlay={
-                                                <Tooltip id={`tooltip-bottom`}>
-                                                    Editar Cobrança
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <FaEdit
-                                                onClick={() =>
-                                                    editarCobranca(el)
+            <div className="table-div">
+                <Table
+                    striped
+                    bordered
+                    hover
+                    variant="dark"
+                    className="cobranca-table"
+                >
+                    <thead>
+                        <tr>
+                            <th className="acoes">Ações</th>
+                            <th className="tipos">Tipo de Cobrança</th>
+                            <th className="valores">Valor</th>
+                            <th className="descricoes">Descrição</th>
+                        </tr>
+                    </thead>
+                    {showTable && (
+                        <tbody>
+                            {cobrancaArray.map((el, i) => {
+                                let tipoObj = tiposDeCobranca.find(
+                                    (obj) => obj.Id === el.CobrancaTipo
+                                );
+                                return (
+                                    <tr key={i}>
+                                        <td className="acoes-icones">
+                                            <OverlayTrigger
+                                                placement="bottom"
+                                                overlay={
+                                                    <Tooltip
+                                                        id={`tooltip-bottom`}
+                                                    >
+                                                        Editar Cobrança
+                                                    </Tooltip>
                                                 }
-                                            />
-                                        </OverlayTrigger>
-                                        <OverlayTrigger
-                                            placement="bottom"
-                                            overlay={
-                                                <Tooltip id={`tooltip-bottom`}>
-                                                    Excluir Cobrança
-                                                </Tooltip>
-                                            }
-                                        >
-                                            <FaTrashAlt
-                                                onClick={() =>
-                                                    removerCobranca(el)
+                                            >
+                                                <FaEdit
+                                                    onClick={() =>
+                                                        editarCobranca(el)
+                                                    }
+                                                />
+                                            </OverlayTrigger>
+                                            <OverlayTrigger
+                                                placement="bottom"
+                                                overlay={
+                                                    <Tooltip
+                                                        id={`tooltip-bottom`}
+                                                    >
+                                                        Excluir Cobrança
+                                                    </Tooltip>
                                                 }
-                                            />
-                                        </OverlayTrigger>
-                                    </td>
-                                    <td className="tipo-item">
-                                        {tipoObj?.Nome}
-                                    </td>
-                                    <td className="valor-item">
-                                        R$ {el.CobrancaValor?.replace('.', ',')}
-                                    </td>
-                                    <td className="descricao-item">
-                                        {el.CobrancaDescricao}
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                )}
-            </Table>
+                                            >
+                                                <FaTrashAlt
+                                                    onClick={() =>
+                                                        removerCobranca(el)
+                                                    }
+                                                />
+                                            </OverlayTrigger>
+                                        </td>
+                                        <td className="tipo-item">
+                                            {tipoObj?.Nome}
+                                        </td>
+                                        <td className="valor-item">
+                                            R${' '}
+                                            {el.CobrancaValor?.replace(
+                                                '.',
+                                                ','
+                                            )}
+                                        </td>
+                                        <td className="descricao-item">
+                                            {el.CobrancaDescricao}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    )}
+                </Table>
+            </div>
         </>
     );
 };

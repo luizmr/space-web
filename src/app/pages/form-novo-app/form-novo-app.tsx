@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, Spinner } from 'react-bootstrap';
 import { Link, match } from 'react-router-dom';
 import { FiCornerDownLeft } from 'react-icons/fi';
-import { FaCheck, FaChevronRight } from 'react-icons/fa';
+import { FaCheck, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import DadosBasicosForm from './dados-basicos-form/dados-basicos-form';
 import CobrancaForm from './cobranca/cobranca-form';
 import ProximosPassosForm from './proximos-passos/proximos-passos-form';
@@ -96,14 +96,16 @@ export default function FormNovoApp({
                             >
                                 1 - Dados Básicos
                             </p>
-                            <FaChevronRight />
+                            <FaChevronRight className="chevron-right" />
+                            <FaChevronDown className="chevron-down" />
                             <p
                                 id="cobranca"
                                 className={step === 2 ? 'selected' : ''}
                             >
                                 2 - Cobrança
                             </p>
-                            <FaChevronRight />
+                            <FaChevronRight className="chevron-right" />
+                            <FaChevronDown className="chevron-down" />
                             <p
                                 id="proximos-passos"
                                 className={step === 3 ? 'selected' : ''}
@@ -171,11 +173,11 @@ export default function FormNovoApp({
                                     <Button
                                         variant="dark"
                                         onClick={nextStep}
-                                        disabled={
-                                            app.Cobranca?.length === 0
-                                                ? true
-                                                : false
-                                        }
+                                        // disabled={
+                                        //     app.Cobranca?.length === 0
+                                        //         ? true
+                                        //         : false
+                                        // }
                                     >
                                         Avançar
                                     </Button>

@@ -150,6 +150,35 @@
     }
 }
 
+@media (max-width: $media-md) {
+    .cadastro-apps {
+        width: 80vw;
+
+        .billing-app-card__body {
+            flex-direction: column;
+            align-items: flex-start !important;
+            .billing-app-card__buttons {
+                button {
+                    margin-left: 0 !important;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $media-sm) {
+    .billing-app-card {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 1fr 3fr !important;
+
+        img {
+            height: 100px;
+            width: 100px;
+            margin: 0 auto;
+        }
+    }
+}
+
 .modal-success {
     .modal-content {
         background-color: #d4edda;
@@ -249,6 +278,14 @@
             font-weight: 700;
         }
 
+        .chevron-right {
+            display: block;
+        }
+
+        .chevron-down {
+            display: none;
+        }
+
         svg {
             transform: scale(4);
             fill: $primary-color-2;
@@ -266,7 +303,6 @@
             &:focus {
                 box-shadow: 0 0 0 0.2rem #23272b30;
                 border-color: #23272b50;
-
                 -moz-outline-style: none;
             }
         }
@@ -381,6 +417,61 @@
                     }
                 }
             }
+        }
+    }
+}
+
+@media (max-width: $media-md) {
+    .novo-app {
+        width: 80vw;
+        .novo-app__steps {
+            flex-direction: column;
+
+            gap: 30px;
+            margin-bottom: 50px;
+            p {
+                margin: 0;
+                font-size: 1rem;
+            }
+
+            .chevron-down {
+                display: block;
+            }
+
+            .chevron-right {
+                display: none;
+            }
+        }
+    }
+    .novo-app__steps-buttons {
+        width: 100vw;
+
+        div {
+            width: 80vw !important;
+        }
+    }
+}
+
+@media (max-width: $media-sm) {
+    .novo-app {
+        .novo-app__steps {
+            p {
+                margin: 0;
+                font-size: 1rem;
+            }
+        }
+    }
+    .novo-app__steps-buttons {
+        width: 100vw;
+        height: 200px !important;
+        margin-top: 50px;
+
+        div {
+            width: 80vw !important;
+            height: 200px !important;
+            flex-direction: column;
+            justify-content: center !important;
+            gap: 20px !important;
         }
     }
 }
@@ -523,47 +614,99 @@
     }
 }
 
-.cobranca-table {
-    margin-top: 50px;
+@media (max-width: $media-sm) {
+    .file-upload-wrapper {
+        &.height-2 {
+            &:after {
+                font-size: 0.75rem;
+                top: 0px;
+                overflow: auto !important;
+                max-height: 75px !important;
+            }
+        }
+    }
+}
 
-    th {
-        text-align: center;
+.table-div {
+    .cobranca-table {
+        margin-top: 50px;
+
+        th {
+            text-align: center;
+        }
+        .acoes {
+            width: 80px;
+        }
+        .tipos {
+            width: 200px;
+        }
+        .valores {
+            width: 120px;
+        }
+
+        .acoes-icones {
+            text-align: center;
+            svg:nth-child(1) {
+                margin-right: 8px;
+            }
+            svg:nth-child(2) {
+                margin-left: 8px;
+            }
+            svg {
+                transition: all 0.3s ease-in-out;
+                transform: scale(1.1);
+            }
+            svg:hover {
+                cursor: pointer;
+                transform: scale(1.2);
+            }
+        }
+        .tipo-item,
+        .valor-item {
+            text-align: center;
+        }
+
+        .descricao-item {
+            word-wrap: break-word;
+            word-break: break-word;
+        }
     }
-    .acoes {
-        width: 80px;
-    }
-    .tipos {
-        width: 200px;
-    }
-    .valores {
-        width: 120px;
+}
+
+@media (max-width: $media-sm) {
+    .table-div {
+        width: 80vw;
+        overflow: scroll !important;
+        .cobranca-table {
+            margin-top: 50px;
+
+            .acoes {
+                min-width: 120px !important;
+            }
+            .tipos {
+                min-width: 200px;
+            }
+            .valores {
+                min-width: 120px;
+            }
+            .descricoes {
+                min-width: 200px !important;
+            }
+        }
     }
 
-    .acoes-icones {
-        text-align: center;
-        svg:nth-child(1) {
-            margin-right: 8px;
-        }
-        svg:nth-child(2) {
-            margin-left: 8px;
-        }
-        svg {
-            transition: all 0.3s ease-in-out;
-            transform: scale(1.1);
-        }
-        svg:hover {
-            cursor: pointer;
-            transform: scale(1.2);
-        }
-    }
-    .tipo-item,
-    .valor-item {
-        text-align: center;
-    }
+    .buttons-form {
+        .edit-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
 
-    .descricao-item {
-        word-wrap: break-word;
-        word-break: break-word;
+            button {
+                margin: 0 !important;
+            }
+        }
     }
 }
 
