@@ -4,17 +4,18 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { User } from '../../models/Login';
-// import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
+import { mockLogin } from './mock';
 
 function Login() {
     const [values, setValues] = React.useState<User>({
@@ -23,22 +24,27 @@ function Login() {
         showPassword: false,
     });
     const [error, setError] = useState<boolean>(false);
-    const [validate, setValidate] = useState<boolean>(true);
+    const [btnValidate, setBtnValidate] = useState<boolean>(false);
     const [isValidate, setIsValidate] = useState<boolean>(false);
+    const [emailValidate, setEmailValidate] = useState<boolean>(true);
     const history = useHistory();
 
     const checkLogin = (): void => {
         setIsValidate(true);
+        setBtnValidate(false);
         setError(false);
         setTimeout(() => {
             if (
-                values.email === 'teste@teste.com' &&
-                values.password === '123456'
+                mockLogin.find(
+                    ({ email, senha }) =>
+                        values.email === email && values.password === senha
+                )
             ) {
                 history.push('/home');
             } else {
                 setError(true);
                 setIsValidate(false);
+                setBtnValidate(true);
                 setTimeout(() => {
                     setError(false);
                 }, 4000);
@@ -47,14 +53,18 @@ function Login() {
     };
 
     useEffect(() => {
-        // setError(false);
-        const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
-        if (emailValidate.test(values.email) && values.password.length >= 6) {
-            setValidate(false);
-            setError(false);
+        const regexEmail = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
+        if (regexEmail.test(values.email) || values.email === '') {
+            setEmailValidate(true);
+            if (values.password.length >= 6) {
+                setBtnValidate(true);
+            } else {
+                setBtnValidate(false);
+            }
         } else {
-            setValidate(true);
-            // setError(true);
+            setEmailValidate(false);
+            setBtnValidate(false);
+            setIsValidate(false);
         }
     }, [values.email, values.password]);
 
@@ -84,11 +94,13 @@ function Login() {
     ) => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
     const handleMouseDownPassword = (
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
         event.preventDefault();
     };
+
     const handleClickShowPassword = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
@@ -128,12 +140,21 @@ function Login() {
                         E-mail
                     </InputLabel>
                     <OutlinedInput
+                        error={!emailValidate}
                         id="outlined-adornment-email"
                         fullWidth={true}
                         value={values.email}
                         onChange={handleChange('email')}
                         labelWidth={40}
                     />
+                    {!emailValidate && (
+                        <FormHelperText
+                            id="component-error-text"
+                            style={{ color: 'red' }}
+                        >
+                            E-mail inválido
+                        </FormHelperText>
+                    )}
                 </FormControl>
                 <FormControl
                     className={`${clsx(
@@ -171,7 +192,7 @@ function Login() {
                 </FormControl>
                 <Button
                     onClick={checkLogin}
-                    disabled={validate || isValidate}
+                    disabled={!btnValidate}
                     color={'primary'}
                     className="btn-login"
                     variant="contained"
@@ -179,11 +200,6 @@ function Login() {
                 >
                     {!isValidate ? 'Entrar' : 'Aguarde...'}
                 </Button>
-                {/* {error && (
-                    <span className="span-error">
-                        E-mail ou senha inválidos
-                    </span>
-                )} */}
                 <br />
                 <p>
                     <Link to="/login">Esqueci minha senha</Link>

@@ -19,12 +19,6 @@
             align-self: flex-end;
             margin-right: 4%;
         }
-        // .span-error {
-        //     color: red;
-        //     font-size: 0.8rem;
-        //     margin-top: 6px;
-        //     margin-left: 5%;
-        // }
         p {
             font-family: 'Open Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
             color: #78909c;
@@ -42,6 +36,7 @@
     @media (max-width: 960px) {
         .inputs-container {
             width: 55%;
+            max-width: 350px;
             input {
                 padding: 15px;
             }
