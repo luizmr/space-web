@@ -1,18 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { User } from '../../models/Login';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {
+    FormControl,
+    FormHelperText,
+    InputAdornment,
+    InputLabel,
+    IconButton,
+    OutlinedInput,
+    Button,
+} from '@material-ui/core/';
+import { Visibility, VisibilityOff } from '@material-ui/icons/';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 import { mockLogin } from './mock';
