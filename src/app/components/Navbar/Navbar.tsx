@@ -53,8 +53,8 @@ const Navbar: React.FC = () => {
                             title={nome}
                             id={
                                 userDrop
-                                    ? `dropdown-button-drop-up`
-                                    : `dropdown-button-drop-down`
+                                    ? `dropdown-button-drop-down`
+                                    : `dropdown-button-drop-up`
                             }
                             drop={userDrop ? 'up' : 'down'}
                             onClick={() => {
