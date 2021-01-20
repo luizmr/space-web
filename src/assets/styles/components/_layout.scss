@@ -1,6 +1,18 @@
 body {
-    background-color: $bg-color;
+    background-color: #fff;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+}
+
+#root {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    height: 2.5rem;
 }
