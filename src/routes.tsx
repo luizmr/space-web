@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Billing from './app/pages/billing/billing';
 import CadastroApps from './app/pages/cadastro-apps/cadastro-apps';
 import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
-import Login from './app/pages/login/Login';
+import Login from './app/pages/Login/Login';
 import VitrineApp from './app/pages/vitrine-app/vitrine-app';
 import Home from './app/pages/home/home';
 
