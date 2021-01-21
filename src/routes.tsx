@@ -6,6 +6,7 @@ import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
 import Login from './app/pages/Login/Login';
 import VitrineApp from './app/pages/vitrine-app/vitrine-app';
 import Home from './app/pages/home/home';
+import CadastroModulos from './app/pages/cadastro-modulos/cadastro-modulos';
 
 interface RouteInterface {
     key: string;
@@ -52,6 +53,11 @@ const routes = [
         key: 'vitrine-app',
         Component: VitrineApp,
         path: '/vitrine-app/:id',
+    },
+    {
+        key: 'cadastro-modulos',
+        Component: CadastroModulos,
+        path: '/billing/cadastro-modulos',
     },
 ];
 

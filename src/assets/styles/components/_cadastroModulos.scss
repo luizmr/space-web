@@ -1,0 +1,94 @@
+.cadastro-modulos {
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding-bottom: 150px;
+
+    .cadastro-modulos__header {
+        margin-bottom: 50px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .cadastro-modulos__header-button {
+            padding: 6px 12px 6px 12px !important;
+            svg {
+                transition: all 0.3s ease-in-out;
+                transform: scale(1.5);
+                margin-bottom: 1px;
+                box-sizing: content-box;
+            }
+
+            &:hover {
+                svg {
+                    transform: translateX(-3px) scale(1.5);
+                }
+            }
+        }
+    }
+
+    .cadastro-modulos__filter {
+        // min-height: 200px;
+        background-color: #f5f5f5;
+        margin-bottom: 50px;
+        border-radius: 0.25rem;
+        padding: 20px;
+
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        .MuiFormControl-root {
+            min-width: 150px !important;
+
+            .MuiFormLabel-root {
+                color: $primary-color-1;
+            }
+            .MuiInputBase-root {
+                background: #fff !important;
+                color: $primary-color-1;
+            }
+        }
+
+        .cadastro-modulos__filter-button {
+            margin-left: auto !important;
+            border-radius: 50%;
+            width: 40px;
+            background-color: $primary-color-1;
+
+            svg {
+                fill: #fff !important;
+            }
+        }
+    }
+
+    .MuiPaper-root {
+        .MuiTableContainer-root {
+            border-radius: 0.25rem;
+            .MuiTable-root {
+                p {
+                    margin: 0 auto;
+                }
+
+                .MuiTableHead-root {
+                    background-color: $primary-color-1;
+                    th {
+                        color: #fff;
+                        text-align: center;
+                        font-size: 1rem;
+                    }
+                }
+                .MuiTableBody-root {
+                    td {
+                        text-align: center;
+                        button {
+                            padding: 10px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
