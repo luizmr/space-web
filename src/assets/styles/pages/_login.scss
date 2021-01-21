@@ -2,37 +2,27 @@
     .login-container {
         height: 100vh;
         display: flex;
+        position: relative;
     }
     .inputs-container {
+        .alert-error {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
         display: flex;
         flex-direction: column;
-        align-self: center;
         margin: auto;
-        width: 20%;
-        position: relative;
-        input {
-            margin-bottom: 16px;
-            border-radius: 2px;
-        }
-        button {
+        width: 25%;
+        .btn-login {
+            text-transform: none;
             align-self: flex-end;
-            padding: 6px 20px;
+            margin-right: 4%;
         }
-        span {
-            color: red;
-            font-size: 0.8rem;
-            margin-top: 6px;
-        }
-        div {
-            button {
-                position: absolute;
-                top: 62px;
-                right: 8px;
-                background: none;
-                border: none;
-                padding: 0;
-                margin: 0;
-            }
+        p {
+            font-family: 'Open Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
+            color: #78909c;
+            margin-left: 3%;
         }
     }
     .image-container {
@@ -40,7 +30,24 @@
         align-items: center;
         justify-content: center;
         width: 60%;
-        height: 100%;
         background-color: rgb(185, 185, 185);
+    }
+
+    @media (max-width: 960px) {
+        .inputs-container {
+            width: 55%;
+            max-width: 350px;
+            input {
+                padding: 15px;
+            }
+            .btn-login {
+                width: 95%;
+                margin-right: 3%;
+                margin-top: 10px;
+            }
+        }
+        .image-container {
+            display: none;
+        }
     }
 }

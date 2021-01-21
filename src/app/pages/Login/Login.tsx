@@ -1,32 +1,110 @@
+import React from 'react';
+import clsx from 'clsx';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { FaEyeSlash, FaEye } from 'react-icons/fa';
 import { User } from '../../models/Login';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {
+    FormControl,
+    FormHelperText,
+    InputAdornment,
+    InputLabel,
+    IconButton,
+    OutlinedInput,
+    Button,
+} from '@material-ui/core/';
+import { Visibility, VisibilityOff } from '@material-ui/icons/';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Link } from 'react-router-dom';
+import { mockLogin } from './mock';
 
 function Login() {
-    const [user, setUser] = useState<User>({ email: '', password: '' });
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [values, setValues] = React.useState<User>({
+        password: '',
+        email: '',
+        showPassword: false,
+    });
     const [error, setError] = useState<boolean>(false);
-    const [validate, setValidate] = useState<boolean>(true);
+    const [btnValidate, setBtnValidate] = useState<boolean>(false);
+    const [isValidate, setIsValidate] = useState<boolean>(false);
+    const [emailValidate, setEmailValidate] = useState<boolean>(true);
     const history = useHistory();
 
     const checkLogin = (): void => {
-        if (user.email === 'teste@teste.com' && user.password === '123456') {
-            history.push('/home');
-        } else {
-            setError(true);
-        }
+        setIsValidate(true);
+        setBtnValidate(false);
+        setError(false);
+        setTimeout(() => {
+            if (
+                mockLogin.find(
+                    ({ email, senha }) =>
+                        values.email === email && values.password === senha
+                )
+            ) {
+                history.push('/home');
+            } else {
+                setError(true);
+                setIsValidate(false);
+                setBtnValidate(true);
+                setTimeout(() => {
+                    setError(false);
+                }, 4000);
+            }
+        }, 3000);
     };
 
     useEffect(() => {
-        setError(false);
-        const emailValidate = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
-        if (emailValidate.test(user.email) && user.password.length >= 6) {
-            setValidate(false);
+        const regexEmail = /^([\w.-]+)@([\w-]+)((\.(\w){2,3})+)$/;
+        if (regexEmail.test(values.email) || values.email === '') {
+            setEmailValidate(true);
+            if (values.password.length >= 6) {
+                setBtnValidate(true);
+            } else {
+                setBtnValidate(false);
+            }
         } else {
-            setValidate(true);
+            setEmailValidate(false);
+            setBtnValidate(false);
+            setIsValidate(false);
         }
-    }, [user.email, user.password]);
+    }, [values.email, values.password]);
+
+    const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root: {
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'wrap',
+            },
+            margin: {
+                margin: theme.spacing(1),
+            },
+            withoutLabel: {
+                marginTop: theme.spacing(3),
+            },
+            textField: {
+                width: '25ch',
+            },
+        })
+    );
+
+    const classes = useStyles();
+
+    const handleChange = (prop: keyof User) => (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleMouseDownPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        event.preventDefault();
+    };
+
+    const handleClickShowPassword = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
 
     return (
         <div className="login-container">
@@ -41,56 +119,98 @@ function Login() {
                     alt="imagem"
                 />
             </div>
-            <div className="inputs-container">
-                <input
-                    className="form-control"
-                    type="email"
-                    value={user.email}
-                    onChange={({ target }) => {
-                        setUser({ ...user, email: target.value });
-                    }}
-                    placeholder="Email"
-                />
-                <div>
-                    <input
-                        className="form-control"
-                        type={showPassword ? 'text' : 'password'}
-                        value={user.password}
-                        onChange={({ target }) => {
-                            setUser({ ...user, password: target.value });
-                        }}
-                        placeholder="Senha"
-                    />
-                    {showPassword ? (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowPassword(false);
-                            }}
-                        >
-                            <FaEye />
-                        </button>
-                    ) : (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowPassword(true);
-                            }}
-                        >
-                            <FaEyeSlash />
-                        </button>
-                    )}
-                </div>
 
-                <button
-                    className="btn btn-secondary"
-                    type="button"
-                    onClick={checkLogin}
-                    disabled={validate}
+            <div className="inputs-container">
+                {error ? (
+                    <Alert className="alert-error" severity="error">
+                        <AlertTitle>Erro</AlertTitle>
+                        E-mail ou senha inválidos!
+                    </Alert>
+                ) : (
+                    ''
+                )}
+                <p>Entre com sua conta.</p>
+                <FormControl
+                    className={`${clsx(
+                        classes.margin,
+                        classes.textField
+                    )}, "inputs-container__input-email"`}
+                    variant="outlined"
                 >
-                    Login
-                </button>
-                {error && <span>E-mail ou senha inválidos</span>}
+                    <InputLabel htmlFor="outlined-adornment-email">
+                        E-mail
+                    </InputLabel>
+                    <OutlinedInput
+                        error={!emailValidate}
+                        id="outlined-adornment-email"
+                        fullWidth={true}
+                        value={values.email}
+                        onChange={handleChange('email')}
+                        labelWidth={40}
+                    />
+                    {!emailValidate && (
+                        <FormHelperText
+                            id="component-error-text"
+                            style={{ color: 'red' }}
+                        >
+                            E-mail inválido
+                        </FormHelperText>
+                    )}
+                </FormControl>
+                <FormControl
+                    className={`${clsx(
+                        classes.margin,
+                        classes.textField
+                    )}, "inputs-container__input-password"`}
+                    variant="outlined"
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">
+                        Senha
+                    </InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        onChange={handleChange('password')}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {values.showPassword ? (
+                                        <Visibility />
+                                    ) : (
+                                        <VisibilityOff />
+                                    )}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        labelWidth={70}
+                    />
+                </FormControl>
+                <Button
+                    onClick={checkLogin}
+                    disabled={!btnValidate}
+                    color={'primary'}
+                    className="btn-login"
+                    variant="contained"
+                    disableRipple
+                >
+                    {!isValidate ? 'Entrar' : 'Aguarde...'}
+                </Button>
+                <br />
+                <p>
+                    <Link to="/login">Esqueci minha senha</Link>
+                </p>
+                <br />
+                <p>
+                    Ainda não tem uma conta?
+                    <br />
+                    <Link to="/login">Criar uma conta</Link>
+                </p>
             </div>
         </div>
     );
