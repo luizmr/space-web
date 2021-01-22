@@ -61,6 +61,66 @@
             svg {
                 fill: #fff !important;
             }
+
+            .add-button {
+                &:focus {
+                    outline: none !important;
+                    border: none !important;
+                }
+            }
+
+            &:hover {
+                background-color: #23272b;
+            }
+        }
+
+        .cadastro-modulos__filter-clear {
+            .clear-button {
+                &:focus {
+                    outline: none !important;
+                    border: none !important;
+                }
+            }
+        }
+    }
+
+    .cadastro-modulos__not-found {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 50px;
+        svg {
+            transform: scale(1.5);
+        }
+        p {
+            text-align: center;
+            margin: 0;
+        }
+    }
+
+    .modal-delete-app {
+        .modal-content {
+            background-color: #f8d7da;
+            border: 1px solid #f8d7da;
+
+            .modal-body {
+                border-radius: 0.3rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                // gap: 20px;
+                height: 60px;
+                p {
+                    margin: 0;
+                    color: #911824;
+                }
+                svg {
+                    box-sizing: content-box;
+                    color: #911824;
+                    transform: scale(1.2);
+                }
+            }
         }
     }
 
@@ -74,6 +134,12 @@
 
                 .MuiTableHead-root {
                     background-color: $primary-color-1;
+                    .th-acoes {
+                        position: sticky;
+                        left: 0;
+                        z-index: 100;
+                        background-color: #343a40;
+                    }
                     th {
                         color: #fff;
                         text-align: center;
@@ -81,12 +147,103 @@
                     }
                 }
                 .MuiTableBody-root {
+                    .td-acoes {
+                        position: sticky;
+                        left: 0;
+                        z-index: 100;
+                        background-color: #fff;
+                    }
                     td {
                         text-align: center;
                         button {
                             padding: 10px !important;
+                            &:focus {
+                                outline: none !important;
+                                border: none !important;
+                            }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: $media-md) {
+    .cadastro-modulos {
+        width: 80vw;
+    }
+}
+
+@media (max-width: $media-sm) {
+    .cadastro-modulos {
+        .cadastro-modulos__header {
+            gap: 20px;
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        .cadastro-modulos__filter {
+            gap: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            justify-content: center;
+
+            .MuiFormControl-root {
+                min-width: 100% !important;
+            }
+
+            .cadastro-modulos__filter-button {
+                margin: 0 auto;
+            }
+
+            .cadastro-modulos__filter-clear {
+                margin: 0 auto;
+            }
+        }
+
+        .cadastro-modulos__not-found {
+            flex-direction: column;
+
+            gap: 20px;
+
+            svg {
+                transform: scale(2);
+            }
+        }
+    }
+
+    .MuiPaper-root {
+        .dialog-module {
+            .MuiFormControl-root {
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+.MuiPaper-root {
+    .dialog-buttons {
+        justify-content: space-between;
+        padding: 24px 24px;
+        div:nth-child(1) {
+            button {
+                border: 1px solid #6c757d;
+
+                &:hover {
+                    background-color: #6c757d !important;
+                    color: #fff;
+                }
+            }
+        }
+        div:nth-child(2) {
+            button {
+                background-color: #4bb543 !important;
+                border: none !important;
+
+                &:hover {
+                    background-color: #419154 !important;
                 }
             }
         }

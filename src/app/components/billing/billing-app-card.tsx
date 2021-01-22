@@ -28,7 +28,7 @@ const BillingAppCard: React.FC<AppOutput> = ({
     const [showModal, setShowModal] = useState<boolean>(false);
     const [sending, setSending] = useState<boolean>(false);
 
-    const handleCloseModalDelete = () => setShowModalDelete(false);
+    const handleCloseModalDelete = (): void => setShowModalDelete(false);
 
     const finalizar = (): void => {
         handleCloseModalDelete();
@@ -98,7 +98,7 @@ const BillingAppCard: React.FC<AppOutput> = ({
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Deletar Aplicativo para Sempre</Modal.Title>
+                    <Modal.Title>Deletar Aplicativo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="my-3 h6">
                     Você tem certeza que deseja{' '}
