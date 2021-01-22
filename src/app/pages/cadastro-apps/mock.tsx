@@ -73,7 +73,7 @@ export const mockApps = [
         Status: 'Inativo',
     },
     {
-        Id: 3,
+        Id: 4,
         Nome: 'orbita',
         Logo: `${NutrorLogo}`,
         Descricao:
@@ -88,5 +88,61 @@ export const mockApps = [
         Link: 'https://www.nutror.com/',
         Cobranca: mockCobranca,
         Status: 'Aguardando Validação',
+    },
+    {
+        Id: 5,
+        Nome: 'orbitass',
+        Logo: `${NutrorLogo}`,
+        Descricao:
+            'Lorem ipsum dssssolor sit amet teste teste 1, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+        Imagens: [
+            `${NutrorImage1}`,
+            `${NutrorImage2}`,
+            `${NutrorImage3}`,
+            `${NutrorImage4}`,
+            `${NutrorImage5}`,
+        ],
+        Link: 'https://www.nutror.com/',
+        Cobranca: mockCobranca,
+        Status: 'Aguardando Validação',
+    },
+];
+
+export const mockPlugins = [
+    {
+        Id: 1,
+        Nome: 'Comentários no Nutror',
+        Logo: `${NutrorLogo}`,
+        Descricao:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+        Link: 'https://www.nutror.com/',
+        tipo: 'Plugin',
+    },
+    {
+        Id: 2,
+        Nome: 'Plugins de legendas',
+        Logo: ``,
+        Descricao:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+        Link: 'https://www.nutror.com/',
+        tipo: 'Plugin',
+    },
+    {
+        Id: 3,
+        Nome: 'Plugins de audios',
+        Logo: ``,
+        Descricao:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+        Link: 'https://www.nutror.com/',
+        tipo: 'Plugin',
+    },
+    {
+        Id: 4,
+        Nome: 'Outros Plugins',
+        Logo: ``,
+        Descricao:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+        Link: 'https://www.nutror.com/',
+        tipo: 'Plugin',
     },
 ];

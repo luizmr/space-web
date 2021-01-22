@@ -5,6 +5,7 @@ import CadastroApps from './app/pages/cadastro-apps/cadastro-apps';
 import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
 import Login from './app/pages/Login/Login';
 import VitrineApp from './app/pages/vitrine-app/vitrine-app';
+import MeusAplicativos from './app/pages/meus-aplicativos/meus-aplicativos';
 import Home from './app/pages/home/home';
 
 interface RouteInterface {
@@ -52,6 +53,11 @@ const routes = [
         key: 'vitrine-app',
         Component: VitrineApp,
         path: '/vitrine-app/:id',
+    },
+    {
+        key: 'meus-aplicativos',
+        Component: MeusAplicativos,
+        path: '/meus-aplicativos',
     },
 ];
 

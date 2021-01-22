@@ -37,7 +37,7 @@ export default function CadastroApps() {
             setResultSlicer(quantityOfResults);
         } else {
             let arrayFilter: Array<AppOutput> = [];
-            apps?.map((el) => {
+            apps?.forEach((el) => {
                 if (el.Nome && el.Descricao) {
                     if (
                         el?.Nome.toLowerCase().indexOf(e.toLowerCase()) > -1 ||

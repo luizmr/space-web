@@ -1,0 +1,686 @@
+.meus-apps {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding-bottom: 150px;
+
+    .meus-apps__filter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .meus-apps__filter-1 {
+            flex: 1;
+
+            .meus-apps__filter-search {
+                border: 1px solid #0005;
+                border-radius: 3px 0 0 3px;
+                padding: 10px;
+
+                svg {
+                    box-sizing: content-box;
+                    transform: scale(1.2);
+                    margin-top: 1px;
+                }
+
+                .search-box {
+                    border: none !important;
+                    margin-left: 5px;
+                    flex: 1;
+
+                    &:focus {
+                        outline: none !important;
+                        outline-width: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+    .meus-apps__menu {
+        margin-top: 40px;
+        button {
+            background-color: white;
+            border: solid 1px rgb(221, 221, 221);
+            padding: 20px 50px;
+        }
+        .selected {
+            background-color: rgb(221, 221, 221);
+        }
+    }
+
+    .meus-aplicativos-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 50px;
+
+        .meus-apps-card {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+
+            img {
+                height: 130px;
+                width: 130px;
+            }
+
+            .meus-apps-card__body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+                .meus-apps-card__buttons {
+                    display: flex;
+                    align-items: center;
+
+                    button {
+                        margin-left: 20px;
+                        padding: 5px;
+                        // transform: none;
+                        transform: to-lower-case($string: 'bbb');
+                        // align-self: flex-end;
+                    }
+
+                    div {
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .more-result-button {
+        margin: 50px auto 20px;
+        display: flex;
+        justify-content: center;
+
+        button {
+            border-radius: 50%;
+            svg {
+                transform: scale(1.2);
+                margin-bottom: 3px;
+            }
+        }
+    }
+}
+// .more-result-button {
+//     margin: 50px auto 20px;
+//     display: flex;
+//     justify-content: center;
+
+//     button {
+//         border-radius: 50%;
+//         svg {
+//             transform: scale(1.2);
+//             margin-bottom: 3px;
+//         }
+//     }
+// }
+// }
+
+// @media (max-width: $media-md) {
+//     .meus-apps {
+//         width: 80vw;
+
+//         .billing-app-card__body {
+//             flex-direction: column;
+//             align-items: flex-start !important;
+//             .billing-app-card__buttons {
+//                 button {
+//                     margin-left: 0 !important;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// @media (max-width: $media-sm) {
+//     .billing-app-card {
+//         grid-template-columns: 1fr !important;
+//         grid-template-rows: 1fr 3fr !important;
+
+//         img {
+//             height: 100px;
+//             width: 100px;
+//             margin: 0 auto;
+//         }
+//     }
+// }
+
+// .modal-success {
+//     .modal-content {
+//         background-color: #d4edda;
+//         border: 1px solid #d4edda;
+
+//         .modal-body {
+//             border-radius: 0.3rem;
+//             display: flex;
+//             justify-content: space-between;
+//             align-items: center;
+//             // gap: 20px;
+//             height: 60px;
+//             p {
+//                 margin: 0;
+//                 color: #419154;
+//             }
+//             svg {
+//                 box-sizing: content-box;
+//                 color: #419154;
+//                 transform: scale(1.2);
+//             }
+//         }
+//     }
+// }
+
+// .modal-delete-app {
+//     .modal-content {
+//         background-color: #f8d7da;
+//         border: 1px solid #f8d7da;
+
+//         .modal-body {
+//             border-radius: 0.3rem;
+//             display: flex;
+//             justify-content: space-between;
+//             align-items: center;
+//             // gap: 20px;
+//             height: 60px;
+//             p {
+//                 margin: 0;
+//                 color: #911824;
+//             }
+//             svg {
+//                 box-sizing: content-box;
+//                 color: #911824;
+//                 transform: scale(1.2);
+//             }
+//         }
+//     }
+// }
+
+// .novo-app {
+//     width: 800px;
+//     margin: 0 auto;
+//     margin-top: 50px;
+//     min-height: 600px;
+//     // padding-bottom: 150px;
+
+//     .novo-app__header {
+//         margin-bottom: 50px;
+
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+
+//         .novo-app__header-button {
+//             padding: 6px 12px 6px 12px !important;
+//             svg {
+//                 transition: all 0.3s ease-in-out;
+//                 transform: scale(1.5);
+//                 margin-bottom: 1px;
+//                 box-sizing: content-box;
+//             }
+
+//             &:hover {
+//                 svg {
+//                     transform: translateX(-3px) scale(1.5);
+//                 }
+//             }
+//         }
+//     }
+
+//     .novo-app__steps {
+//         display: flex;
+//         justify-content: flex-start;
+//         align-items: center;
+//         gap: 20px;
+//         margin-bottom: 50px;
+
+//         .selected {
+//             color: #000;
+//         }
+
+//         p {
+//             margin: 0;
+//             font-size: 1.2rem;
+//             color: $primary-color-2;
+//             font-weight: 700;
+//         }
+
+//         .chevron-right {
+//             display: block;
+//         }
+
+//         .chevron-down {
+//             display: none;
+//         }
+
+//         svg {
+//             transform: scale(4);
+//             fill: $primary-color-2;
+//             margin: 0 20px;
+//         }
+//     }
+
+//     .novo-app__steps-form {
+//         min-height: 400px;
+
+//         input,
+//         textarea,
+//         select {
+//             &:active,
+//             &:focus {
+//                 box-shadow: 0 0 0 0.2rem #23272b30;
+//                 border-color: #23272b50;
+//                 -moz-outline-style: none;
+//             }
+//         }
+
+//         .buttons-form {
+//             display: flex;
+//             justify-content: space-between;
+
+//             button {
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 gap: 10px;
+//             }
+//             svg:nth-child(1) {
+//                 margin-top: 2px;
+//                 transform: scale(1.2);
+//             }
+//         }
+
+//         .proximos-passos {
+//             p:nth-child(1) {
+//                 font-weight: 700;
+//                 font-size: 1.2rem;
+//             }
+//             p:nth-child(2) {
+//                 line-height: 1.2;
+//                 font-weight: 400;
+//                 color: #23272b90;
+//                 margin-bottom: 50px;
+//             }
+//             input {
+//                 border-right: none;
+
+//                 &:active,
+//                 &:focus {
+//                     border-color: #23272b50;
+//                     border-right: 1px solid #23272b50;
+//                 }
+//             }
+//             .copy-button {
+//                 background-color: #fff;
+//                 border-top: 1px solid $primary-color-2;
+//                 border-right: 1px solid $primary-color-2;
+//                 border-bottom: 1px solid $primary-color-2;
+//                 border-left: none;
+//                 border-radius: 0 0.25rem 0.25rem 0;
+//                 padding: 0;
+//                 svg {
+//                     color: $primary-color-1;
+//                     transform: scale(1.5);
+//                     margin-bottom: 4px;
+//                     margin-right: 10px;
+//                     margin-left: 10px;
+//                     transition: all 0.3s ease-in-out;
+//                 }
+//                 &:hover {
+//                     svg {
+//                         transform: scale(1.8);
+//                     }
+//                 }
+//                 &:active,
+//                 &:focus {
+//                     outline: 0 !important;
+//                     box-shadow: none !important;
+//                     -moz-outline-style: none;
+//                 }
+//             }
+
+//             .button-status {
+//                 background-color: #e6e6e6;
+//                 border: 1px solid $primary-color-1;
+//                 color: $primary-color-1;
+//                 margin-top: 20px;
+//                 padding: 15px;
+//                 width: 100%;
+//                 letter-spacing: 0.1rem;
+
+//                 &:active,
+//                 &:focus {
+//                     outline: 0 !important;
+//                     box-shadow: none !important;
+//                     -moz-outline-style: none;
+//                 }
+
+//                 // &:hover {
+//                 //     background-color: $primary-color-1;
+//                 //     color: #fff;
+//                 // }
+//             }
+//         }
+
+//         .vitrine__header {
+//             margin-bottom: 50px;
+
+//             display: flex;
+//             justify-content: space-between;
+//             align-items: center;
+
+//             .vitrine__header-button {
+//                 padding: 6px 12px 6px 12px !important;
+//                 svg {
+//                     transition: all 0.3s ease-in-out;
+//                     transform: scale(1.5);
+//                     margin-bottom: 1px;
+//                     box-sizing: content-box;
+//                 }
+
+//                 &:hover {
+//                     svg {
+//                         transform: translateX(-3px) scale(1.5);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// @media (max-width: $media-md) {
+//     .novo-app {
+//         width: 80vw;
+//         .novo-app__steps {
+//             flex-direction: column;
+
+//             gap: 30px;
+//             margin-bottom: 50px;
+//             p {
+//                 margin: 0;
+//                 font-size: 1rem;
+//             }
+
+//             .chevron-down {
+//                 display: block;
+//             }
+
+//             .chevron-right {
+//                 display: none;
+//             }
+//         }
+//     }
+//     .novo-app__steps-buttons {
+//         width: 100vw;
+
+//         div {
+//             width: 80vw !important;
+//         }
+//     }
+// }
+
+// @media (max-width: $media-sm) {
+//     .novo-app {
+//         .novo-app__steps {
+//             p {
+//                 margin: 0;
+//                 font-size: 1rem;
+//             }
+//         }
+//     }
+//     .novo-app__steps-buttons {
+//         width: 100vw;
+//         height: 200px !important;
+//         margin-top: 50px;
+
+//         div {
+//             width: 80vw !important;
+//             height: 200px !important;
+//             flex-direction: column;
+//             justify-content: center !important;
+//             gap: 20px !important;
+//         }
+//     }
+// }
+
+// .novo-app__steps-buttons {
+//     width: 100%;
+//     height: 100px;
+//     background-color: #d4d4d450;
+
+//     div {
+//         width: 800px;
+//         height: 100px;
+//         margin: 0 auto;
+//         display: flex;
+//         justify-content: flex-end;
+//         align-items: center;
+//         gap: 20px;
+//     }
+// }
+
+// .file-upload-wrapper {
+//     position: relative;
+//     width: 100%;
+//     border: 1px solid #ced4da;
+//     border-radius: 0.25rem;
+
+//     &.height-1 {
+//         $height: 40px;
+//         min-height: $height;
+
+//         input {
+//             opacity: 0;
+//             position: absolute;
+//             top: 0;
+//             right: 0;
+//             bottom: 0;
+//             left: 0;
+//             z-index: 99;
+//             height: $height;
+//             margin: 0;
+//             padding: 0;
+//             display: none;
+//             width: 100%;
+//         }
+//     }
+
+//     &.height-2 {
+//         $height: 80px;
+//         min-height: $height;
+
+//         input {
+//             opacity: 0;
+//             position: absolute;
+//             top: 0;
+//             right: 0;
+//             bottom: 0;
+//             left: 0;
+//             z-index: 99;
+//             height: $height;
+//             margin: 0;
+//             padding: 0;
+//             display: none;
+//             width: 100%;
+//         }
+//     }
+
+//     &:after {
+//         content: attr(data-text);
+//         font-size: 1rem;
+//         position: absolute;
+//         top: 2px;
+//         left: 2px;
+//         background: #fff;
+//         padding: 5px 10px;
+//         display: block;
+//         pointer-events: none;
+//         line-height: 1.5;
+//         color: #495057;
+//         font-weight: 400;
+//         width: calc(100% - 100px);
+//     }
+
+//     &:hover {
+//     }
+
+//     .arrow-svg-1 {
+//         position: absolute;
+//         right: 20px;
+//         top: 17.5px;
+//         transform: translateY(-50%) scale(1.5);
+//         color: $primary-color-1;
+//         transition: all 0.3s ease-in-out;
+//         z-index: 100;
+
+//         &:hover {
+//             cursor: pointer;
+//             top: 12.5px;
+//         }
+//     }
+
+//     .arrow-svg-2 svg {
+//         position: absolute;
+//         right: 42.5px;
+//         top: 12.5px;
+//         transform: scale(1.5) translateX(50%);
+//         color: $primary-color-1;
+//         transition: all 0.3s ease-in-out;
+//         z-index: 100;
+
+//         &:hover {
+//             cursor: pointer;
+//             top: 7.5px;
+//         }
+//     }
+
+//     .dropdown-imagens {
+//         position: absolute;
+//         bottom: 0;
+//         right: -1px;
+//         margin: 0;
+//         color: $primary-color-1;
+//         transition: all 0.3s ease-in-out;
+//         z-index: 100;
+//         button {
+//             border-radius: 0.25rem 0 0.25rem 0 !important;
+//         }
+
+//         .dropdown-item {
+//             display: flex;
+//             justify-content: flex-start;
+//             align-items: center;
+
+//             p {
+//                 margin: 0;
+//             }
+//             svg {
+//                 margin-right: 10px;
+//             }
+//         }
+//     }
+// }
+
+// @media (max-width: $media-sm) {
+//     .file-upload-wrapper {
+//         &.height-2 {
+//             &:after {
+//                 font-size: 0.75rem;
+//                 top: 0px;
+//                 overflow: auto !important;
+//                 max-height: 75px !important;
+//             }
+//         }
+//     }
+// }
+
+// .table-div {
+//     .cobranca-table {
+//         margin-top: 50px;
+
+//         th {
+//             text-align: center;
+//         }
+//         .acoes {
+//             width: 80px;
+//         }
+//         .tipos {
+//             width: 200px;
+//         }
+//         .valores {
+//             width: 120px;
+//         }
+
+//         .acoes-icones {
+//             text-align: center;
+//             svg:nth-child(1) {
+//                 margin-right: 8px;
+//             }
+//             svg:nth-child(2) {
+//                 margin-left: 8px;
+//             }
+//             svg {
+//                 transition: all 0.3s ease-in-out;
+//                 transform: scale(1.1);
+//             }
+//             svg:hover {
+//                 cursor: pointer;
+//                 transform: scale(1.2);
+//             }
+//         }
+//         .tipo-item,
+//         .valor-item {
+//             text-align: center;
+//         }
+
+//         .descricao-item {
+//             word-wrap: break-word;
+//             word-break: break-word;
+//         }
+//     }
+// }
+
+// @media (max-width: $media-sm) {
+//     .table-div {
+//         width: 80vw;
+//         overflow: scroll !important;
+//         .cobranca-table {
+//             margin-top: 50px;
+
+//             .acoes {
+//                 min-width: 120px !important;
+//             }
+//             .tipos {
+//                 min-width: 200px;
+//             }
+//             .valores {
+//                 min-width: 120px;
+//             }
+//             .descricoes {
+//                 min-width: 200px !important;
+//             }
+//         }
+//     }
+
+//     .buttons-form {
+//         .edit-buttons {
+//             display: flex;
+//             flex-direction: column;
+//             justify-content: center;
+//             align-items: center;
+//             gap: 20px;
+
+//             button {
+//                 margin: 0 !important;
+//             }
+//         }
+//     }
+// }
+
+// .footer-div {
+//     padding-bottom: 150px;
+// }

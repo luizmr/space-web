@@ -7,6 +7,7 @@ export interface AppOutput {
     Link?: string;
     Cobranca?: Array<CobrancaOutput>;
     Status?: string;
+    Tipo?: string;
 }
 
 export interface CobrancaOutput {

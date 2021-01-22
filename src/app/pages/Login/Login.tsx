@@ -41,7 +41,7 @@ function Login() {
                         values.email === email && values.password === senha
                 )
             ) {
-                history.push('/home');
+                history.push('/meus-aplicativos');
             } else {
                 setError(true);
                 setIsValidate(false);
