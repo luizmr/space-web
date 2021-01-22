@@ -55,23 +55,23 @@ export const mockApps = [
         Cobranca: mockCobranca,
         Status: 'Reprovado',
     },
-    {
-        Id: 3,
-        Nome: 'Nutror - 3 - teste',
-        Logo: `${NutrorLogo}`,
-        Descricao:
-            'Lorem ipsum dolor sit amet teste teste 1, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
-        Imagens: [
-            `${NutrorImage1}`,
-            `${NutrorImage2}`,
-            `${NutrorImage3}`,
-            `${NutrorImage4}`,
-            `${NutrorImage5}`,
-        ],
-        Link: 'https://www.nutror.com/',
-        Cobranca: mockCobranca,
-        Status: 'Inativo',
-    },
+    // {
+    //     Id: 3,
+    //     Nome: 'Nutror - 3 - teste',
+    //     Logo: `${NutrorLogo}`,
+    //     Descricao:
+    //         'Lorem ipsum dolor sit amet teste teste 1, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+    //     Imagens: [
+    //         `${NutrorImage1}`,
+    //         `${NutrorImage2}`,
+    //         `${NutrorImage3}`,
+    //         `${NutrorImage4}`,
+    //         `${NutrorImage5}`,
+    //     ],
+    //     Link: 'https://www.nutror.com/',
+    //     Cobranca: mockCobranca,
+    //     Status: 'Inativo',
+    // },
     {
         Id: 4,
         Nome: 'orbita',
@@ -110,39 +110,39 @@ export const mockApps = [
 
 export const mockPlugins = [
     {
-        Id: 1,
+        Id: 6,
         Nome: 'Comentários no Nutror',
         Logo: `${NutrorLogo}`,
         Descricao:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
         Link: 'https://www.nutror.com/',
-        tipo: 'Plugin',
+        Tipo: 'Plugin',
     },
     {
-        Id: 2,
+        Id: 7,
         Nome: 'Plugins de legendas',
         Logo: ``,
         Descricao:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nutror odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
         Link: 'https://www.nutror.com/',
-        tipo: 'Plugin',
+        Tipo: 'Plugin',
     },
     {
-        Id: 3,
+        Id: 8,
         Nome: 'Plugins de audios',
         Logo: ``,
         Descricao:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nutror odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
         Link: 'https://www.nutror.com/',
-        tipo: 'Plugin',
+        Tipo: 'Plugin',
     },
     {
-        Id: 4,
+        Id: 9,
         Nome: 'Outros Plugins',
         Logo: ``,
         Descricao:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nutror odio ut diam congue, non efficitur tellus laoreet. Donec eu lacinia lorem. Quisque tristique ipsum sed viverra varius. Sed interdum erat non porta euismod.',
         Link: 'https://www.nutror.com/',
-        tipo: 'Plugin',
+        Tipo: 'Plugin',
     },
 ];

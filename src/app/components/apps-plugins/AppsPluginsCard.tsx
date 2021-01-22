@@ -7,14 +7,17 @@ import { AppOutput } from '../../models/cadastro-apps';
 const AppsPluginsCard: React.FC<AppOutput> = ({ Nome, Logo, Link, Tipo }) => {
     return (
         <>
-            <Card className="meus-apps-card">
+            <Card className="apps-plugins-card">
                 <Card.Img variant="top" src={Logo} />
-                <Card.Body className="meus-apps-card__body">
+                <Card.Body className="apps-plugins-card__body">
                     <div>
-                        <Badge badgeContent={'Plugins'} color="primary"></Badge>
+                        <Badge
+                            badgeContent={Tipo ? Tipo : 'Aplicativos'}
+                            color={Tipo ? 'primary' : 'secondary'}
+                        ></Badge>
                         <Card.Title>{Nome}</Card.Title>
                     </div>
-                    <div className="meus-apps-card__buttons">
+                    <div className="apps-plugins-card__buttons">
                         <Button
                             variant="contained"
                             onClick={() => window.open(`${Link}`, '_blank')}

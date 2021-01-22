@@ -14,8 +14,9 @@ function MeusAplicativos() {
 
     const [btnSelect, setBtnSelect] = useState(0);
     const [apps, setApps] = useState<Array<AppOutput>>([]);
+    const [plugins, setPlugins] = useState<Array<AppOutput>>([]);
+    const [filteredData, setFilteredData] = useState<Array<AppOutput>>([]);
     const [filteredApps, setFilteredApps] = useState<Array<AppOutput>>([]);
-    const [filteredArray, setFilteredArray] = useState<Array<AppOutput>>([]);
     const [filtredValue, setFilteredValue] = useState<number>(0);
     const [searching, setSearching] = useState<boolean>(false);
     const [textSearch, setTextSearch] = useState<string>('');
@@ -24,17 +25,19 @@ function MeusAplicativos() {
 
     useEffect(() => {
         setApps(mockApps);
-        setFilteredApps(mockApps);
+        setPlugins(mockPlugins);
+        // setFilteredApps(mockApps);
     }, []);
 
     useEffect(() => {
         if (textSearch !== '') {
-            const result = apps.filter(searchApps);
-            setFilteredValue(result.length);
-            setFilteredApps(result);
+            const resultApps = apps.filter(searchItems);
+            const resultPlugins = plugins.filter(searchItems);
+            setFilteredValue(resultApps.length + resultPlugins.length);
+            setFilteredData([...resultApps, ...resultPlugins]);
             setSearching(true);
             setShowResultSlicer(false);
-            setResultSlicer(result.length);
+            setResultSlicer(resultApps.length + resultPlugins.length);
         } else {
             setFilteredApps(mockApps);
             setSearching(false);
@@ -43,15 +46,23 @@ function MeusAplicativos() {
         }
     }, [textSearch]);
 
-    const searchApps = (app: AppOutput) => {
+    useEffect(() => {
+        if (btnSelect === 0) {
+            setFilteredData(mockApps);
+        } else {
+            setFilteredData(mockPlugins);
+        }
+    }, [btnSelect]);
+
+    const searchItems = (item: AppOutput) => {
         if (textSearch === '') {
             return true;
         } else {
             if (
-                app.Descricao?.toLowerCase().includes(
+                item.Descricao?.toLowerCase().includes(
                     textSearch.toLowerCase()
                 ) ||
-                app.Nome?.toLowerCase().includes(textSearch.toLowerCase())
+                item.Nome?.toLowerCase().includes(textSearch.toLowerCase())
             )
                 return true;
             return false;
@@ -114,7 +125,7 @@ function MeusAplicativos() {
                 )}
 
                 <div className="meus-aplicativos-cards">
-                    {textSearch === ''
+                    {btnSelect === 0 && textSearch === ''
                         ? filteredApps.map((app, index) => {
                               if (index + 1 <= resultSlicer) {
                                   return (
@@ -131,10 +142,11 @@ function MeusAplicativos() {
                                   return '';
                               }
                           })
-                        : mockPlugins.map((plugin) => (
+                        : filteredData.map((plugin) => (
                               <AppsPluginsCard
                                   Nome={plugin.Nome}
                                   Logo={plugin.Logo}
+                                  Tipo={plugin.Tipo}
                                   Id={plugin.Id}
                                   Link={plugin.Link}
                                   key={plugin.Id}
