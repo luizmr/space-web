@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import { mockApps } from '../cadastro-apps/mock';
 import { mockModulos } from './mock';
@@ -111,6 +111,7 @@ const columns = [
 ];
 
 function CadastroModulos() {
+    const history = useHistory();
     const classes = useStyles();
     const outlinedInputClasses = useOutlinedInputStyles();
     const [page, setPage] = useState<number>(0);
@@ -231,6 +232,7 @@ function CadastroModulos() {
         }, 3000);
         setTimeout(() => {
             setShowModal(false);
+            history.push('/billing/cadastro-modulos');
         }, 5000);
     };
 
@@ -244,6 +246,8 @@ function CadastroModulos() {
             setShowModalEditAdd(false);
             setIsEditing(false);
             setNameValid(false);
+            setModulo({ Id: undefined, Name: '', AppId: 0 });
+            history.push('/billing/cadastro-modulos');
         }, 5000);
     };
 
@@ -288,7 +292,6 @@ function CadastroModulos() {
         setOpen(false);
         setNewAppId(0);
         editAddModule();
-        setModulo({ Id: undefined, Name: '', AppId: 0 });
     };
 
     const handleModuleAppEdit = (event: any): void => {
