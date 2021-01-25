@@ -12,7 +12,7 @@ import AppsPluginsCard from '../../components/apps-plugins/AppsPluginsCard';
 function MeusAplicativos() {
     const quantityOfResults = 2;
 
-    const [btnSelect, setBtnSelect] = useState(0);
+    const [btnSelect, setBtnSelect] = useState<number>(0);
     const [apps, setApps] = useState<Array<AppOutput>>([]);
     const [plugins, setPlugins] = useState<Array<AppOutput>>([]);
     const [filteredData, setFilteredData] = useState<Array<AppOutput>>([]);
@@ -134,7 +134,7 @@ function MeusAplicativos() {
                                           Logo={app.Logo}
                                           Descricao={app.Descricao}
                                           Id={app.Id}
-                                          Url={app.Link}
+                                          Link={app.Link}
                                           key={app.Id}
                                       />
                                   );
