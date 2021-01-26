@@ -64,14 +64,15 @@ const Navbar: React.FC = () => {
                                         ? `dropdown-button-drop-down`
                                         : `dropdown-button-drop-up`
                                 }
-                                drop={userDrop ? 'up' : 'down'}
-                                onClick={() => {
-                                    if (userDrop) {
-                                        setUserDrop(false);
-                                    } else {
-                                        setUserDrop(true);
-                                    }
-                                }}
+                                drop={'down'}
+                                // drop={userDrop ? 'down' : 'up'}
+                                // onClick={() => {
+                                //     if (userDrop) {
+                                //         setUserDrop(false);
+                                //     } else {
+                                //         setUserDrop(true);
+                                //     }
+                                // }}
                             >
                                 <NavDropdown.Item href="/minha-conta">
                                     Minha conta
