@@ -12,12 +12,46 @@ const Navbar: React.FC = () => {
     const nome = 'Vitor Araújo'; // Nome exemplo
     const [userDrop, setUserDrop] = useState<boolean>(false);
 
-    const options: ObjOptions[] = [
-        { title: 'Meus Aplicativos', path: '/meus-aplicativos' },
-        { title: 'Vitrine', path: '/vitrine' },
-        { title: 'Billing', path: '/billing' },
-        { title: 'Ajuda', path: '/ajuda' },
-    ];
+    const user = localStorage.user;
+
+    const options =
+        user !== 'admin'
+            ? [
+                  {
+                      title: 'Meus Aplicativos',
+                      path: '/meus-aplicativos',
+                  },
+                  {
+                      title: 'Vitrine',
+                      path: '/vitrine',
+                  },
+                  {
+                      title: 'Billing',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Ajuda',
+                      path: '/ajuda',
+                  },
+              ]
+            : [
+                  {
+                      title: 'Cadastrar',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Meus Produtos',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Regras de Cobranças',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Ajuda',
+                      path: '/ajuda',
+                  },
+              ];
 
     return (
         <header>

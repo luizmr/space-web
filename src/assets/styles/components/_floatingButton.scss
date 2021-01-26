@@ -1,8 +1,14 @@
 #root {
     position: relative;
     .btn-floating-navbar {
-        position: absolute;
+        position: fixed;
         bottom: 30px;
         right: 25px;
+
+        button {
+            &:focus {
+                outline: none;
+            }
+        }
     }
 }
