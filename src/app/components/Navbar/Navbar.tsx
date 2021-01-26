@@ -62,9 +62,9 @@ const Navbar: React.FC = () => {
                                 id={
                                     userDrop
                                         ? `dropdown-button-drop-down`
-                                        : `dropdown-button-drop-up`
+                                        : `dropdown-button-drop-down`
                                 }
-                                drop={userDrop ? 'up' : 'down'}
+                                drop={userDrop ? 'down' : 'down'}
                                 onClick={() => {
                                     if (userDrop) {
                                         setUserDrop(false);
