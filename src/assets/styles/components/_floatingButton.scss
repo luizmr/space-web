@@ -2,10 +2,17 @@
     position: relative;
     .btn-floating-navbar {
         position: fixed;
-        bottom: 30px;
-        right: 25px;
+        bottom: 35px;
+        right: 35px;
 
-        button {
+        .MuiFab-primary {
+            background-color: #dbdbdb;
+
+            &:hover {
+                background-color: #b3b3b3;
+                color: black;
+                transition: 0.3s;
+            }
             &:focus {
                 outline: none;
             }
