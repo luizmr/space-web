@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
-import { mockApps, mockEventos } from '../consulta-regras/mockBilling';
 import { FiCornerDownLeft, FiCornerDownRight } from 'react-icons/fi';
 import {
     FaEdit,
@@ -39,8 +38,12 @@ import {
     TextField,
 } from '@material-ui/core';
 import { Button, Modal, Spinner } from 'react-bootstrap';
-import { AppOutput, EventsOutput } from '../../models/billingModels';
-import { DataModulosOutput } from '../../models/cadastro-modulos';
+import { AppOutput } from '../../models/cadastro-apps';
+import {
+    DataModulosOutput,
+    ModulosOutput,
+} from '../../models/cadastro-modulos';
+import { mockEventos, mockApps } from '../consulta-regras/mockBilling';
 
 const useOutlinedInputStyles = makeStyles({
     root: {
@@ -106,7 +109,7 @@ const columns = [
     },
 ];
 
-function CadastroModulos() {
+function CadastroRegras() {
     const history = useHistory();
     const classes = useStyles();
     const outlinedInputClasses = useOutlinedInputStyles();
@@ -120,10 +123,10 @@ function CadastroModulos() {
     const [filteredData, setFilteredData] = useState<Array<DataModulosOutput>>(
         []
     );
-    const [filteredModulos, setFilteredModulos] = useState<Array<EventsOutput>>(
-        []
-    );
-    const [modulos, setModulos] = useState<Array<EventsOutput>>([]);
+    const [filteredModulos, setFilteredModulos] = useState<
+        Array<ModulosOutput>
+    >([]);
+    const [modulos, setModulos] = useState<Array<ModulosOutput>>([]);
     const [showModalDelete, setShowModalDelete] = useState<boolean>(false);
     const [showModalEditAdd, setShowModalEditAdd] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -131,16 +134,16 @@ function CadastroModulos() {
     const [nameValid, setNameValid] = useState<boolean>(false);
     const [sending, setSending] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const [modulo, setModulo] = useState<EventsOutput>({});
+    const [modulo, setModulo] = useState<ModulosOutput>({});
 
-    const createData = (a: Array<AppOutput>, b: Array<EventsOutput>) => {
+    const createData = (a: Array<AppOutput>, b: Array<ModulosOutput>) => {
         // const apps = mockApps;
         // const modules = mockEventos;
 
-        let newArray = b.map((obj: EventsOutput) => {
+        let newArray = b.map((obj: ModulosOutput) => {
             let appFound = a.find((el: AppOutput) => el.Id === obj.AppId);
 
-            return { ...obj, AppName: appFound?.Name };
+            return { ...obj, AppName: appFound?.Nome };
         });
 
         return newArray;
@@ -228,7 +231,7 @@ function CadastroModulos() {
         }, 3000);
         setTimeout(() => {
             setShowModal(false);
-            history.push('/billing/cadastro-modulos');
+            history.push('/billing/cadastro-regras');
         }, 5000);
     };
 
@@ -243,7 +246,7 @@ function CadastroModulos() {
             setIsEditing(false);
             setNameValid(false);
             setModulo({ Id: undefined, Name: '', AppId: 0 });
-            history.push('/billing/cadastro-modulos');
+            history.push('/billing/cadastro-regras');
         }, 5000);
     };
 
@@ -305,20 +308,20 @@ function CadastroModulos() {
     return (
         <>
             <Navbar />
-            <div className="cadastro-modulos">
-                <div className="cadastro-modulos__header">
+            <div className="cadastro-regras">
+                <div className="cadastro-regras__header">
                     <h2>Cadastro de Módulos/Eventos</h2>
                     <Link to="/billing">
                         <Button
                             variant="dark"
-                            className="cadastro-modulos__header-button"
+                            className="cadastro-regras__header-button"
                         >
                             <FiCornerDownLeft />
                         </Button>
                     </Link>
                 </div>
 
-                <div className="cadastro-modulos__filter">
+                <div className="cadastro-regras__filter">
                     <FormControl
                         variant="outlined"
                         className={`mr-3 ${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
@@ -336,7 +339,7 @@ function CadastroModulos() {
                             </MenuItem>
                             {apps.map((obj) => (
                                 <MenuItem value={obj.Id} key={obj.Id}>
-                                    {obj.Name}
+                                    {obj.Nome}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -370,7 +373,7 @@ function CadastroModulos() {
                             )}
                         </Select>
                     </FormControl>
-                    <div className="cadastro-modulos__filter-clear">
+                    <div className="cadastro-regras__filter-clear">
                         <Tooltip title="Limpar Campos">
                             <IconButton
                                 aria-label="clear"
@@ -381,7 +384,7 @@ function CadastroModulos() {
                             </IconButton>
                         </Tooltip>
                     </div>
-                    <div className="cadastro-modulos__filter-button">
+                    <div className="cadastro-regras__filter-button">
                         <Tooltip title="Novo Módulo/Evento">
                             <IconButton
                                 aria-label="add"
@@ -395,7 +398,7 @@ function CadastroModulos() {
                 </div>
 
                 {filteredData.length === 0 ? (
-                    <div className="cadastro-modulos__not-found">
+                    <div className="cadastro-regras__not-found">
                         <p>Resultado não encontrado para a procura desejada!</p>
                         <FaRegFrown />
                     </div>
@@ -629,7 +632,7 @@ function CadastroModulos() {
                                 </MenuItem>
                                 {apps.map((obj) => (
                                     <MenuItem value={obj.Id} key={obj.Id}>
-                                        {obj.Name}
+                                        {obj.Nome}
                                     </MenuItem>
                                 ))}
                             </Select>
@@ -673,4 +676,4 @@ function CadastroModulos() {
     );
 }
 
-export default CadastroModulos;
+export default CadastroRegras;

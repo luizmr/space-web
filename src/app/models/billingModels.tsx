@@ -4,9 +4,9 @@ export interface AppOutput {
 }
 
 export interface EventsOutput {
-    Id: number;
-    AppId: number;
-    Name: string;
+    Id?: number;
+    AppId?: number;
+    Name?: string;
 }
 
 export interface ProdutorOutput {
