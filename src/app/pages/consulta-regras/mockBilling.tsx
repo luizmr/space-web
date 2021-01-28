@@ -127,30 +127,31 @@ export const mockRegras = [
         EventId: 3,
         Customer: { Id: 1, Name: 'Luiz Marcelo Rocha' },
         Product: null,
+        CurrencyId: 1,
         Fees: [
             {
                 Id: 1,
                 Value: 4.99,
                 IsPercent: true,
                 Range: {
-                    From: 0.01,
+                    From: 150,
                     To: null,
                 },
                 Period: {
-                    From: '20210125T00:00:00Z000',
+                    From: '2020-10-11 00:00:00.000',
                     To: null,
                 },
             },
             {
                 Id: 2,
-                Value: 1,
+                Value: 1.5,
                 IsPercent: false,
                 Range: {
                     From: 0.01,
                     To: null,
                 },
                 Period: {
-                    From: '20210125T00:00:00Z000',
+                    From: '2019-07-02 00:00:00.000',
                     To: null,
                 },
             },
@@ -163,6 +164,7 @@ export const mockRegras = [
         EventId: 1,
         Customer: { Id: 2, Name: 'John Kennedy' },
         Product: null,
+        CurrencyId: 1,
         Fees: [
             {
                 Id: 1,
@@ -173,8 +175,8 @@ export const mockRegras = [
                     To: null,
                 },
                 Period: {
-                    From: '20210110T00:00:00Z000',
-                    To: '20210120T00:00:00Z000',
+                    From: '2020-08-01 00:00:00.000',
+                    To: '2020-12-31 00:00:00.000',
                 },
             },
             {
@@ -186,8 +188,8 @@ export const mockRegras = [
                     To: 100,
                 },
                 Period: {
-                    From: '20210110T00:00:00Z000',
-                    To: '20210115T00:00:00Z000',
+                    From: '2020-06-01 00:00:00.000',
+                    To: '2020-09-01 00:00:00.000',
                 },
             },
         ],
@@ -198,7 +200,8 @@ export const mockRegras = [
         AppId: 3,
         EventId: 4,
         Customer: { Id: 4, Name: 'Anthony Stark' },
-        Product: { Id: 1, Name: 'Curso de Inglês Online' },
+        Product: { Id: 1, Name: 'Curso de Alemão Online' },
+        CurrencyId: 1,
         Fees: [
             {
                 Id: 1,
@@ -209,8 +212,8 @@ export const mockRegras = [
                     To: null,
                 },
                 Period: {
-                    From: '20201125T00:00:00Z000',
-                    To: '20201127T00:00:00Z000',
+                    From: '2019-03-01 00:00:00.000',
+                    To: '2019-10-10 00:00:00.000',
                 },
             },
             {
@@ -222,8 +225,8 @@ export const mockRegras = [
                     To: null,
                 },
                 Period: {
-                    From: '20201125T00:00:00Z000',
-                    To: '20201225T00:00:00Z000',
+                    From: '2020-11-27 00:00:00.000',
+                    To: '2021-01-31 00:00:00.000',
                 },
             },
         ],

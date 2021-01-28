@@ -7,6 +7,7 @@ import Login from './app/pages/Login/Login';
 import VitrineApp from './app/pages/vitrine-app/vitrine-app';
 import Home from './app/pages/home/home';
 import CadastroModulos from './app/pages/cadastro-modulos/cadastro-modulos';
+import ConsultaRegras from './app/pages/consulta-regras/consulta-regras';
 
 interface RouteInterface {
     key: string;
@@ -28,6 +29,11 @@ const routes = [
         key: 'billing',
         Component: Billing,
         path: '/billing',
+    },
+    {
+        key: 'consulta-regras',
+        Component: ConsultaRegras,
+        path: '/billing/consulta-regras',
     },
     {
         key: 'cadastro-apps',

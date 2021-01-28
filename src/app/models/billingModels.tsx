@@ -26,13 +26,13 @@ export interface MoedasOutput {
 }
 
 export interface RangeOutput {
-    From?: number;
-    To?: number;
+    From?: number | null;
+    To?: number | null;
 }
 
 export interface PeriodOutput {
-    From?: string;
-    To?: string;
+    From?: string | null;
+    To?: string | null;
 }
 
 export interface FeeOutput {
@@ -48,7 +48,18 @@ export interface RegrasOutput {
     Name: string;
     AppId: number;
     EventId: number;
+    CurrencyId: number;
     Customer: ProdutorOutput;
-    Product?: ProdutoOutput;
+    Product?: ProdutoOutput | null;
     Fees?: Array<FeeOutput>;
+}
+
+export interface DataOutput {
+    AppId?: number;
+    EventId?: number;
+    CustomerId?: number;
+    ProductId?: number | null;
+    CurrencyId?: number;
+    Value?: string | null;
+    Period?: string | null;
 }
