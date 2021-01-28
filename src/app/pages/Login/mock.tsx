@@ -5,7 +5,17 @@ export const mockLogin = [
         acesso: 'admin',
     },
     {
+        email: 'admin@admin.com',
+        senha: '123456',
+        acesso: 'admin',
+    },
+    {
         email: 'outroemail@email.com',
+        senha: '123456',
+        acesso: 'normal',
+    },
+    {
+        email: 'usuario@email.com',
         senha: '123456',
         acesso: 'normal',
     },

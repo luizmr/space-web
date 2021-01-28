@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { NavDropdown, NavbarBrand, Navbar as Navs, Nav } from 'react-bootstrap';
-import { FaChevronDown, FaUserAlt, FaUserCircle } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 
 interface ObjOptions {
     title: string;
@@ -14,7 +13,7 @@ const Navbar: React.FC = () => {
 
     const user = localStorage.user;
 
-    const options =
+    const options: ObjOptions[] =
         user !== 'admin'
             ? [
                   {
@@ -24,10 +23,6 @@ const Navbar: React.FC = () => {
                   {
                       title: 'Vitrine',
                       path: '/vitrine',
-                  },
-                  {
-                      title: 'Billing',
-                      path: '/billing',
                   },
                   {
                       title: 'Ajuda',
