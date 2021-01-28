@@ -219,6 +219,7 @@ export default function ConsultaRegras() {
     };
 
     const handleChangeValue = (event: any): void => {
+        console.log(event.target.value);
         if (event.target.value) {
             setValue(event.target.value);
             setData({ ...data, Value: event.target.value });
@@ -409,6 +410,11 @@ export default function ConsultaRegras() {
     };
 
     const mediaQuery = () => window.matchMedia('(max-width: 430px)').matches;
+
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
 
     return (
         <>
@@ -732,10 +738,19 @@ export default function ConsultaRegras() {
                                                             >
                                                                 Valor:{' '}
                                                                 {!el.IsPercent &&
-                                                                    'R$ '}
-                                                                {el.Value}
+                                                                    el.Value %
+                                                                        1 !=
+                                                                        0 &&
+                                                                    formatter.format(
+                                                                        el.Value
+                                                                    )}
+                                                                {!el.IsPercent &&
+                                                                    el.Value %
+                                                                        1 ===
+                                                                        0 &&
+                                                                    el.Value}
                                                                 {el.IsPercent &&
-                                                                    ' %'}
+                                                                    `${el.Value} %`}
                                                             </Typography>
                                                         </div>
                                                         <Typography
