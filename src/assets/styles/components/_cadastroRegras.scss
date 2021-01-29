@@ -38,17 +38,20 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        justify-content: flex-start;
 
-        .MuiFormControl-root {
-            min-width: 150px !important;
+        justify-content: center;
 
-            .MuiFormLabel-root {
-                color: $primary-color-1;
-            }
-            .MuiInputBase-root {
-                background: #fff !important;
-                color: $primary-color-1;
+        .filters {
+            .MuiFormControl-root {
+                // min-width: 150px !important;
+
+                .MuiFormLabel-root {
+                    color: $primary-color-1;
+                }
+                .MuiInputBase-root {
+                    background: #fff !important;
+                    color: $primary-color-1;
+                }
             }
         }
 
@@ -154,6 +157,7 @@
                         background-color: #fff;
                     }
                     td {
+                        overflow-x: scroll;
                         text-align: center;
                         button {
                             padding: 10px !important;
@@ -189,10 +193,6 @@
             display: grid;
             grid-template-columns: 1fr;
             justify-content: center;
-
-            .MuiFormControl-root {
-                min-width: 100% !important;
-            }
 
             .cadastro-regras__filter-button {
                 margin: 0 auto;

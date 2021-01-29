@@ -144,7 +144,7 @@ export const mockRegras = [
             },
             {
                 Id: 2,
-                Value: 1,
+                Value: 1.5,
                 IsPercent: false,
                 Range: {
                     From: 0.01,

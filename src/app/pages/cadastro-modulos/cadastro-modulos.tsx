@@ -41,6 +41,10 @@ import {
 import { Button, Modal, Spinner } from 'react-bootstrap';
 import { AppOutput, EventsOutput } from '../../models/billingModels';
 import { DataModulosOutput } from '../../models/cadastro-modulos';
+import ModalDeleteComponent from '../../components/modal-delete/modal-delete';
+import ModalDeletingComponent from '../../components/modal-deleting/modal-deleting';
+import ModalSuccessComponent from '../../components/modal-success/modal-success';
+import TableCrudComponent from '../../components/table-cruds/table-cruds';
 
 const useOutlinedInputStyles = makeStyles({
     root: {
@@ -134,9 +138,6 @@ function CadastroModulos() {
     const [modulo, setModulo] = useState<EventsOutput>({});
 
     const createData = (a: Array<AppOutput>, b: Array<EventsOutput>) => {
-        // const apps = mockApps;
-        // const modules = mockEventos;
-
         let newArray = b.map((obj: EventsOutput) => {
             let appFound = a.find((el: AppOutput) => el.Id === obj.AppId);
 
@@ -400,210 +401,175 @@ function CadastroModulos() {
                         <FaRegFrown />
                     </div>
                 ) : (
-                    <Paper className={classes.root}>
-                        <TableContainer className={classes.container}>
-                            <Table aria-label="table">
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((column: any) => (
-                                            <>
-                                                {column.id === 'acoes' ? (
-                                                    <TableCell
-                                                        key={column.id}
-                                                        align={column.align}
-                                                        className="th-acoes"
-                                                        style={{
-                                                            minWidth:
-                                                                column.minWidth,
-                                                        }}
-                                                    >
-                                                        {column.label}
-                                                    </TableCell>
-                                                ) : (
-                                                    <TableCell
-                                                        key={column.id}
-                                                        align={column.align}
-                                                        style={{
-                                                            minWidth:
-                                                                column.minWidth,
-                                                        }}
-                                                    >
-                                                        {column.label}
-                                                    </TableCell>
-                                                )}
-                                            </>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {filteredData
-                                        .slice(
-                                            page * rowsPerPage,
-                                            page * rowsPerPage + rowsPerPage
-                                        )
-                                        .map((row: any) => {
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    role="checkbox"
-                                                    tabIndex={-1}
-                                                    key={row.Id}
-                                                >
-                                                    {columns.map(
-                                                        (column: any) => {
-                                                            const value =
-                                                                row[column.id];
-                                                            return (
-                                                                <>
-                                                                    {column.id ===
-                                                                    'acoes' ? (
-                                                                        <TableCell
-                                                                            key={
-                                                                                column.id
-                                                                            }
-                                                                            align={
-                                                                                column.align
-                                                                            }
-                                                                            className="td-acoes"
-                                                                        >
-                                                                            <Tooltip title="Editar Módulo/Evento">
-                                                                                <IconButton
-                                                                                    aria-label="edit"
-                                                                                    onClick={() =>
-                                                                                        handleEditModule(
-                                                                                            row[
-                                                                                                'Id'
-                                                                                            ],
-                                                                                            row[
-                                                                                                'AppId'
-                                                                                            ],
-                                                                                            row[
-                                                                                                'Name'
-                                                                                            ]
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    <FaEdit fontSize="medium" />
-                                                                                </IconButton>
-                                                                            </Tooltip>
-                                                                            <Tooltip title="Excluir Módulo/Evento">
-                                                                                <IconButton
-                                                                                    aria-label="delete"
-                                                                                    onClick={() =>
-                                                                                        setShowModalDelete(
-                                                                                            true
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    <FaTrashAlt fontSize="medium" />
-                                                                                </IconButton>
-                                                                            </Tooltip>
-                                                                        </TableCell>
-                                                                    ) : (
-                                                                        <TableCell
-                                                                            key={
-                                                                                column.id
-                                                                            }
-                                                                            align={
-                                                                                column.align
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                value
-                                                                            }
-                                                                        </TableCell>
-                                                                    )}
-                                                                </>
-                                                            );
-                                                        }
-                                                    )}
-                                                </TableRow>
-                                            );
-                                        })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
-                            labelRowsPerPage={'Linhas por página'}
-                            component="div"
-                            count={filteredData.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onChangePage={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
-                        />
-                    </Paper>
+                    <TableCrudComponent
+                        classRoot={classes.root}
+                        classContainer={classes.container}
+                        columns={columns}
+                        filteredData={filteredData}
+                        page={page}
+                        rowsPerPage={rowsPerPage}
+                        handleEditModule={handleEditModule}
+                        setShowModalDelete={setShowModalDelete}
+                        handleChangePage={handleChangePage}
+                        handleChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                    // <Paper className={classes.root}>
+                    //     <TableContainer className={classes.container}>
+                    //         <Table aria-label="table">
+                    //             <TableHead>
+                    //                 <TableRow>
+                    //                     {columns.map((column: any, index) => (
+                    //                         <>
+                    //                             {column.id === 'acoes' ? (
+                    //                                 <TableCell
+                    //                                     key={`${column.id}-${index}`}
+                    //                                     align={column.align}
+                    //                                     className="th-acoes"
+                    //                                     style={{
+                    //                                         minWidth:
+                    //                                             column.minWidth,
+                    //                                     }}
+                    //                                 >
+                    //                                     {column.label}
+                    //                                 </TableCell>
+                    //                             ) : (
+                    //                                 <TableCell
+                    //                                     key={`${column.id}-${index}`}
+                    //                                     align={column.align}
+                    //                                     style={{
+                    //                                         minWidth:
+                    //                                             column.minWidth,
+                    //                                     }}
+                    //                                 >
+                    //                                     {column.label}
+                    //                                 </TableCell>
+                    //                             )}
+                    //                         </>
+                    //                     ))}
+                    //                 </TableRow>
+                    //             </TableHead>
+                    //             <TableBody>
+                    //                 {filteredData
+                    //                     .slice(
+                    //                         page * rowsPerPage,
+                    //                         page * rowsPerPage + rowsPerPage
+                    //                     )
+                    //                     .map((row: any, index) => {
+                    //                         return (
+                    //                             <TableRow
+                    //                                 hover
+                    //                                 role="checkbox"
+                    //                                 tabIndex={-1}
+                    //                                 key={`${row.id}-${index}`}
+                    //                             >
+                    //                                 {columns.map(
+                    //                                     (
+                    //                                         column: any,
+                    //                                         index
+                    //                                     ) => {
+                    //                                         const value =
+                    //                                             row[column.id];
+                    //                                         return (
+                    //                                             <>
+                    //                                                 {column.id ===
+                    //                                                 'acoes' ? (
+                    //                                                     <TableCell
+                    //                                                         key={`${column.id}-${index}`}
+                    //                                                         align={
+                    //                                                             column.align
+                    //                                                         }
+                    //                                                         className="td-acoes"
+                    //                                                     >
+                    //                                                         <Tooltip title="Editar Módulo/Evento">
+                    //                                                             <IconButton
+                    //                                                                 aria-label="edit"
+                    //                                                                 onClick={() =>
+                    //                                                                     handleEditModule(
+                    //                                                                         row[
+                    //                                                                             'Id'
+                    //                                                                         ],
+                    //                                                                         row[
+                    //                                                                             'AppId'
+                    //                                                                         ],
+                    //                                                                         row[
+                    //                                                                             'Name'
+                    //                                                                         ]
+                    //                                                                     )
+                    //                                                                 }
+                    //                                                             >
+                    //                                                                 <FaEdit fontSize="medium" />
+                    //                                                             </IconButton>
+                    //                                                         </Tooltip>
+                    //                                                         <Tooltip title="Excluir Módulo/Evento">
+                    //                                                             <IconButton
+                    //                                                                 aria-label="delete"
+                    //                                                                 onClick={() =>
+                    //                                                                     setShowModalDelete(
+                    //                                                                         true
+                    //                                                                     )
+                    //                                                                 }
+                    //                                                             >
+                    //                                                                 <FaTrashAlt fontSize="medium" />
+                    //                                                             </IconButton>
+                    //                                                         </Tooltip>
+                    //                                                     </TableCell>
+                    //                                                 ) : (
+                    //                                                     <TableCell
+                    //                                                         key={`${column.id}-${index}`}
+                    //                                                         align={
+                    //                                                             column.align
+                    //                                                         }
+                    //                                                     >
+                    //                                                         {
+                    //                                                             value
+                    //                                                         }
+                    //                                                     </TableCell>
+                    //                                                 )}
+                    //                                             </>
+                    //                                         );
+                    //                                     }
+                    //                                 )}
+                    //                             </TableRow>
+                    //                         );
+                    //                     })}
+                    //             </TableBody>
+                    //         </Table>
+                    //     </TableContainer>
+                    //     <TablePagination
+                    //         rowsPerPageOptions={[5, 10, 25]}
+                    //         labelRowsPerPage={'Linhas por página'}
+                    //         component="div"
+                    //         count={filteredData.length}
+                    //         rowsPerPage={rowsPerPage}
+                    //         page={page}
+                    //         onChangePage={handleChangePage}
+                    //         onChangeRowsPerPage={handleChangeRowsPerPage}
+                    //     />
+                    // </Paper>
                 )}
             </div>
-            <Modal
+            <ModalDeleteComponent
                 show={showModalDelete}
                 onHide={handleCloseModalDelete}
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Deletar Módulo/Evento</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="my-3 h6">
-                    Você tem certeza que deseja{' '}
-                    <b className="text-danger">confirmar</b> esta operação?
-                </Modal.Body>
-                <Modal.Footer className="justify-content-between">
-                    <Button
-                        variant="outline-secondary"
-                        onClick={handleCloseModalDelete}
-                    >
-                        Cancelar
-                    </Button>
-                    <Button variant="danger" onClick={deleteModule}>
-                        Deletar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            {showModal && (
-                <Modal show={showModal} centered className="modal-delete-app">
-                    <Modal.Body>
-                        <p>
-                            Módulo/Evento{' '}
-                            {sending
-                                ? 'sendo deletado do banco de Dados!'
-                                : 'deletado com sucesso do banco de Dados!'}
-                        </p>
+                header={'Deletar Módulo/Evento'}
+                onDelete={deleteModule}
+            />
 
-                        {sending ? (
-                            <Spinner animation="border" variant="danger" />
-                        ) : (
-                            <FaCheck />
-                        )}
-                    </Modal.Body>
-                </Modal>
+            {showModal && (
+                <ModalDeletingComponent
+                    show={showModal}
+                    header={'Módulo/Evento'}
+                    sending={sending}
+                />
             )}
             {showModalEditAdd && (
-                <Modal
+                <ModalSuccessComponent
                     show={showModalEditAdd}
-                    centered
-                    className="modal-success"
-                >
-                    <Modal.Body>
-                        <p>
-                            {!isEditing
-                                ? 'Cadastro de novo Módulo/Evento'
-                                : 'Nova edição de Módulo/Evento'}
-                            {sending
-                                ? !isEditing
-                                    ? ' sendo enviado!'
-                                    : ' sendo enviada!'
-                                : !isEditing
-                                ? ' enviado com sucesso!'
-                                : ' enviada com sucesso!'}
-                        </p>
-                        {sending ? (
-                            <Spinner animation="border" variant="success" />
-                        ) : (
-                            <FaCheck />
-                        )}
-                    </Modal.Body>
-                </Modal>
+                    editFalse={'novo Módulo/Evento'}
+                    editTrue={'Módulo/Evento'}
+                    isEditing={isEditing}
+                    sending={sending}
+                />
             )}
             <Dialog open={open} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">

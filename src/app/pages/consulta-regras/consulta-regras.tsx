@@ -128,8 +128,7 @@ export default function ConsultaRegras() {
     const [appId, setAppId] = useState<number>(0);
     const [events, setEvents] = useState<Array<EventsOutput>>([]);
     const [eventId, setEventId] = useState<number>(0);
-    const [customer, setCustomers] = useState<Array<ProdutorOutput>>([]);
-    const [customerId, setCustomerId] = useState<number>(0);
+    const [customer, setCustomer] = useState<Array<ProdutorOutput>>([]);
     const [value, setValue] = useState<string>('');
     const [period, setPeriod] = useState<string>('');
     const [products, setProducts] = useState<Array<ProdutoOutput>>([]);
@@ -166,7 +165,7 @@ export default function ConsultaRegras() {
     useEffect(() => {
         setApps(mockApps);
         setEvents(mockEventos);
-        setCustomers(mockProdutor);
+        setCustomer(mockProdutor);
         setProducts(mockProdutos);
         setCurrency(mockMoedas);
         setDataRules(mockRegras);
@@ -199,7 +198,6 @@ export default function ConsultaRegras() {
 
     const handleChangeCustomer = (value: any): void => {
         if (value) {
-            setCustomerId(value.Id);
             setData({ ...data, CustomerId: value.Id });
             setCustomerState({ ...customerState, Name: value.Name });
         }
@@ -387,7 +385,6 @@ export default function ConsultaRegras() {
     const clearFields = (): void => {
         setEventId(0);
         setAppId(0);
-        setCustomerId(0);
         setProductId(0);
         setCurrencyId(1);
         setValue('');
@@ -530,7 +527,6 @@ export default function ConsultaRegras() {
                                     case 'clear':
                                         setAutoCompleteOpen(false);
                                         if (!value) {
-                                            setCustomerId(0);
                                             setData({ ...data, CustomerId: 0 });
                                             setCustomerState({
                                                 ...customerState,

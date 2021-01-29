@@ -1,6 +1,6 @@
 export interface AppOutput {
     Id: number;
-    Name: string;
+    Name?: string;
 }
 
 export interface EventsOutput {
@@ -62,4 +62,51 @@ export interface DataOutput {
     CurrencyId?: number;
     Value?: string | null;
     Period?: string | null;
+}
+
+export interface DataRulesOutput {
+    Id: number;
+    Name: string;
+    AppId: number;
+    EventId?: number;
+    CurrencyId: number;
+    Customer?: ProdutorOutput;
+    Product?: ProdutoOutput | null;
+    Fees?: Array<FeeOutput>;
+    AppName?: string;
+    EventName?: string;
+    CurrencyName?: string;
+    CustomerName?: string;
+    ProductName?: string;
+    RuleName?: string;
+    // FeeId?: number;
+    // FeeValue?: string;
+    // FeeIsPercent?: boolean;
+    // FeeRangeFrom?: number | null;
+    // FeeRangeTo?: number | null;
+    // FeePeriodFrom?: string | null;
+    // FeePeriodTo?: string | null;
+}
+
+export interface DataRulesSearchOutput {
+    Id?: number | null;
+    // Name: string;
+    AppId?: number | null;
+    // AppName?: string;
+    EventId?: number | null;
+    // EventName?: string;
+    CurrencyId?: number;
+    // CurrencyName?: string;
+    // Customer: ProdutorOutput;
+    CustomerId?: number | null;
+    // Product?: ProdutoOutput | null;
+    ProductId?: number | null;
+    // FeeId?: number;
+    FeeValue?: string | null;
+    FeePeriod?: string | null;
+    // FeeIsPercent?: boolean;
+    // FeeRangeFrom?: number | null;
+    // FeeRangeTo?: number | null;
+    // FeePeriodFrom?: string | null;
+    // FeePeriodTo?: string | null;
 }
