@@ -18,6 +18,7 @@ import {
     FaRegFrown,
     FaCheck,
     FaSearch,
+    FaFilter,
 } from 'react-icons/fa';
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {
@@ -116,12 +117,6 @@ const useOutlinedInputStyles = makeStyles({
     },
     width2: {
         width: 300,
-    },
-    marginRight: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
     },
 });
 
@@ -246,6 +241,7 @@ function CadastroRegras() {
     const [value, setValue] = useState<string>('');
     const [period, setPeriod] = useState<string>('');
     const [dataSearch, setDataSearch] = useState<DataRulesSearchOutput>({});
+    const [openFilter, setOpenFilter] = useState<boolean>(false);
 
     const formatter = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -776,23 +772,21 @@ function CadastroRegras() {
     return (
         <>
             <Navbar />
-            <div className="cadastro-modulos">
-                <div className="cadastro-modulos__header">
+            <div className="cadastro-regras">
+                <div className="cadastro-regras__header">
                     <h2>Cadastro de Regras</h2>
                     <Link to="/billing">
                         <Button
                             variant="dark"
-                            className="cadastro-modulos__header-button"
+                            className="cadastro-regras__header-button"
                         >
                             <FiCornerDownLeft />
                         </Button>
                     </Link>
                 </div>
 
-                <div className="cadastro-modulos__filter">
-                    <div
-                        className={`filters ${outlinedInputClasses.marginRight} `}
-                    >
+                <div className="cadastro-regras__filter">
+                    <div className={`filters `}>
                         <FormControl
                             variant="outlined"
                             className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
@@ -837,257 +831,329 @@ function CadastroRegras() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
-                        >
-                            <InputLabel id="modulo-input">
-                                Módulo/Evento
-                            </InputLabel>
-                            <Select
-                                labelId="modulo-input"
-                                id="modulo-select"
-                                value={moduloId}
-                                onChange={handleChangeModulo}
-                                label="Módulo/Evento"
-                                disabled={appId === 0 ? true : false}
-                            >
-                                <MenuItem value={0}>
-                                    <em>Todos</em>
-                                </MenuItem>
+                        {openFilter && (
+                            <>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
+                                >
+                                    <InputLabel id="modulo-input">
+                                        Módulo/Evento
+                                    </InputLabel>
+                                    <Select
+                                        labelId="modulo-input"
+                                        id="modulo-select"
+                                        value={moduloId}
+                                        onChange={handleChangeModulo}
+                                        label="Módulo/Evento"
+                                        disabled={appId === 0 ? true : false}
+                                    >
+                                        <MenuItem value={0}>
+                                            <em>Todos</em>
+                                        </MenuItem>
 
-                                {filteredModulos.map((el: any) => (
-                                    <MenuItem value={el.Id} key={el.Id}>
-                                        <FiCornerDownRight className="mr-2" />{' '}
-                                        {el.Name}
-                                    </MenuItem>
-                                ))}
-                                {filteredModulos.length === 0 && (
-                                    <ListSubheader value={0}>
-                                        Sem Módulos/Eventos
-                                    </ListSubheader>
-                                )}
-                            </Select>
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
-                        >
-                            <Autocomplete
-                                id="customer-state"
-                                options={customer}
-                                getOptionLabel={(option) =>
-                                    `${option.Id} - ${option.Name}`
-                                }
-                                open={autoCompleteOpen}
-                                onChange={(event, value) =>
-                                    handleChangeCustomer(value)
-                                }
-                                inputValue={customerState.Name}
-                                onInputChange={(event, value, reason) => {
-                                    switch (reason) {
-                                        case 'input':
-                                            setAutoCompleteOpen(!!value);
-
-                                            break;
-                                        case 'reset':
-
-                                        case 'clear':
-                                            setAutoCompleteOpen(false);
-                                            if (!value) {
-                                                // setFilteredData(data);
-                                                setDataSearch({
-                                                    ...dataSearch,
-                                                    CustomerId: 0,
-                                                });
-                                                setCustomerState({
-                                                    ...customerState,
-                                                    Name: '',
-                                                });
-                                            }
-
-                                            break;
-                                        default:
-                                            console.log(reason);
-                                    }
-                                }}
-                                renderOption={(option) => (
-                                    <React.Fragment>
-                                        {option.Id} - {option.Name}
-                                    </React.Fragment>
-                                )}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Produtor"
-                                        variant="outlined"
-                                        onChange={(e) =>
-                                            setCustomerState({
-                                                ...customerState,
-                                                Name: e.target.value,
-                                            })
+                                        {filteredModulos.map((el: any) => (
+                                            <MenuItem value={el.Id} key={el.Id}>
+                                                <FiCornerDownRight className="mr-2" />{' '}
+                                                {el.Name}
+                                            </MenuItem>
+                                        ))}
+                                        {filteredModulos.length === 0 && (
+                                            <ListSubheader value={0}>
+                                                Sem Módulos/Eventos
+                                            </ListSubheader>
+                                        )}
+                                    </Select>
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
+                                >
+                                    <Autocomplete
+                                        id="customer-state"
+                                        options={customer}
+                                        getOptionLabel={(option) =>
+                                            `${option.Id} - ${option.Name}`
                                         }
-                                    />
-                                )}
-                            />
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
-                        >
-                            <Autocomplete
-                                id="product-state"
-                                options={products}
-                                getOptionLabel={(option) =>
-                                    `${option.Id} - ${option.Name}`
-                                }
-                                open={autoCompleteOpenProduct}
-                                onChange={(event, value) =>
-                                    handleChangeProduct(value)
-                                }
-                                inputValue={productState.Name}
-                                onInputChange={(event, value, reason) => {
-                                    switch (reason) {
-                                        case 'input':
-                                            setAutoCompleteOpenProduct(!!value);
-
-                                            break;
-                                        case 'reset':
-
-                                        case 'clear':
-                                            setAutoCompleteOpenProduct(false);
-                                            if (!value) {
-                                                // setFilteredData(data);
-                                                setDataSearch({
-                                                    ...dataSearch,
-                                                    ProductId: 0,
-                                                });
-                                                setProductState({
-                                                    ...productState,
-                                                    Name: '',
-                                                });
-                                            }
-
-                                            break;
-                                        default:
-                                            console.log(reason);
-                                    }
-                                }}
-                                renderOption={(option) => (
-                                    <React.Fragment>
-                                        {option.Id} - {option.Name}
-                                    </React.Fragment>
-                                )}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Produto"
-                                        variant="outlined"
-                                        onChange={(e) =>
-                                            setProductState({
-                                                ...productState,
-                                                Name: e.target.value,
-                                            })
+                                        open={autoCompleteOpen}
+                                        onChange={(event, value) =>
+                                            handleChangeCustomer(value)
                                         }
+                                        inputValue={customerState.Name}
+                                        onInputChange={(
+                                            event,
+                                            value,
+                                            reason
+                                        ) => {
+                                            switch (reason) {
+                                                case 'input':
+                                                    setAutoCompleteOpen(
+                                                        !!value
+                                                    );
+
+                                                    break;
+                                                case 'reset':
+
+                                                case 'clear':
+                                                    setAutoCompleteOpen(false);
+                                                    if (!value) {
+                                                        // setFilteredData(data);
+                                                        setDataSearch({
+                                                            ...dataSearch,
+                                                            CustomerId: 0,
+                                                        });
+                                                        setCustomerState({
+                                                            ...customerState,
+                                                            Name: '',
+                                                        });
+                                                    }
+
+                                                    break;
+                                                default:
+                                                    console.log(reason);
+                                            }
+                                        }}
+                                        renderOption={(option) => (
+                                            <React.Fragment>
+                                                {option.Id} - {option.Name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Produtor"
+                                                variant="outlined"
+                                                onChange={(e) =>
+                                                    setCustomerState({
+                                                        ...customerState,
+                                                        Name: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        )}
                                     />
-                                )}
-                            />
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
+                                >
+                                    <Autocomplete
+                                        id="product-state"
+                                        options={products}
+                                        getOptionLabel={(option) =>
+                                            `${option.Id} - ${option.Name}`
+                                        }
+                                        open={autoCompleteOpenProduct}
+                                        onChange={(event, value) =>
+                                            handleChangeProduct(value)
+                                        }
+                                        inputValue={productState.Name}
+                                        onInputChange={(
+                                            event,
+                                            value,
+                                            reason
+                                        ) => {
+                                            switch (reason) {
+                                                case 'input':
+                                                    setAutoCompleteOpenProduct(
+                                                        !!value
+                                                    );
+
+                                                    break;
+                                                case 'reset':
+
+                                                case 'clear':
+                                                    setAutoCompleteOpenProduct(
+                                                        false
+                                                    );
+                                                    if (!value) {
+                                                        // setFilteredData(data);
+                                                        setDataSearch({
+                                                            ...dataSearch,
+                                                            ProductId: 0,
+                                                        });
+                                                        setProductState({
+                                                            ...productState,
+                                                            Name: '',
+                                                        });
+                                                    }
+
+                                                    break;
+                                                default:
+                                                    console.log(reason);
+                                            }
+                                        }}
+                                        renderOption={(option) => (
+                                            <React.Fragment>
+                                                {option.Id} - {option.Name}
+                                            </React.Fragment>
+                                        )}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Produto"
+                                                variant="outlined"
+                                                onChange={(e) =>
+                                                    setProductState({
+                                                        ...productState,
+                                                        Name: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        )}
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        id="value"
+                                        label="Valor"
+                                        value={value}
+                                        type="number"
+                                        placeholder="Valor (1,00) ou Quantidade (1)"
+                                        onChange={handleChangeValue}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        id="value"
+                                        label="Data"
+                                        value={
+                                            period
+                                                ? period
+                                                : new Date()
+                                                      .toISOString()
+                                                      .slice(0, 16)
+                                        }
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        type="datetime-local"
+                                        onChange={handleChangePeriod}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
+                                >
+                                    <InputLabel id="currency-input">
+                                        Moeda
+                                    </InputLabel>
+                                    <Select
+                                        labelId="currency-input"
+                                        id="currency-select"
+                                        value={currencyId}
+                                        label="Moeda"
+                                        onChange={handleChangeCurrency}
+                                    >
+                                        <MenuItem value={1}>
+                                            <em>R$ - Real</em>
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </>
+                        )}
+                        <div
+                            className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width1} open-filter`}
                         >
-                            <TextField
-                                id="value"
-                                label="Valor"
-                                value={value}
-                                type="number"
-                                placeholder="Valor (1,00) ou Quantidade (1)"
-                                onChange={handleChangeValue}
-                                variant="outlined"
-                            />
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
-                        >
-                            <TextField
-                                id="value"
-                                label="Data"
-                                value={
-                                    period
-                                        ? period
-                                        : new Date().toISOString().slice(0, 16)
-                                }
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                type="datetime-local"
-                                onChange={handleChangePeriod}
-                                variant="outlined"
-                            />
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
-                        >
-                            <InputLabel id="currency-input">Moeda</InputLabel>
-                            <Select
-                                labelId="currency-input"
-                                id="currency-select"
-                                value={currencyId}
-                                label="Moeda"
-                                onChange={handleChangeCurrency}
-                            >
-                                <MenuItem value={1}>
-                                    <em>R$ - Real</em>
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1} `}
-                        ></FormControl>
+                            <Tooltip title="Limpar Campos">
+                                <IconButton
+                                    aria-label="clear"
+                                    onClick={clearFields}
+                                    className="clear-button"
+                                >
+                                    <FaEraser fontSize="medium" />
+                                </IconButton>
+                            </Tooltip>
+                            <div className="cadastro-regras__filter-search">
+                                <Tooltip
+                                    title={
+                                        openFilter
+                                            ? 'Fechar Filtro Avançado'
+                                            : 'Abrir Filtro Avançado'
+                                    }
+                                >
+                                    <IconButton
+                                        aria-label="filter"
+                                        onClick={() => {
+                                            if (openFilter) {
+                                                setOpenFilter(false);
+                                            } else {
+                                                setOpenFilter(true);
+                                            }
+                                        }}
+                                        className="clear-button"
+                                    >
+                                        <FaFilter fontSize="medium" />
+                                    </IconButton>
+                                </Tooltip>
+                            </div>
+                            {!openFilter && (
+                                <>
+                                    <div className="cadastro-regras__filter-search">
+                                        <Tooltip title="Pesquisar Regra">
+                                            <IconButton
+                                                aria-label="search"
+                                                onClick={searchRules}
+                                                className="search-button"
+                                            >
+                                                <FaSearch fontSize="medium" />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                    <div className="cadastro-regras__filter-search">
+                                        <Tooltip title="Nova Regra">
+                                            <IconButton
+                                                aria-label="search"
+                                                onClick={handleNewRule}
+                                                className="search-button"
+                                            >
+                                                <FaPlus fontSize="medium" />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
-                    {/* <div className="d-flex justify-content-center align-items-center"> */}
-                    <div className="cadastro-modulos__filter-clear">
-                        <Tooltip title="Limpar Campos">
-                            <IconButton
-                                aria-label="clear"
-                                onClick={clearFields}
-                                className="clear-button"
-                            >
-                                <FaEraser fontSize="medium" />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <div className="cadastro-modulos__filter-button">
-                        <Tooltip title="Pesquisar Regra">
-                            <IconButton
-                                aria-label="search"
-                                onClick={searchRules}
-                                className="add-button"
-                            >
-                                <FaSearch fontSize="medium" />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    {/* </div> */}
-                    <div className="cadastro-modulos__filter-button">
-                        <Tooltip title="Nova Regra">
-                            <IconButton
-                                aria-label="add"
-                                onClick={handleNewRule}
-                                className="add-button"
-                            >
-                                <FaPlus fontSize="medium" />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
+                    {openFilter && (
+                        <div className="cadastro-regras__filter-buttons">
+                            <div style={{ width: '225px' }}></div>
+                            <div style={{ width: '225px' }}>
+                                <div className="cadastro-regras__filter-new">
+                                    <Button
+                                        onClick={searchRules}
+                                        className="new-button"
+                                    >
+                                        <p>Pesquisar</p>
+                                        <FaSearch fontSize="medium" />
+                                    </Button>
+                                </div>
+                            </div>
+                            <div style={{ width: '225px' }}>
+                                <div className="cadastro-regras__filter-new">
+                                    <Button
+                                        onClick={handleNewRule}
+                                        className="new-button"
+                                    >
+                                        <p>Nova Regra</p>
+                                        <FaPlus fontSize="medium" />
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {filteredData.length === 0 ? (
-                    <div className="cadastro-modulos__not-found">
+                    <div className="cadastro-regras__not-found">
                         <p>Resultado não encontrado para a procura desejada!</p>
                         <FaRegFrown />
                     </div>
