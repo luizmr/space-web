@@ -9,13 +9,13 @@ export const mockCobranca = [
     {
         CobrancaTipo: 1,
         CobrancaDescricao: 'Até 10x sem juros',
-        CobrancaValor: '1000',
+        CobrancaValor: '1000,00',
         CobrancaId: 1,
     },
     {
         CobrancaTipo: 2,
         CobrancaDescricao: 'A vista com 10% de desconto',
-        CobrancaValor: '1000',
+        CobrancaValor: '1000,00',
         CobrancaId: 2,
     },
 ];
@@ -73,7 +73,7 @@ export const mockApps = [
         Status: 'Inativo',
     },
     {
-        Id: 3,
+        Id: 4,
         Nome: 'orbita',
         Logo: `${NutrorLogo}`,
         Descricao:

@@ -6,6 +6,9 @@ import FormNovoApp from './app/pages/form-novo-app/form-novo-app';
 import Login from './app/pages/Login/Login';
 import VitrineApp from './app/pages/vitrine-app/vitrine-app';
 import Home from './app/pages/home/home';
+import CadastroModulos from './app/pages/cadastro-modulos/cadastro-modulos';
+import ConsultaRegras from './app/pages/consulta-regras/consulta-regras';
+import CadastroRegras from './app/pages/cadastro-regras/cadastro-regras';
 
 interface RouteInterface {
     key: string;
@@ -27,6 +30,11 @@ const routes = [
         key: 'billing',
         Component: Billing,
         path: '/billing',
+    },
+    {
+        key: 'consulta-regras',
+        Component: ConsultaRegras,
+        path: '/billing/consulta-regras',
     },
     {
         key: 'cadastro-apps',
@@ -52,6 +60,16 @@ const routes = [
         key: 'vitrine-app',
         Component: VitrineApp,
         path: '/vitrine-app/:id',
+    },
+    {
+        key: 'cadastro-modulos',
+        Component: CadastroModulos,
+        path: '/billing/cadastro-modulos',
+    },
+    {
+        key: 'cadastro-regras',
+        Component: CadastroRegras,
+        path: '/billing/cadastro-regras',
     },
 ];
 

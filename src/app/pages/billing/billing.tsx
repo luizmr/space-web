@@ -4,26 +4,48 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 
 export default function Billing() {
+    const consultas = [
+        {
+            title: 'Regras',
+            path: 'billing/consulta-regras',
+        },
+    ];
     const cadastros = [
+        { title: 'Regras', path: 'billing/cadastro-regras' },
         { title: 'Aplicações', path: 'billing/cadastro-apps' },
+        { title: 'Produtor', path: 'billing/cadastro-produtor' },
         { title: 'Produtos', path: 'billing/cadastro-produtos' },
         { title: 'Moedas', path: 'billing/cadastro-moedas' },
         { title: 'Módulos/Eventos', path: 'billing/cadastro-modulos' },
-        { title: 'Tipos de Taxas', path: 'billing/cadastro-tipos-de-taxas' },
-        {
-            title: 'Taxas Aplicadas por Aplicação',
-            path: 'billing/cadastro-taxas-por-aplicação',
-        },
-        {
-            title: 'Cobrança das Taxas',
-            path: 'billing/cadastro-cobranca-taxas',
-        },
+        // { title: 'Tipos de Taxas', path: 'billing/cadastro-tipos-de-taxas' },
+        // {
+        //     title: 'Taxas Aplicadas por Aplicação',
+        //     path: 'billing/cadastro-taxas-por-aplicação',
+        // },
+        // {
+        //     title: 'Cobrança das Taxas',
+        //     path: 'billing/cadastro-cobranca-taxas',
+        // },
     ];
     return (
         <>
             <Navbar />
             <div className="billing">
                 <h2>Área de Billing</h2>
+                <h4>Consulta:</h4>
+                <div
+                    className="billing__cruds"
+                    style={{ marginBottom: '50px' }}
+                >
+                    {consultas.map((el) => (
+                        <div>
+                            <p>{el.title}</p>
+                            <Link to={`${el.path}`}>
+                                <FaChevronRight />
+                            </Link>
+                        </div>
+                    ))}
+                </div>
                 <h4>Cadastros:</h4>
                 <div className="billing__cruds">
                     {cadastros.map((el) => (
