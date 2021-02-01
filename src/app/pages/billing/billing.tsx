@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import FloatingNavbar from '../../components/FloatingNavbar/FloatingNavbar';
 import Navbar from '../../components/Navbar/Navbar';
 
 export default function Billing() {
@@ -37,6 +38,7 @@ export default function Billing() {
                 </div>
             </div>
             <div className="footer">Footer</div>
+            <FloatingNavbar />
         </>
     );
 }

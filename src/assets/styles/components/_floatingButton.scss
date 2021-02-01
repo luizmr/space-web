@@ -1,0 +1,21 @@
+#root {
+    position: relative;
+    .btn-floating-navbar {
+        position: fixed;
+        bottom: 35px;
+        right: 35px;
+
+        .MuiFab-primary {
+            background-color: #dbdbdb;
+
+            &:hover {
+                background-color: #b3b3b3;
+                color: black;
+                transition: 0.3s;
+            }
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}

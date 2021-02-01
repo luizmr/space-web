@@ -36,10 +36,13 @@ function Login() {
         setError(false);
         setTimeout(() => {
             if (
-                mockLogin.find(
-                    ({ email, senha }) =>
-                        values.email === email && values.password === senha
-                )
+                mockLogin.find(({ email, senha, acesso }) => {
+                    if (values.email === email && values.password === senha) {
+                        localStorage.user = acesso;
+                        return true;
+                    }
+                    return false;
+                })
             ) {
                 history.push('/home');
             } else {

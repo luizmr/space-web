@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { NavDropdown, NavbarBrand, Navbar as Navs, Nav } from 'react-bootstrap';
-import { FaChevronDown, FaUserAlt, FaUserCircle } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 
 interface ObjOptions {
     title: string;
@@ -12,12 +11,42 @@ const Navbar: React.FC = () => {
     const nome = 'Vitor Araújo'; // Nome exemplo
     const [userDrop, setUserDrop] = useState<boolean>(false);
 
-    const options: ObjOptions[] = [
-        { title: 'Meus Aplicativos', path: '/meus-aplicativos' },
-        { title: 'Vitrine', path: '/vitrine' },
-        { title: 'Billing', path: '/billing' },
-        { title: 'Ajuda', path: '/ajuda' },
-    ];
+    const user = localStorage.user;
+
+    const options: ObjOptions[] =
+        user !== 'admin'
+            ? [
+                  {
+                      title: 'Meus Aplicativos',
+                      path: '/meus-aplicativos',
+                  },
+                  {
+                      title: 'Vitrine',
+                      path: '/vitrine',
+                  },
+                  {
+                      title: 'Ajuda',
+                      path: '/ajuda',
+                  },
+              ]
+            : [
+                  {
+                      title: 'Cadastrar',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Meus Produtos',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Regras de Cobranças',
+                      path: '/billing',
+                  },
+                  {
+                      title: 'Ajuda',
+                      path: '/ajuda',
+                  },
+              ];
 
     return (
         <header>
@@ -64,14 +93,15 @@ const Navbar: React.FC = () => {
                                         ? `dropdown-button-drop-down`
                                         : `dropdown-button-drop-up`
                                 }
-                                drop={userDrop ? 'up' : 'down'}
-                                onClick={() => {
-                                    if (userDrop) {
-                                        setUserDrop(false);
-                                    } else {
-                                        setUserDrop(true);
-                                    }
-                                }}
+                                drop={'down'}
+                                // drop={userDrop ? 'down' : 'up'}
+                                // onClick={() => {
+                                //     if (userDrop) {
+                                //         setUserDrop(false);
+                                //     } else {
+                                //         setUserDrop(true);
+                                //     }
+                                // }}
                             >
                                 <NavDropdown.Item href="/minha-conta">
                                     Minha conta
