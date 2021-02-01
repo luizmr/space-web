@@ -10,6 +10,50 @@ import HelpIcon from '@material-ui/icons/Help';
 import PaymentIcon from '@material-ui/icons/Payment';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            transform: 'translateZ(0px)',
+            flexGrow: 1,
+            '& > *': {
+                margin: theme.spacing(1),
+            },
+        },
+
+        typography: {
+            padding: theme.spacing(2),
+            width: '300px',
+            height: '300px',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+        },
+        a: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            color: 'black',
+            borderRadius: '8px',
+            '&:hover': {
+                color: 'black',
+                backgroundColor: '#dbdbdb',
+                transition: '0.3s',
+                textDecoration: 'none',
+            },
+        },
+        b: {
+            backgroundColor: '#dbdbdb',
+            '&:hover': {
+                backgroundColor: '#b3b3b3',
+
+                color: 'black',
+                transition: '0.3s',
+            },
+        },
+    })
+);
+
 const FloatingNavbar: React.FC = () => {
     const user = localStorage.user;
 
@@ -54,50 +98,6 @@ const FloatingNavbar: React.FC = () => {
                       icon: <HelpIcon fontSize="large" />,
                   },
               ];
-
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                transform: 'translateZ(0px)',
-                flexGrow: 1,
-                '& > *': {
-                    margin: theme.spacing(1),
-                },
-            },
-
-            typography: {
-                padding: theme.spacing(2),
-                width: '300px',
-                height: '300px',
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-            },
-            a: {
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                textAlign: 'center',
-                color: 'black',
-                borderRadius: '8px',
-                '&:hover': {
-                    color: 'black',
-                    backgroundColor: '#dbdbdb',
-                    transition: '0.3s',
-                    textDecoration: 'none',
-                },
-            },
-            b: {
-                backgroundColor: '#dbdbdb',
-                '&:hover': {
-                    backgroundColor: '#b3b3b3',
-
-                    color: 'black',
-                    transition: '0.3s',
-                },
-            },
-        })
-    );
 
     const classes = useStyles();
 
