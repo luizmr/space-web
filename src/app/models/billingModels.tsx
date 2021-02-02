@@ -36,20 +36,20 @@ export interface PeriodOutput {
 }
 
 export interface FeeOutput {
-    Id: number;
-    Value: number;
-    IsPercent: boolean;
+    Id?: number;
+    Value?: number;
+    IsPercent?: boolean;
     Range?: RangeOutput;
     Period?: PeriodOutput;
 }
 
 export interface RegrasOutput {
-    Id: number;
+    Id?: number;
     Name: string;
     AppId: number;
     EventId: number;
     CurrencyId: number;
-    Customer: ProdutorOutput;
+    Customer?: ProdutorOutput | null;
     Product?: ProdutoOutput | null;
     Fees?: Array<FeeOutput>;
 }
@@ -65,12 +65,12 @@ export interface DataOutput {
 }
 
 export interface DataRulesOutput {
-    Id: number;
+    Id?: number;
     Name: string;
     AppId: number;
     EventId?: number;
     CurrencyId: number;
-    Customer?: ProdutorOutput;
+    Customer?: ProdutorOutput | null;
     Product?: ProdutoOutput | null;
     Fees?: Array<FeeOutput>;
     AppName?: string;
@@ -90,7 +90,7 @@ export interface DataRulesOutput {
 
 export interface DataRulesSearchOutput {
     Id?: number | null;
-    // Name: string;
+    Name?: string | null;
     AppId?: number | null;
     // AppName?: string;
     EventId?: number | null;

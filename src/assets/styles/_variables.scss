@@ -3,3 +3,8 @@ $primary-color-1: #343a40;
 $primary-color-2: #d4d4d4;
 $media-md: 830px;
 $media-sm: 440px;
+
+*:focus {
+    outline: none !important;
+    border: none !important ;
+}

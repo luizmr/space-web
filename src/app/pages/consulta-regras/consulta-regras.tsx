@@ -172,17 +172,20 @@ export default function ConsultaRegras() {
     }, []);
 
     const selectEventsPerApp = (event: any): void => {
-        setAppId(event.target.value);
-        setData({ ...data, AppId: event.target.value, CurrencyId: 1 });
+        const {
+            target: { value },
+        } = event;
+        setAppId(value);
+        setData({ ...data, AppId: value, CurrencyId: 1 });
         setEventId(0);
 
-        if (event.target.value === 0) {
+        if (value === 0) {
             setFilteredEvents([]);
             setEventId(0);
         } else {
             let newDataArray: Array<EventsOutput> = [];
-            events.map((obj) => {
-                if (obj.AppId === event.target.value) {
+            events.forEach((obj) => {
+                if (obj.AppId === value) {
                     newDataArray.push(obj);
                 }
             });
@@ -192,8 +195,11 @@ export default function ConsultaRegras() {
     };
 
     const handleChangeEvent = (event: any): void => {
-        setEventId(event.target.value);
-        setData({ ...data, EventId: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        setEventId(value);
+        setData({ ...data, EventId: value });
     };
 
     const handleChangeCustomer = (value: any): void => {
@@ -212,15 +218,21 @@ export default function ConsultaRegras() {
     };
 
     const handleChangeCurrency = (event: any): void => {
-        setCurrencyId(event.target.value);
-        setData({ ...data, CurrencyId: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        setCurrencyId(value);
+        setData({ ...data, CurrencyId: value });
     };
 
     const handleChangeValue = (event: any): void => {
-        console.log(event.target.value);
-        if (event.target.value) {
-            setValue(event.target.value);
-            setData({ ...data, Value: event.target.value });
+        const {
+            target: { value },
+        } = event;
+
+        if (value) {
+            setValue(value);
+            setData({ ...data, Value: value });
         } else {
             setValue('');
             setData({ ...data, Value: null });
@@ -228,11 +240,14 @@ export default function ConsultaRegras() {
     };
 
     const handleChangePeriod = (event: any): void => {
-        if (event.target.value) {
-            setPeriod(event.target.value);
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setPeriod(value);
             setData({
                 ...data,
-                Period: `${new Date(event.target.value).getTime()}`,
+                Period: `${new Date(value).getTime()}`,
             });
         } else {
             setPeriod('');
@@ -241,7 +256,6 @@ export default function ConsultaRegras() {
     };
 
     const searchRules = (): void => {
-        console.log(data);
         setFeesIsTrue(true);
         setPeriodIsTrue(true);
         setClear(false);
@@ -249,11 +263,32 @@ export default function ConsultaRegras() {
         setIsSearching(true);
 
         let newArray: Array<RegrasOutput> = [];
-        let newRule = dataRules.filter((obj) => {
+        dataRules.forEach((obj) => {
             if (
                 obj.AppId === data.AppId &&
                 obj.EventId === data.EventId &&
-                obj.Customer.Id === data.CustomerId &&
+                obj.Customer?.Id === data.CustomerId &&
+                obj.CurrencyId === data.CurrencyId
+            ) {
+                if (obj.Product === null) {
+                    if (data.ProductId === 0 || data.ProductId === undefined) {
+                        newArray.push({ ...obj });
+                        return obj;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if (data.ProductId === obj.Product?.Id) {
+                        newArray.push({ ...obj });
+                        return obj;
+                    } else {
+                        return false;
+                    }
+                }
+            } else if (
+                obj.AppId === data.AppId &&
+                obj.EventId === data.EventId &&
+                obj.Customer === null &&
                 obj.CurrencyId === data.CurrencyId
             ) {
                 if (obj.Product === null) {
@@ -734,17 +769,9 @@ export default function ConsultaRegras() {
                                                             >
                                                                 Valor:{' '}
                                                                 {!el.IsPercent &&
-                                                                    el.Value %
-                                                                        1 !=
-                                                                        0 &&
                                                                     formatter.format(
-                                                                        el.Value
+                                                                        el.Value!
                                                                     )}
-                                                                {!el.IsPercent &&
-                                                                    el.Value %
-                                                                        1 ===
-                                                                        0 &&
-                                                                    el.Value}
                                                                 {el.IsPercent &&
                                                                     `${el.Value} %`}
                                                             </Typography>

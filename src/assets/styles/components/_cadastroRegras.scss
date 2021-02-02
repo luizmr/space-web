@@ -240,6 +240,13 @@
 @media (max-width: $media-md) {
     .cadastro-regras {
         width: 80vw;
+
+        .cadastro-regras__filter {
+            .filters {
+                gap: 20px;
+                justify-content: space-between;
+            }
+        }
     }
 }
 
@@ -258,11 +265,15 @@
             grid-template-columns: 1fr;
             justify-content: center;
 
-            .fitlers {
+            .filters {
                 gap: 20px;
                 display: grid;
                 grid-template-columns: 1fr;
                 justify-content: center;
+
+                .div-filter {
+                    display: none;
+                }
             }
 
             .cadastro-regras__filter-button {
@@ -271,6 +282,14 @@
 
             .cadastro-regras__filter-clear {
                 margin: 0 auto;
+            }
+
+            .cadastro-regras__filter-buttons {
+                flex-direction: column;
+                button {
+                    width: 100% !important;
+                }
+                margin: 0;
             }
         }
 
@@ -285,16 +304,141 @@
         }
     }
 
-    .MuiPaper-root {
-        .dialog-module {
-            .MuiFormControl-root {
-                width: 100% !important;
-            }
+    .dialog-form {
+        .part-form {
+            display: grid;
+            grid-template-columns: 1fr !important;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
         }
     }
 }
 
+.MuiDialog-paperScrollPaper {
+    height: 600px !important;
+    width: 600px !important;
+}
+
 .MuiPaper-root {
+    // width: 600px !important;
+    // height: 600px !important;
+    .dialog-form {
+        .MuiTypography-root {
+            display: grid;
+            max-width: 420px !important;
+            margin: 0 auto;
+            max-height: 400px !important;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .cards-fees {
+            width: 100% !important;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            overflow-x: auto !important;
+            overflow-y: hidden;
+            gap: 20px;
+            .header-div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+                h6 {
+                    margin: 0;
+                }
+            }
+            .card-title {
+                display: flex;
+                justify-content: flex-start;
+                gap: 5px;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .fees-data {
+                display: grid;
+                grid-template-rows: 1fr;
+                justify-content: flex-start;
+                align-items: center;
+                margin-bottom: 10px;
+
+                p {
+                    margin: 0 !important;
+                    display: flex;
+                    justify-content: flex-start;
+                }
+
+                .MuiFormControlLabel-root {
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                    margin-bottom: 0 !important;
+
+                    span {
+                        color: $primary-color-1;
+                        font-size: 1.1rem;
+                    }
+                }
+            }
+        }
+
+        .part-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            .MuiTypography-root {
+                display: grid;
+
+                gap: 20px;
+                justify-content: center;
+            }
+
+            button {
+                border: none;
+                background-color: #f50057;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                transition: all 0.3s ease-in-out;
+                svg {
+                    transition: all 0.3s ease-in-out;
+                }
+
+                &:hover {
+                    background-color: #c50045 !important;
+                    color: #fff;
+                    svg {
+                        transform: scale(1.2);
+                    }
+                }
+
+                &:focus,
+                &:active {
+                    // border: none !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                }
+            }
+
+            .button-cancel {
+                color: #f50057;
+                background-color: transparent;
+                transition: all 0.3s ease-in-out;
+                border: 1px solid #f50057 !important;
+
+                &:hover {
+                    background-color: #c50045 !important;
+                    color: #fff;
+                    border: 1px solid #f50057;
+                }
+            }
+        }
+    }
     .dialog-buttons {
         justify-content: space-between;
         padding: 24px 24px;
@@ -306,15 +450,48 @@
                     background-color: #6c757d !important;
                     color: #fff;
                 }
+
+                &:focus,
+                &:active {
+                    // border: none !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                }
             }
         }
         div:nth-child(2) {
-            button {
-                background-color: #4bb543 !important;
-                border: none !important;
+            .confirm-button {
+                background-color: #4bb543;
+                border: none;
 
                 &:hover {
-                    background-color: #419154 !important;
+                    background-color: #419154;
+                }
+
+                &:focus,
+                &:active {
+                    // border: none !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                }
+            }
+            // }
+            .edit-button {
+                border: none;
+                background-color: #f50057 !important;
+
+                transition: all 0.3s ease-in-out;
+
+                &:hover {
+                    background-color: #c50045 !important;
+                    color: #fff;
+                }
+
+                &:focus,
+                &:active {
+                    // border: none !important;
+                    box-shadow: none !important;
+                    outline: none !important;
                 }
             }
         }

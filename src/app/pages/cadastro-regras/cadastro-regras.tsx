@@ -9,16 +9,25 @@ import {
     mockProdutos,
     mockRegras,
 } from '../consulta-regras/mockBilling';
-import { FiCornerDownLeft, FiCornerDownRight } from 'react-icons/fi';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import {
+    FiBarChart,
+    FiCornerDownLeft,
+    FiCornerDownRight,
+    FiPlusCircle,
+} from 'react-icons/fi';
 import {
     FaEdit,
     FaPlus,
     FaTrashAlt,
     FaEraser,
     FaRegFrown,
-    FaCheck,
     FaSearch,
     FaFilter,
+    FaChevronUp,
+    FaDonate,
+    FaCalendarAlt,
 } from 'react-icons/fa';
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {
@@ -30,6 +39,11 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    Box,
+    Typography,
+    Tab,
+    Tabs,
+    AppBar,
 } from '@material-ui/core';
 import {
     IconButton,
@@ -59,8 +73,6 @@ import {
     ProdutorOutput,
     RegrasOutput,
 } from '../../models/billingModels';
-import { DataModulosOutput } from '../../models/cadastro-modulos';
-import ModalDeletingComponent from '../../components/modal-deleting/modal-deleting';
 import ModalSuccessComponent from '../../components/modal-success/modal-success';
 import { Autocomplete } from '@material-ui/lab';
 
@@ -78,7 +90,6 @@ const theme = createMuiTheme({
 
 const useOutlinedInputStyles = makeStyles({
     root: {
-        // width: 200,
         '& .MuiOutlinedInput-input': {
             color: '#23272b90',
         },
@@ -111,6 +122,12 @@ const useOutlinedInputStyles = makeStyles({
     width1: {
         width: 225,
         marginBottom: 20,
+        [theme.breakpoints.up('sm')]: {
+            width: '45% !important',
+        },
+        [theme.breakpoints.up('md')]: {
+            width: '225px !important',
+        },
         [theme.breakpoints.down('sm')]: {
             width: '100%',
         },
@@ -118,25 +135,29 @@ const useOutlinedInputStyles = makeStyles({
     width2: {
         width: 300,
     },
+    width3: {
+        width: 200,
+    },
 });
 
 const useStyles = makeStyles({
-    root: {
+    tabRoot: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        minHeight: 400,
         width: '100%',
     },
     container: {
         minHeight: 350,
     },
+    cardRoot: {
+        minWidth: '250px !important',
+        marginBottom: 20,
+    },
 });
 
 const columns = [
     { id: 'acoes', label: 'Ações', width: 50 },
-    // {
-    //     id: 'FeeId',
-    //     label: 'Taxa ID',
-    //     minWidth: 100,
-    // },
-    // { id: 'Id', label: 'ID', minWidth: 10 },
     {
         id: 'RuleName',
         label: 'Regra',
@@ -157,55 +178,52 @@ const columns = [
         label: 'Produtor',
         width: 200,
     },
-    // {
-    //     id: 'ProductName',
-    //     label: 'Produto',
-    //     minWidth: 200,
-    // },
-    // {
-    //     id: 'CurrencyName',
-    //     label: 'Moeda',
-    //     minWidth: 150,
-    // },
-    // {
-    //     id: 'FeeValue',
-    //     label: 'Valor',
-    //     minWidth: 100,
-    // },
-    // {
-    //     id: 'FeeRangeFrom',
-    //     label: 'Range De',
-    //     minWidth: 150,
-    // },
-    // {
-    //     id: 'FeeRangeTo',
-    //     label: 'Range Para',
-    //     minWidth: 150,
-    // },
-    // {
-    //     id: 'FeePeriodFrom',
-    //     label: 'Período De',
-    //     minWidth: 150,
-    // },
-    // {
-    //     id: 'FeePeriodTo',
-    //     label: 'Período Para',
-    //     minWidth: 150,
-    // },
 ];
+
+function TabPanel(props: any) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`scrollable-force-tabpanel-${index}`}
+            aria-labelledby={`scrollable-force-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
+
+function a11yProps(index: number) {
+    return {
+        id: `scrollable-force-tab-${index}`,
+        'aria-controls': `scrollable-force-tabpanel-${index}`,
+    };
+}
 
 function CadastroRegras() {
     const history = useHistory();
     const classes = useStyles();
     const outlinedInputClasses = useOutlinedInputStyles();
+    const [tabValue, setTabValue] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-    const [ruleId, setRuleId] = useState<number>(0);
+
+    const [ruleName, setRuleName] = useState<string>('');
     const [rules, setRules] = useState<Array<RegrasOutput>>([]);
-    const [filteredRules, setFilteredRules] = useState<Array<RegrasOutput>>([]);
+
     const [appId, setAppId] = useState<number>(0);
     const [newAppId, setNewAppId] = useState<number>(0);
+    const [oldAppId, setOldAppId] = useState<number>(0);
     const [moduloId, setModuloId] = useState<number>(0);
+    const [newModuloId, setNewModuloId] = useState<number>(0);
+    const [oldModuloId, setOldModuloId] = useState<number>(0);
     const [apps, setApps] = useState<Array<AppOutput>>([]);
     const [filteredApps, setFilteredApps] = useState<Array<AppOutput>>([]);
     const [data, setData] = useState<Array<DataRulesOutput>>([]);
@@ -215,21 +233,57 @@ function CadastroRegras() {
     const [filteredModulos, setFilteredModulos] = useState<Array<EventsOutput>>(
         []
     );
+    const [newFilteredModulos, setNewFilteredModulos] = useState<
+        Array<EventsOutput>
+    >([]);
+    const [oldFilteredModulos, setOldFilteredModulos] = useState<
+        Array<EventsOutput>
+    >([]);
     const [modulos, setModulos] = useState<Array<EventsOutput>>([]);
     const [showModalEditAdd, setShowModalEditAdd] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [nameValid, setNameValid] = useState<boolean>(false);
+    const [ruleEditing, setRuleEditing] = useState<boolean>(false);
+    const [ruleNew, setRuleNew] = useState<boolean>(false);
+    const [inputsDisabled, setInputsDisabled] = useState<boolean>(false);
+
     const [sending, setSending] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const [rule, setRule] = useState<EventsOutput>({});
+    const [rule, setRule] = useState<RegrasOutput>({
+        Name: '',
+        AppId: 0,
+        EventId: 0,
+        CurrencyId: 1,
+        Customer: null,
+        Product: null,
+        Fees: [],
+        Id: undefined,
+    });
+    const [oldRule, setOldRule] = useState<any>({});
     const [currencyId, setCurrencyId] = useState<number>(1);
+    const [isPercent, setIsPercent] = useState<number>(0);
+    const [newCurrencyId, setNewCurrencyId] = useState<number>(1);
     const [customer, setCustomer] = useState<Array<ProdutorOutput>>([]);
     const [autoCompleteOpen, setAutoCompleteOpen] = useState<boolean>(false);
+    const [editAutoCompleteOpen, setEditAutoCompleteOpen] = useState<boolean>(
+        false
+    );
     const [
         autoCompleteOpenProduct,
         setAutoCompleteOpenProduct,
     ] = useState<boolean>(false);
+    const [
+        editAutoCompleteOpenProduct,
+        setEditAutoCompleteOpenProduct,
+    ] = useState<boolean>(false);
     const [customerState, setCustomerState] = useState<any>({
+        Id: undefined,
+        Name: '',
+    });
+    const [editCustomerState, setEditCustomerState] = useState<any>({
+        Id: undefined,
+        Name: '',
+    });
+    const [oldEditCustomerState, setOldEditCustomerState] = useState<any>({
         Id: undefined,
         Name: '',
     });
@@ -238,10 +292,39 @@ function CadastroRegras() {
         Id: undefined,
         Name: '',
     });
+    const [editProductState, setEditProductState] = useState<any>({
+        Id: undefined,
+        Name: '',
+    });
+    const [oldEditProductState, setOldEditProductState] = useState<any>({
+        Id: undefined,
+        Name: '',
+    });
     const [value, setValue] = useState<string>('');
+    const [feeValue, setFeeValue] = useState<string>('');
+    const [feeValueFrom, setFeeValueFrom] = useState<string>('');
+    const [feeValueTo, setFeeValueTo] = useState<string>('');
     const [period, setPeriod] = useState<string>('');
+    const [periodFrom, setPeriodFrom] = useState<string>('');
+    const [periodTo, setPeriodTo] = useState<string>('');
     const [dataSearch, setDataSearch] = useState<DataRulesSearchOutput>({});
     const [openFilter, setOpenFilter] = useState<boolean>(false);
+    const [feeObject, setFeeObject] = useState<FeeOutput>({
+        Id: undefined,
+        Value: undefined,
+        IsPercent: false,
+        Range: {
+            From: null,
+            To: null,
+        },
+        Period: { From: null, To: null },
+    });
+    const [feesArray, setFeesArray] = useState<Array<FeeOutput> | undefined>(
+        []
+    );
+    const [oldFeesArray, setOldFeesArray] = useState<
+        Array<FeeOutput> | undefined
+    >([]);
 
     const formatter = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -257,13 +340,13 @@ function CadastroRegras() {
         currency: Array<MoedasOutput>
     ) => {
         let newArray: Array<DataRulesOutput> = [];
-        rules.map((obj: RegrasOutput) => {
+        rules.forEach((obj: RegrasOutput) => {
             let appFound = app.find((el: AppOutput) => el.Id === obj.AppId);
             let eventFound = events.find(
                 (el: EventsOutput) => el.Id === obj.EventId
             );
             let customerFound = customer.find(
-                (el: ProdutorOutput) => el.Id === obj.Customer.Id
+                (el: ProdutorOutput) => el.Id === obj.Customer?.Id
             );
             let productFound = product.find(
                 (el: ProdutoOutput) => el.Id === obj.Product?.Id
@@ -271,29 +354,6 @@ function CadastroRegras() {
             let currencyFound = currency.find(
                 (el: MoedasOutput) => el.Id === obj.CurrencyId
             );
-
-            // obj.Fees?.map((fee: FeeOutput) => {
-            //     let value = fee.IsPercent
-            //         ? `${fee.Value} %`
-            //         : fee.Value % 1 != 0
-            //         ? formatter.format(fee.Value)
-            //         : `${fee.Value}`;
-            //     newArray.push({
-            //         ...obj,
-            //         AppName: appFound?.Name,
-            //         EventName: eventFound?.Name,
-            //         CustomerName: customerFound?.Name,
-            //         ProductName: productFound ? productFound?.Name : '',
-            //         CurrencyName: `${currencyFound?.ShortName} - ${currencyFound?.Name}`,
-            //         FeeId: fee.Id,
-            //         FeeValue: value,
-            //         FeeIsPercent: fee.IsPercent,
-            //         FeeRangeFrom: fee.Range?.From,
-            //         FeeRangeTo: fee.Range?.To,
-            //         FeePeriodFrom: fee.Period?.From,
-            //         FeePeriodTo: fee.Period?.To,
-            //     });
-            // });
 
             newArray.push({
                 ...obj,
@@ -305,7 +365,7 @@ function CadastroRegras() {
                 RuleName: `${obj.Id} - ${obj.Name}`,
             });
         });
-        console.log('1', newArray);
+
         return newArray;
     };
 
@@ -335,29 +395,45 @@ function CadastroRegras() {
                 mockMoedas
             )
         );
-        console.log('filtered data', filteredData);
+
         setFilteredModulos(mockEventos);
-        setFilteredRules(mockRegras);
+
         setFilteredApps(mockApps);
     }, []);
 
     const handleChangeRule = (event: any): void => {
-        setRuleId(event.target.value);
-        setDataSearch({ ...dataSearch, Id: event.target.value });
+        const {
+            target: { value },
+        } = event;
 
-        if (event.target.value === 0 && appId === 0) {
+        setRuleName(value);
+        setDataSearch({ ...dataSearch, Name: value });
+
+        if (value === '' && appId === 0) {
             setAppId(0);
             setModuloId(0);
-            setDataSearch({ ...dataSearch, EventId: 0, AppId: 0, Id: 0 });
-        } else if (event.target.value === 0 && appId !== 0) {
+            setDataSearch({
+                ...dataSearch,
+                EventId: 0,
+                AppId: 0,
+                Id: 0,
+                Name: '',
+            });
+        } else if (value === '' && appId !== 0) {
             setAppId(0);
-            setDataSearch({ ...dataSearch, EventId: 0, AppId: 0, Id: 0 });
+            setDataSearch({
+                ...dataSearch,
+                EventId: 0,
+                AppId: 0,
+                Id: 0,
+                Name: '',
+            });
             setFilteredModulos(modulos);
         } else {
             let newDataArray: Array<DataRulesOutput> = [];
             let newAppArray: Array<AppOutput> = [];
-            data.map((obj) => {
-                if (obj.Id === event.target.value) {
+            data.forEach((obj) => {
+                if (obj.Name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                     newDataArray.push(obj);
                     newAppArray.push({ Id: obj.AppId, Name: obj.AppName });
                 }
@@ -368,43 +444,47 @@ function CadastroRegras() {
     };
 
     const handleChangeApp = (event: any): void => {
-        setAppId(event.target.value);
+        const {
+            target: { value },
+        } = event;
+        setAppId(value);
         setModuloId(0);
-        setDataSearch({ ...dataSearch, AppId: event.target.value });
+        setDataSearch({ ...dataSearch, AppId: value });
 
         if (event.target.value === 0) {
             setFilteredModulos(modulos);
-            setFilteredRules(rules);
             setDataSearch({ ...dataSearch, EventId: 0, AppId: 0 });
             setModuloId(0);
         } else {
             let newDataArray: Array<DataRulesOutput> = [];
             let newEventArray: Array<EventsOutput> = [];
             let newRuleArray: Array<{ Id: number; Name: string }> = [];
-            data.map((obj) => {
-                if (obj.AppId === event.target.value) {
+            data.forEach((obj) => {
+                if (obj.AppId === value) {
                     newDataArray.push(obj);
                     newEventArray.push({
                         Id: obj.EventId,
                         Name: obj.EventName,
                     });
-                    newRuleArray.push({ Id: obj.Id, Name: obj.Name });
+                    newRuleArray.push({ Id: obj.Id!, Name: obj.Name });
                 }
             });
 
             setFilteredModulos(filterDuplicate(newEventArray));
-            setFilteredRules(filterDuplicate(newRuleArray));
         }
     };
 
     const handleChangeModulo = (event: any): void => {
-        setModuloId(event.target.value);
-        setDataSearch({ ...dataSearch, EventId: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        setModuloId(value);
+        setDataSearch({ ...dataSearch, EventId: value });
 
-        if (event.target.value === 0 && appId === 0) {
+        if (value === 0 && appId === 0) {
             setFilteredData(data);
             setAppId(0);
-        } else if (event.target.value === 0 && appId !== 0) {
+        } else if (value === 0 && appId !== 0) {
             setAppId(0);
             setFilteredModulos(modulos);
         }
@@ -426,10 +506,12 @@ function CadastroRegras() {
     };
 
     const handleChangeValue = (event: any): void => {
-        console.log(event.target.value);
-        if (event.target.value) {
-            setValue(event.target.value);
-            setDataSearch({ ...dataSearch, FeeValue: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setValue(value);
+            setDataSearch({ ...dataSearch, FeeValue: value });
         } else {
             setValue('');
             setDataSearch({ ...dataSearch, FeeValue: null });
@@ -437,11 +519,14 @@ function CadastroRegras() {
     };
 
     const handleChangePeriod = (event: any): void => {
-        if (event.target.value) {
-            setPeriod(event.target.value);
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setPeriod(value);
             setDataSearch({
                 ...dataSearch,
-                FeePeriod: `${new Date(event.target.value).getTime()}`,
+                FeePeriod: `${new Date(value).getTime()}`,
             });
         } else {
             setPeriod('');
@@ -450,23 +535,24 @@ function CadastroRegras() {
     };
 
     const handleChangeCurrency = (event: any): void => {
-        setCurrencyId(event.target.value);
-        setDataSearch({ ...dataSearch, CurrencyId: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        setCurrencyId(value);
+        setDataSearch({ ...dataSearch, CurrencyId: value });
     };
 
     const searchRules = (): void => {
-        console.log(dataSearch);
-        // setFeesIsTrue(true);
-        // setPeriodIsTrue(true);
-        // setClear(false);
-        // setWasFound(false);
-        // setIsSearching(true);
-
         let newArray: Array<DataRulesOutput> = data;
-        console.log('data', newArray);
-        if (dataSearch.Id) {
-            if (dataSearch.Id !== 0) {
-                newArray = newArray.filter((obj) => obj.Id === dataSearch.Id);
+
+        if (dataSearch.Name) {
+            if (dataSearch.Name !== '') {
+                newArray = newArray.filter(
+                    (obj) =>
+                        obj.Name.toLowerCase().indexOf(
+                            dataSearch.Name!.toLowerCase()
+                        ) > -1
+                );
             }
         }
         if (dataSearch.AppId) {
@@ -505,22 +591,14 @@ function CadastroRegras() {
 
         let arrayWithValue: Array<DataRulesOutput> = [];
         if (dataSearch.FeeValue) {
-            newArray.map((obj) => {
+            newArray.forEach((obj) => {
                 let validatedFees = validateValue(obj);
-                console.log('validatedfees', validatedFees);
+
                 if (Array.isArray(validatedFees) && validatedFees.length) {
-                    console.log('array with value push');
                     arrayWithValue.push({ ...obj });
                 }
             });
         }
-
-        console.log(
-            'antes',
-            dataSearch.FeePeriod,
-            arrayWithValue,
-            dataSearch.FeeValue
-        );
 
         let arrayWithPeriod: Array<DataRulesOutput> = [];
         if (
@@ -528,29 +606,24 @@ function CadastroRegras() {
             !dataSearch.FeeValue &&
             !arrayWithValue.length
         ) {
-            console.log('1');
-            newArray.map((obj) => {
+            newArray.forEach((obj) => {
                 let validatedPeriod = validatePeriod(obj);
-                console.log('validatedperiod', validatedPeriod);
+
                 if (Array.isArray(validatedPeriod) && validatedPeriod.length) {
-                    console.log('array with period push 1');
                     arrayWithPeriod.push({ ...obj });
                 }
             });
-            console.log('aqui', arrayWithPeriod);
+
             setFilteredData(arrayWithPeriod);
         } else if (
             dataSearch.FeePeriod &&
             dataSearch.FeeValue &&
             arrayWithValue.length
         ) {
-            console.log('2');
-            arrayWithValue.map((obj) => {
+            arrayWithValue.forEach((obj) => {
                 let validatedPeriod = validatePeriod(obj);
-                console.log('validatedperiod', validatedPeriod);
 
                 if (Array.isArray(validatedPeriod) && validatedPeriod.length) {
-                    console.log('array with period push 1');
                     arrayWithPeriod.push({ ...obj });
                 }
             });
@@ -560,20 +633,12 @@ function CadastroRegras() {
             arrayWithValue === [] &&
             dataSearch.FeeValue
         ) {
-            console.log('3');
             setFilteredData([]);
         } else if (!dataSearch.FeePeriod && dataSearch.FeeValue) {
-            console.log('4');
             setFilteredData(arrayWithValue);
         } else {
-            console.log('5');
             setFilteredData(newArray);
         }
-
-        // setTimeout(() => {
-        //     setIsSearching(false);
-        //     setWasFound(true);
-        // }, 3000);
     };
 
     const validateValue = (obj: DataRulesOutput) => {
@@ -681,12 +746,13 @@ function CadastroRegras() {
     const clearFields = (): void => {
         setModuloId(0);
         setAppId(0);
-        setRuleId(0);
+
         setPeriod('');
         setValue('');
         setFilteredData(data);
         setFilteredModulos(modulos);
-        setFilteredRules(rules);
+
+        setRuleName('');
         setCustomerState({ Id: undefined, Name: '' });
         setProductState({ Id: undefined, Name: '' });
     };
@@ -700,9 +766,20 @@ function CadastroRegras() {
         setTimeout(() => {
             setShowModalEditAdd(false);
             setIsEditing(false);
-            setNameValid(false);
-            setRule({ Id: undefined, Name: '', AppId: 0 });
-            history.push('/billing/cadastro-modulos');
+            setRuleEditing(false);
+            setRuleNew(false);
+
+            setRule({
+                Id: undefined,
+                Name: '',
+                AppId: 0,
+                EventId: 0,
+                CurrencyId: 1,
+                Customer: null,
+                Product: null,
+                Fees: [],
+            });
+            history.push('/billing/cadastro-regras');
         }, 5000);
     };
 
@@ -710,53 +787,354 @@ function CadastroRegras() {
         setOpen(true);
         setNewAppId(0);
         setIsEditing(false);
-        setNameValid(false);
+        setRuleEditing(false);
+        setRuleNew(true);
+
         setRule({
-            AppId: 0,
-            Name: '',
             Id: undefined,
+            Name: '',
+            AppId: 0,
+            EventId: 0,
+            CurrencyId: 1,
+            Customer: null,
+            Product: null,
+            Fees: [],
         });
+        setEditCustomerState({ Id: undefined, Name: '' });
+        setEditProductState({ Id: undefined, Name: '' });
+        setNewFilteredModulos(modulos);
+        setInputsDisabled(false);
     };
 
-    const handleEditModule = (
-        id: number,
-        appId: number,
-        name: string
-    ): void => {
+    const handleEditRule = (id: number): void => {
         setOpen(true);
-        setNameValid(true);
-        setNewAppId(appId);
+        setRuleNew(false);
+
         setIsEditing(true);
-        setRule({
-            Id: id,
-            AppId: appId,
-            Name: name,
+        setInputsDisabled(true);
+        let ruleEdit = rules.find((obj) => obj.Id === id);
+        setRule(ruleEdit!);
+        setOldRule(ruleEdit!);
+        setNewAppId(ruleEdit?.AppId!);
+        setNewModuloId(ruleEdit?.EventId!);
+        setOldAppId(ruleEdit?.AppId!);
+        setOldModuloId(ruleEdit?.EventId!);
+        setNewFilteredModulos(
+            modulos.filter((obj) => obj.Id === ruleEdit?.EventId!)
+        );
+        setOldFilteredModulos(
+            modulos.filter((obj) => obj.Id === ruleEdit?.EventId!)
+        );
+        setEditCustomerState({
+            ...editCustomerState,
+            Name: ruleEdit?.Customer?.Name,
         });
+        setEditProductState({
+            ...editProductState,
+            Name: ruleEdit?.Product?.Name,
+        });
+        setOldEditCustomerState({
+            ...editCustomerState,
+            Name: ruleEdit?.Customer?.Name,
+        });
+        setOldEditProductState({
+            ...editProductState,
+            Name: ruleEdit?.Product?.Name,
+        });
+        setFeesArray(ruleEdit?.Fees);
+        setOldFeesArray(ruleEdit?.Fees);
+    };
+
+    const startEditing = (): void => {
+        setRuleEditing(true);
+        setInputsDisabled(false);
+    };
+
+    const cancelEditing = (): void => {
+        setRuleEditing(false);
+        setInputsDisabled(true);
+        setRule(oldRule);
+        setNewAppId(oldAppId);
+        setNewModuloId(oldModuloId);
+        setNewFilteredModulos(oldFilteredModulos);
+        setEditCustomerState(oldEditCustomerState);
+        setEditProductState(oldEditProductState);
+        setFeesArray(oldFeesArray);
     };
 
     const handleClose = (): void => {
+        setRuleNew(false);
+        setInputsDisabled(true);
         setOpen(false);
         setNewAppId(0);
         setIsEditing(false);
-        setRule({ Id: undefined, Name: '', AppId: 0 });
+        setRuleEditing(false);
+        setRule({
+            Id: undefined,
+            Name: '',
+            AppId: 0,
+            EventId: 0,
+            CurrencyId: 1,
+            Customer: null,
+            Product: null,
+            Fees: [],
+        });
+        setEditCustomerState({ Id: undefined, Name: '' });
+        setEditProductState({ Id: undefined, Name: '' });
+        setFeesArray([]);
     };
 
     const handleSubmit = (): void => {
         setOpen(false);
+        setFeesArray([]);
         setNewAppId(0);
         editAddRule();
     };
 
     const handleRuleAppEdit = (event: any): void => {
-        setNewAppId(event.target.value);
-        setRule({ ...rule, AppId: event.target.value });
+        const {
+            target: { value },
+        } = event;
+        setNewAppId(value);
+        setNewModuloId(0);
+        setRule({ ...rule, AppId: value });
+
+        if (value === 0) {
+            setNewFilteredModulos(modulos);
+            setNewModuloId(0);
+        } else {
+            let newEventArray: Array<EventsOutput> = [];
+
+            data.forEach((obj) => {
+                if (obj.AppId === value) {
+                    newEventArray.push({
+                        Id: obj.EventId,
+                        Name: obj.EventName,
+                    });
+                }
+            });
+
+            setNewFilteredModulos(filterDuplicate(newEventArray));
+        }
     };
 
     const handleRuleNameEdit = (event: any): void => {
-        event.target.value.length > 10
-            ? setNameValid(true)
-            : setNameValid(false);
         setRule({ ...rule, Name: event.target.value });
+    };
+
+    const handleRuleModuloEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        setNewModuloId(value);
+        setRule({ ...rule, EventId: value });
+
+        if (value === 0 && newAppId === 0) {
+            setNewAppId(0);
+        } else if (value === 0 && newAppId !== 0) {
+            setNewAppId(0);
+            setNewFilteredModulos(modulos);
+        }
+    };
+
+    const handleRuleCurrencyEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        setNewCurrencyId(value);
+        setRule({ ...rule, CurrencyId: value });
+    };
+
+    const handleRuleCustomerEdit = (value: any): void => {
+        if (value) {
+            setRule({ ...rule, Customer: value });
+            setEditCustomerState({ Id: value.Id, Name: value.Name });
+        }
+    };
+
+    const handleRuleProductEdit = (value: any): void => {
+        if (value) {
+            setRule({ ...rule, Product: value });
+            setEditProductState({ Id: value.Id, Name: value.Name });
+        }
+    };
+
+    const handleFeeValueEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+
+        setFeeValue(value);
+        setFeeObject({ ...feeObject, Value: value });
+    };
+
+    const handleFeeIsPercent = (event: any): void => {
+        if (event.target.value === 0) {
+            setIsPercent(0);
+            setFeeObject({ ...feeObject, IsPercent: false });
+        } else {
+            setIsPercent(1);
+            setFeeObject({ ...feeObject, IsPercent: true });
+        }
+    };
+
+    const handleFeeValueFromEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setFeeValueFrom(value);
+            setFeeObject({
+                ...feeObject,
+                Range: { ...feeObject.Range, From: value },
+            });
+        } else {
+            setFeeValueFrom('');
+            setFeeObject({
+                ...feeObject,
+                Range: { ...feeObject.Range, From: null },
+            });
+        }
+    };
+
+    const handleFeeValueToEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setFeeValueTo(value);
+            setFeeObject({
+                ...feeObject,
+                Range: { ...feeObject.Range, To: value },
+            });
+        } else {
+            setFeeValueTo('');
+            setFeeObject({
+                ...feeObject,
+                Range: { ...feeObject.Range, To: null },
+            });
+        }
+    };
+
+    const handleFeePeriodFromEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setPeriodFrom(value);
+            setFeeObject({
+                ...feeObject,
+                Period: { ...feeObject.Period, From: value },
+            });
+        } else {
+            setPeriodFrom('');
+            setFeeObject({
+                ...feeObject,
+                Period: { ...feeObject.Period, From: null },
+            });
+        }
+    };
+
+    const handleFeePeriodToEdit = (event: any): void => {
+        const {
+            target: { value },
+        } = event;
+        if (value) {
+            setPeriodTo(value);
+            setFeeObject({
+                ...feeObject,
+                Period: { ...feeObject.Period, To: value },
+            });
+        } else {
+            setPeriodTo('');
+            setFeeObject({
+                ...feeObject,
+                Period: { ...feeObject.Period, To: null },
+            });
+        }
+    };
+
+    const editFee = (i: number): void => {
+        let feeObjectEdit = feesArray?.find((obj, index) => index === i);
+
+        setFeeObject(feeObjectEdit!);
+        setFeeValue(`${feeObjectEdit?.Value}`);
+        setIsPercent(feeObjectEdit?.IsPercent ? 1 : 0);
+        setFeeValueFrom(`${feeObjectEdit?.Range?.From}`);
+        setFeeValueTo(`${feeObjectEdit?.Range?.To}`);
+        if (feeObjectEdit?.Period?.From !== null) {
+            setPeriodFrom(
+                `${new Date(`${feeObjectEdit?.Period?.From}`)
+                    .toISOString()
+                    .slice(0, 16)}`
+            );
+        }
+        if (feeObjectEdit?.Period?.To !== null) {
+            setPeriodTo(
+                `${new Date(`${feeObjectEdit?.Period?.To}`)
+                    .toISOString()
+                    .slice(0, 16)}`
+            );
+        }
+    };
+
+    const removeFee = (i: number): void => {
+        let newFeeArray = feesArray?.filter((obj, index) => index !== i);
+
+        setFeesArray(newFeeArray);
+    };
+
+    const cancelEditFee = (): void => {
+        setFeeObject({
+            Id: undefined,
+            Value: undefined,
+            IsPercent: false,
+            Range: {
+                From: null,
+                To: null,
+            },
+            Period: { From: null, To: null },
+        });
+        setFeeValue('');
+        setIsPercent(0);
+        setFeeValueFrom('');
+        setFeeValueTo('');
+
+        setPeriodFrom('');
+
+        setPeriodTo('');
+    };
+
+    const newEditFee = (): void => {
+        let newFeesArray: Array<FeeOutput> = [];
+        feesArray?.forEach((el) => {
+            if (el.Id === feeObject.Id) {
+                newFeesArray.push(feeObject);
+            } else {
+                newFeesArray.push(el);
+            }
+        });
+
+        setFeesArray(newFeesArray);
+
+        cancelEditFee();
+    };
+
+    const newFee = (): void => {
+        let newFeesArray: any = feesArray;
+
+        let lastElement = feesArray?.length
+            ? feesArray?.slice(-1)[0]
+            : { Id: 0 };
+
+        newFeesArray.push({
+            ...feeObject,
+            Id: lastElement.Id !== 0 ? lastElement.Id! + 1 : 1,
+        });
+
+        setFeesArray(newFeesArray);
+
+        cancelEditFee();
     };
 
     const FormataStringData = (data: any): string => {
@@ -768,6 +1146,12 @@ function CadastroRegras() {
             ('0' + dia).slice(1, 3) + '/' + ('0' + mes).slice(-2) + '/' + ano
         );
     };
+
+    const handleChangeTabValue = (event: any, newValue: number): void => {
+        setTabValue(newValue);
+    };
+
+    const mediaQuery = () => window.matchMedia('(max-width: 430px)').matches;
 
     return (
         <>
@@ -789,25 +1173,15 @@ function CadastroRegras() {
                     <div className={`filters `}>
                         <FormControl
                             variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width1}`}
+                            className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
                         >
-                            <InputLabel id="rule-input">Regra</InputLabel>
-                            <Select
-                                labelId="rule-input"
-                                id="rule-select"
-                                value={ruleId}
+                            <TextField
+                                id="rule"
                                 label="Regra"
+                                value={ruleName}
                                 onChange={handleChangeRule}
-                            >
-                                <MenuItem value={0}>
-                                    <em>Todos</em>
-                                </MenuItem>
-                                {filteredRules.map((obj) => (
-                                    <MenuItem value={obj.Id} key={obj.Id}>
-                                        {obj.Name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                                variant="outlined"
+                            />
                         </FormControl>
                         <FormControl
                             variant="outlined"
@@ -1022,7 +1396,7 @@ function CadastroRegras() {
                                     className={`${outlinedInputClasses.width1} ${outlinedInputClasses.root}`}
                                 >
                                     <TextField
-                                        id="value"
+                                        id="date"
                                         label="Data"
                                         value={
                                             period
@@ -1060,6 +1434,7 @@ function CadastroRegras() {
                                 </FormControl>
                             </>
                         )}
+
                         <div
                             className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width1} open-filter`}
                         >
@@ -1082,6 +1457,11 @@ function CadastroRegras() {
                                 >
                                     <IconButton
                                         aria-label="filter"
+                                        style={
+                                            openFilter
+                                                ? { backgroundColor: '#DE3E44' }
+                                                : { backgroundColor: '#343a40' }
+                                        }
                                         onClick={() => {
                                             if (openFilter) {
                                                 setOpenFilter(false);
@@ -1089,9 +1469,12 @@ function CadastroRegras() {
                                                 setOpenFilter(true);
                                             }
                                         }}
-                                        className="clear-button"
                                     >
-                                        <FaFilter fontSize="medium" />
+                                        {openFilter ? (
+                                            <FaChevronUp fontSize="medium" />
+                                        ) : (
+                                            <FaFilter fontSize="medium" />
+                                        )}
                                     </IconButton>
                                 </Tooltip>
                             </div>
@@ -1158,7 +1541,7 @@ function CadastroRegras() {
                         <FaRegFrown />
                     </div>
                 ) : (
-                    <Paper className={classes.root}>
+                    <Paper>
                         <TableContainer className={classes.container}>
                             <Table aria-label="table">
                                 <TableHead>
@@ -1225,24 +1608,18 @@ function CadastroRegras() {
                                                                             }
                                                                             className="td-acoes"
                                                                         >
-                                                                            <Tooltip title="Editar Regra">
+                                                                            <Tooltip title="Detalhes">
                                                                                 <IconButton
                                                                                     aria-label="edit"
                                                                                     onClick={() =>
-                                                                                        handleEditModule(
+                                                                                        handleEditRule(
                                                                                             row[
                                                                                                 'Id'
-                                                                                            ],
-                                                                                            row[
-                                                                                                'AppId'
-                                                                                            ],
-                                                                                            row[
-                                                                                                'Name'
                                                                                             ]
                                                                                         )
                                                                                     }
                                                                                 >
-                                                                                    <FaEdit fontSize="medium" />
+                                                                                    <FiPlusCircle fontSize="large" />
                                                                                 </IconButton>
                                                                             </Tooltip>
                                                                         </TableCell>
@@ -1258,14 +1635,7 @@ function CadastroRegras() {
                                                                             value ===
                                                                                 ''
                                                                                 ? 'Indefinido'
-                                                                                : // : column.id ===
-                                                                                  //       'FeePeriodFrom' ||
-                                                                                  //   column.id ===
-                                                                                  //       'FeePeriodTo'
-                                                                                  // ? FormataStringData(
-                                                                                  //       value
-                                                                                  //   )
-                                                                                  value}
+                                                                                : value}
                                                                         </TableCell>
                                                                     )}
                                                                 </>
@@ -1305,61 +1675,614 @@ function CadastroRegras() {
                     {rule.Id ? 'Editar Regra' : 'Nova Regra'}
                 </DialogTitle>
                 <DialogContent className="dialog-module">
-                    <div className="mb-4">
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                    <div className={classes.tabRoot}>
+                        <AppBar
+                            position="static"
+                            style={{
+                                background: 'transparent',
+                                boxShadow: 'none',
+                                color: '#343a40',
+                            }}
                         >
-                            <InputLabel id="app-dialog">Aplicativo</InputLabel>
-                            <Select
-                                labelId="app-dialog"
-                                id="app-select-dialog"
-                                value={newAppId}
-                                label="Aplicativo"
-                                onChange={handleRuleAppEdit}
-                                fullWidth
+                            <Tabs
+                                value={tabValue}
+                                onChange={handleChangeTabValue}
+                                aria-label="tabs-data"
+                                scrollButtons={mediaQuery() ? 'on' : 'auto'}
+                                variant="scrollable"
                             >
-                                <MenuItem value={0}>
-                                    <em>Nenhum</em>
-                                </MenuItem>
-                                {apps.map((obj) => (
-                                    <MenuItem value={obj.Id} key={obj.Id}>
-                                        {obj.Name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl
-                            variant="outlined"
-                            className={`${outlinedInputClasses.width2} ${outlinedInputClasses.root}`}
+                                <Tab label="Dados Básicos" {...a11yProps(0)} />
+                                <Tab
+                                    label="Produtor / Produto"
+                                    {...a11yProps(1)}
+                                />
+                                <Tab label="Taxas" {...a11yProps(2)} />
+                            </Tabs>
+                        </AppBar>
+                        <TabPanel
+                            value={tabValue}
+                            index={0}
+                            className="dialog-form"
                         >
-                            <TextField
-                                id="outlined-rule"
-                                label="Regra"
-                                value={rule.Name}
-                                onChange={handleRuleNameEdit}
+                            <div>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width2} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        id="outlined-rule"
+                                        label="Regra"
+                                        value={rule.Name}
+                                        onChange={handleRuleNameEdit}
+                                        variant="outlined"
+                                        disabled={inputsDisabled}
+                                    />
+                                </FormControl>
+                            </div>
+                            <div>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                                >
+                                    <InputLabel id="app-dialog">
+                                        Aplicativo
+                                    </InputLabel>
+                                    <Select
+                                        labelId="app-dialog"
+                                        id="app-select-dialog"
+                                        value={newAppId}
+                                        label="Aplicativo"
+                                        onChange={handleRuleAppEdit}
+                                        fullWidth
+                                        disabled={inputsDisabled}
+                                    >
+                                        <MenuItem value={0}>
+                                            <em>Todos</em>
+                                        </MenuItem>
+                                        {apps.map((obj) => (
+                                            <MenuItem
+                                                value={obj.Id}
+                                                key={obj.Id}
+                                            >
+                                                {obj.Name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                                >
+                                    <InputLabel id="modulo-input">
+                                        Módulo/Evento
+                                    </InputLabel>
+                                    <Select
+                                        labelId="modulo-input"
+                                        id="modulo-select"
+                                        value={newModuloId}
+                                        onChange={handleRuleModuloEdit}
+                                        label="Módulo/Evento"
+                                        disabled={
+                                            newAppId === 0 || inputsDisabled
+                                                ? true
+                                                : false
+                                        }
+                                    >
+                                        <MenuItem value={0}>
+                                            <em>Todos</em>
+                                        </MenuItem>
+
+                                        {newFilteredModulos.map((el: any) => (
+                                            <MenuItem value={el.Id} key={el.Id}>
+                                                <FiCornerDownRight className="mr-2" />{' '}
+                                                {el.Name}
+                                            </MenuItem>
+                                        ))}
+                                        {newFilteredModulos.length === 0 && (
+                                            <ListSubheader value={0}>
+                                                Sem Módulos/Eventos
+                                            </ListSubheader>
+                                        )}
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                                >
+                                    <InputLabel id="currency-input">
+                                        Moeda
+                                    </InputLabel>
+                                    <Select
+                                        labelId="currency-input"
+                                        id="currency-select"
+                                        value={newCurrencyId}
+                                        label="Moeda"
+                                        onChange={handleRuleCurrencyEdit}
+                                        disabled={inputsDisabled}
+                                    >
+                                        <MenuItem value={1}>
+                                            <em>R$ - Real</em>
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                        </TabPanel>
+                        <TabPanel
+                            value={tabValue}
+                            index={1}
+                            className="dialog-form"
+                        >
+                            <FormControl
                                 variant="outlined"
-                            />
-                        </FormControl>
+                                className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                            >
+                                <Autocomplete
+                                    disabled={inputsDisabled}
+                                    id="customer-state-edit"
+                                    options={customer}
+                                    getOptionLabel={(option) =>
+                                        `${option.Id} - ${option.Name}`
+                                    }
+                                    open={editAutoCompleteOpen}
+                                    onChange={(event, value) =>
+                                        handleRuleCustomerEdit(value)
+                                    }
+                                    inputValue={editCustomerState.Name}
+                                    onInputChange={(event, value, reason) => {
+                                        switch (reason) {
+                                            case 'input':
+                                                setEditAutoCompleteOpen(
+                                                    !!value
+                                                );
+
+                                                break;
+                                            case 'reset':
+                                                setEditCustomerState({
+                                                    ...editCustomerState,
+                                                });
+                                                setEditAutoCompleteOpen(false);
+                                                break;
+                                            case 'clear':
+                                                setEditAutoCompleteOpen(false);
+
+                                                if (!value) {
+                                                    setFilteredData(data);
+                                                    setRule({
+                                                        ...rule,
+                                                        Customer: null,
+                                                    });
+                                                    setEditCustomerState({
+                                                        Id: undefined,
+                                                        Name: '',
+                                                    });
+                                                }
+
+                                                break;
+                                            default:
+                                                console.log(reason);
+                                        }
+                                    }}
+                                    renderOption={(option) => (
+                                        <React.Fragment>
+                                            {option.Id} - {option.Name}
+                                        </React.Fragment>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Produtor"
+                                            variant="outlined"
+                                            onChange={(e) =>
+                                                setEditCustomerState({
+                                                    ...editCustomerState,
+                                                    Name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    )}
+                                />
+                            </FormControl>
+                            <FormControl
+                                variant="outlined"
+                                className={` ${outlinedInputClasses.root} ${outlinedInputClasses.width2}`}
+                            >
+                                <Autocomplete
+                                    id="product-state-edit"
+                                    disabled={inputsDisabled}
+                                    options={products}
+                                    getOptionLabel={(option) =>
+                                        `${option.Id} - ${option.Name}`
+                                    }
+                                    open={editAutoCompleteOpenProduct}
+                                    onChange={(event, value) =>
+                                        handleRuleProductEdit(value)
+                                    }
+                                    inputValue={editProductState.Name}
+                                    onInputChange={(event, value, reason) => {
+                                        switch (reason) {
+                                            case 'input':
+                                                setEditAutoCompleteOpenProduct(
+                                                    !!value
+                                                );
+
+                                                break;
+                                            case 'reset':
+                                                setEditProductState({
+                                                    ...editProductState,
+                                                });
+                                                setEditAutoCompleteOpenProduct(
+                                                    false
+                                                );
+                                                break;
+                                            case 'clear':
+                                                setEditAutoCompleteOpenProduct(
+                                                    false
+                                                );
+
+                                                if (!value) {
+                                                    setFilteredData(data);
+                                                    setRule({
+                                                        ...rule,
+                                                        Product: null,
+                                                    });
+                                                    setEditProductState({
+                                                        Id: undefined,
+                                                        Name: '',
+                                                    });
+                                                }
+
+                                                break;
+                                            default:
+                                                console.log(reason);
+                                        }
+                                    }}
+                                    renderOption={(option) => (
+                                        <React.Fragment>
+                                            {option.Id} - {option.Name}
+                                        </React.Fragment>
+                                    )}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Produto"
+                                            variant="outlined"
+                                            onChange={(e) =>
+                                                setEditProductState({
+                                                    ...editProductState,
+                                                    Name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    )}
+                                />
+                            </FormControl>
+                            <FormControl
+                                className={`${outlinedInputClasses.width2} ${outlinedInputClasses.root}`}
+                                style={{ visibility: 'hidden' }}
+                            >
+                                <TextField />
+                            </FormControl>
+                        </TabPanel>
+                        <TabPanel
+                            value={tabValue}
+                            index={2}
+                            className="dialog-form"
+                        >
+                            <div className="part-form">
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width3} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        id="value-edit"
+                                        disabled={inputsDisabled}
+                                        label="Valor"
+                                        value={feeValue}
+                                        type="number"
+                                        placeholder="Valor (1,00) ou Quantidade (1)"
+                                        onChange={handleFeeValueEdit}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.root} ${outlinedInputClasses.width3}`}
+                                >
+                                    <InputLabel id="percent-input">
+                                        É %?
+                                    </InputLabel>
+                                    <Select
+                                        disabled={inputsDisabled}
+                                        labelId="percent-input"
+                                        id="percent-select"
+                                        value={isPercent}
+                                        label="É %?"
+                                        onChange={handleFeeIsPercent}
+                                    >
+                                        <MenuItem value={0}>
+                                            <em>Não</em>
+                                        </MenuItem>
+                                        <MenuItem value={1}>
+                                            <em>Sim</em>
+                                        </MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                            <div className="part-form">
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width3} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        disabled={inputsDisabled}
+                                        id="value-from"
+                                        label="Range De"
+                                        value={feeValueFrom}
+                                        type="number"
+                                        placeholder={
+                                            feeValueFrom === null
+                                                ? 'Indefinido'
+                                                : feeValueFrom
+                                                ? feeValueFrom
+                                                : 'Valor (1,00) ou Quantidade (1)'
+                                        }
+                                        onChange={handleFeeValueFromEdit}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width3} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        disabled={inputsDisabled}
+                                        id="value-to"
+                                        label="Range Para"
+                                        value={feeValueTo}
+                                        type="number"
+                                        placeholder={
+                                            feeValueTo === null
+                                                ? 'Indefinido'
+                                                : feeValueTo
+                                                ? feeValueTo
+                                                : 'Valor (1,00) ou Quantidade (1)'
+                                        }
+                                        onChange={handleFeeValueToEdit}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                            </div>
+                            <div className="part-form">
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width3} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        disabled={inputsDisabled}
+                                        id="period-from"
+                                        label="Período De"
+                                        value={periodFrom ? periodFrom : ''}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        type="datetime-local"
+                                        onChange={handleFeePeriodFromEdit}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                                <FormControl
+                                    variant="outlined"
+                                    className={`${outlinedInputClasses.width3} ${outlinedInputClasses.root}`}
+                                >
+                                    <TextField
+                                        disabled={inputsDisabled}
+                                        id="period-to"
+                                        label="Período Para"
+                                        value={periodTo ? periodTo : ''}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        type="datetime-local"
+                                        onChange={handleFeePeriodToEdit}
+                                        variant="outlined"
+                                    />
+                                </FormControl>
+                            </div>
+                            <div className="part-form">
+                                {feeObject.Id ? (
+                                    <Button
+                                        className="button-cancel"
+                                        onClick={cancelEditFee}
+                                    >
+                                        <span>Cancelar</span>
+                                    </Button>
+                                ) : (
+                                    <span></span>
+                                )}
+
+                                {feeObject.Id ? (
+                                    <Button onClick={newEditFee}>
+                                        <span>Editar</span>
+                                        <FaEdit />
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        onClick={newFee}
+                                        disabled={inputsDisabled}
+                                    >
+                                        <span>Adicionar</span>
+                                        <FaPlus />
+                                    </Button>
+                                )}
+                            </div>
+                            <div className="cards-fees">
+                                {feesArray?.length ? (
+                                    <>
+                                        {feesArray?.map((el, index) => (
+                                            <Card
+                                                className={classes.cardRoot}
+                                                variant="outlined"
+                                                key={el.Id}
+                                            >
+                                                <CardContent>
+                                                    <div className="header-div">
+                                                        <Typography
+                                                            className="card-title"
+                                                            variant="h6"
+                                                        >
+                                                            <FaDonate className="mr-2" />{' '}
+                                                            Taxa {index + 1}
+                                                        </Typography>
+                                                        <div>
+                                                            <Tooltip title="Editar Taxa">
+                                                                <IconButton
+                                                                    disabled={
+                                                                        inputsDisabled
+                                                                    }
+                                                                    aria-label="edit-fee"
+                                                                    onClick={() =>
+                                                                        editFee(
+                                                                            index
+                                                                        )
+                                                                    }
+                                                                    className="clear-button"
+                                                                >
+                                                                    <FaEdit fontSize="medium" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                            <Tooltip title="Remover Taxa">
+                                                                <IconButton
+                                                                    disabled={
+                                                                        inputsDisabled
+                                                                    }
+                                                                    aria-label="remove-fee"
+                                                                    onClick={() =>
+                                                                        removeFee(
+                                                                            index
+                                                                        )
+                                                                    }
+                                                                    className="clear-button"
+                                                                >
+                                                                    <FaTrashAlt fontSize="medium" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="fees-data">
+                                                        <Typography>
+                                                            Valor:{' '}
+                                                            {!el.IsPercent &&
+                                                                formatter.format(
+                                                                    el.Value!
+                                                                )}
+                                                            {el.IsPercent &&
+                                                                `${el.Value} %`}
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography className="card-title">
+                                                        <FiBarChart className="mr-2" />{' '}
+                                                        Range:
+                                                    </Typography>
+                                                    <div className="fees-data">
+                                                        <Typography className="mb-3">
+                                                            De:{' '}
+                                                            {el.Range?.From ===
+                                                            null
+                                                                ? 'Indefinido'
+                                                                : `${el.Range?.From}`}
+                                                        </Typography>
+                                                        <Typography className="mb-3">
+                                                            Para:{' '}
+                                                            {el.Range?.To ===
+                                                            null
+                                                                ? 'Indefinido'
+                                                                : `${el.Range?.To}`}
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography className="card-title">
+                                                        <FaCalendarAlt className="mr-2" />{' '}
+                                                        Período:
+                                                    </Typography>
+                                                    <div className="fees-data">
+                                                        <Typography className="mb-1">
+                                                            De:{' '}
+                                                            {el.Period?.From ===
+                                                                null ||
+                                                            el.Period?.From ===
+                                                                undefined
+                                                                ? 'Indefinido'
+                                                                : `${FormataStringData(
+                                                                      el.Period
+                                                                          ?.From
+                                                                  )}`}
+                                                        </Typography>
+                                                        <Typography className="mb-1">
+                                                            Para:{' '}
+                                                            {el.Period?.To ===
+                                                                null ||
+                                                            el.Period?.To ===
+                                                                undefined
+                                                                ? 'Indefinido'
+                                                                : `${FormataStringData(
+                                                                      el.Period
+                                                                          ?.To
+                                                                  )}`}
+                                                        </Typography>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <span></span>
+                                )}
+                            </div>
+                        </TabPanel>
                     </div>
                 </DialogContent>
                 <DialogActions className="dialog-buttons">
                     <div>
-                        <Button onClick={handleClose} variant="outlined">
-                            Cancelar
-                        </Button>
+                        {ruleEditing ? (
+                            <Button onClick={cancelEditing} variant="outlined">
+                                Cancelar
+                            </Button>
+                        ) : (
+                            <Button onClick={handleClose} variant="outlined">
+                                Fechar
+                            </Button>
+                        )}
                     </div>
                     <div>
-                        <Button
-                            onClick={handleSubmit}
-                            disabled={
-                                newAppId === 0 || !nameValid ? true : false
-                            }
-                        >
-                            Confirmar
-                        </Button>
+                        {ruleEditing ? (
+                            <Button
+                                onClick={handleSubmit}
+                                className="confirm-button"
+                            >
+                                Confirmar
+                            </Button>
+                        ) : ruleNew ? (
+                            <Button
+                                onClick={handleSubmit}
+                                className="confirm-button"
+                            >
+                                Confirmar
+                            </Button>
+                        ) : (
+                            <Button
+                                onClick={startEditing}
+                                className="edit-button"
+                                // disabled={
+                                //     newAppId === 0 || !nameValid ? true : false
+                                // }
+                            >
+                                Editar
+                            </Button>
+                        )}
                     </div>
                 </DialogActions>
             </Dialog>

@@ -158,6 +158,43 @@ export const mockRegras = [
         ],
     },
     {
+        Id: 5,
+        Name: 'Tarifa padrão checkout 2',
+        AppId: 2,
+        EventId: 3,
+        Customer: null,
+        Product: null,
+        CurrencyId: 1,
+        Fees: [
+            {
+                Id: 1,
+                Value: 4.99,
+                IsPercent: true,
+                Range: {
+                    From: 150,
+                    To: null,
+                },
+                Period: {
+                    From: '2020-10-11 00:00:00.000',
+                    To: null,
+                },
+            },
+            {
+                Id: 2,
+                Value: 1.5,
+                IsPercent: false,
+                Range: {
+                    From: 0.01,
+                    To: null,
+                },
+                Period: {
+                    From: '2019-07-02 00:00:00.000',
+                    To: null,
+                },
+            },
+        ],
+    },
+    {
         Id: 2,
         Name: 'Tarifa Novo Vídeo',
         AppId: 1,
@@ -181,7 +218,7 @@ export const mockRegras = [
             },
             {
                 Id: 2,
-                Value: 1,
+                Value: 1.0,
                 IsPercent: false,
                 Range: {
                     From: 0.01,
@@ -218,7 +255,7 @@ export const mockRegras = [
             },
             {
                 Id: 2,
-                Value: 1,
+                Value: 100.5,
                 IsPercent: false,
                 Range: {
                     From: 0.01,
